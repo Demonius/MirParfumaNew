@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MirParfumaNew</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="about">О магазине</string>
+    <string name="cashe">Оплата и доставка</string>
+    <string name="otzuvu">Отзывы</string>
+    <string name="batc_cod">Проверить батч-код</string>
+    <string name="info">Полезная информация</string>
+    <string name="help">Помощь</string>
+    <string name="ask_question">Задать вопрос</string>
+    <string name="velcom">+375 29 157-57-05</string>
+    <string name="mts">+375 29 864-35-73</string>
+    <string name="life">+375 25 938-71-09</string>
+    <string name="adress">Магазин: г. Минск, ул. В. Хоружей 1А ТЦ \"Силуэт\"</string>
+    <string name="font_fontFamily_medium">sans-serif</string>
+    <string name="home">ГЛАВНАЯ</string>
+    <string name="search">ПОИСК</string>
+    <string name="favorites">ИЗБРАННЫЕ</string>
+    <string name="trash">КОРЗИНА</string>
+    <string name="action_client">Кабинет клиента</string>
+
+</resources>

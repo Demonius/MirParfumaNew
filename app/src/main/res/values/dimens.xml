@@ -1,0 +1,19 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="textSizeNavigation">18sp</dimen>
+    <dimen name="margibTextView">12dp</dimen>
+    <dimen name="heigh_divider">1dp</dimen>
+    <dimen name="button_height_navigator">40dp</dimen>
+    <dimen name="textSizeList">24sp</dimen>
+    <dimen name="marginExpandebleView">50dp</dimen>
+    <dimen name="tab_label">10sp</dimen>
+    <dimen name="custom_tab_layout_height">72dp</dimen>
+    <dimen name="padingTextTab">10dp</dimen>
+    <dimen name="imageToolbarHeight">45dp</dimen>
+</resources>
