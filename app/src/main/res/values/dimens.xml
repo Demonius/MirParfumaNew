@@ -13,7 +13,11 @@
     <dimen name="textSizeList">24sp</dimen>
     <dimen name="marginExpandebleView">50dp</dimen>
     <dimen name="tab_label">10sp</dimen>
-    <dimen name="custom_tab_layout_height">72dp</dimen>
+    <dimen name="custom_tab_layout_height">60dp</dimen>
     <dimen name="padingTextTab">10dp</dimen>
     <dimen name="imageToolbarHeight">45dp</dimen>
+    <dimen name="height_banner">150dp</dimen>
+    <dimen name="pading_lable">10dp</dimen>
+    <dimen name="size_image_label">36dp</dimen>
+
 </resources>

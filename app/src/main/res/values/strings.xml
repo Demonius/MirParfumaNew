@@ -23,4 +23,25 @@
     <string name="trash">КОРЗИНА</string>
     <string name="action_client">Кабинет клиента</string>
 
+    <string name="women_parfum">Женская парфюмерия</string>
+    <string name="men_parfum">Мужская парфюмерия</string>
+    <string name="unisex_parfum">Унисекс ароматы</string>
+    <string name="nishevui_parfum">Нишевая парфюмерия</string>
+    <string name="probnik">Пробники</string>
+    <string name="brendu">Бренды:</string>
+    <string name="novinki">Новинки:</string>
+    <string name="sales">Распродажи:</string>
+    <string name="favorite">Бестселлеры:</string>
+    <string name="vse"><u>все</u></string>
+
+    <string name="text_splash">Любовь с первого вздоха!</string>
+
+    <string name="empty_favorite">В избранном пока пусто :(</string>
+    <string name="text_empty_favorite">Начать пополнять список желаний можно \n зайдя в карточку продукта нажав \n на кнопку \"В избранные\".</string>
+    <string name="button_favorite">Перейти в каталог</string>
+
+    <string name="empty_trash">В вашей корзине пока пусто :(</string>
+    <string name="text_empty_trash">Но это легко исправить. \n В нашем магазине тысячи прекрасных \n ароматов на любой вкус.</string>
+    <string name="search_hint">   Начните писать, а мы подскажем...</string>
+
 </resources>

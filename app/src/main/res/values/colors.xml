@@ -6,4 +6,5 @@
     <color name="colorNavigationView">#34323a</color>
     <color name="colorFonPrimary">#F8F1ED</color>
     <color name="colorFonSecond">#FFDCC6</color>
+    <color name="colorDivider">#666666</color>
 </resources>

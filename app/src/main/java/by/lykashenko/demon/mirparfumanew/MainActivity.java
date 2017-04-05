@@ -19,19 +19,23 @@ import android.view.MenuItem;
 
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import by.lykashenko.demon.mirparfumanew.Adapters.ViewPagerAdapter;
+import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
 import by.lykashenko.demon.mirparfumanew.Fragments.Home;
+import by.lykashenko.demon.mirparfumanew.Fragments.Search;
+import by.lykashenko.demon.mirparfumanew.Fragments.Trash;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String LOG_TAG ="MirParfuma" ;
+    public static final String LOG_TAG ="MirParfuma";
+    public static final String URL = "http://s6458.h6.modhost.pro/";
     private String[] mGroupsArrayCall = new String[] {"+375 29 157-57-05"};
     private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
     private ExpandableListView expandablePhoneNumber;
@@ -130,6 +134,7 @@ public class MainActivity extends AppCompatActivity
             TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
             tabOne.setText(getResources().getString(R.string.home));
             tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_home, 0, 0);
+
             tabLayout.getTabAt(0).setCustomView(tabOne);
 
             TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
@@ -153,9 +158,9 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Home(), getResources().getString(R.string.home));
-        adapter.addFragment(new Home(), getResources().getString(R.string.search));
-        adapter.addFragment(new Home(), getResources().getString(R.string.favorites));
-        adapter.addFragment(new Home(), getResources().getString(R.string.trash));
+        adapter.addFragment(new Search(), getResources().getString(R.string.search));
+        adapter.addFragment(new Favorite(), getResources().getString(R.string.favorites));
+        adapter.addFragment(new Trash(), getResources().getString(R.string.trash));
         viewPager.setAdapter(adapter);
     }
 

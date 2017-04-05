@@ -1,146 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_layout_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/colorNavigationView"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="?attr/actionBarSize"
+    android:scrollbars="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/about"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewCashe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/cashe"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/help"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/info"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewBatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/batc_cod"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <TextView
+        android:id="@+id/textViewOtzuvu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/otzuvu"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_navigator"
+        android:layout_marginTop="@dimen/margibTextView"
+        android:background="@drawable/button_ramka"
+        android:text="@string/ask_question"
+        android:textAppearance="@style/MyTextStyle" />
+
+    <ExpandableListView
+        android:id="@+id/expandablePhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginExpandebleView" />
+
+    <TextView
+        android:id="@+id/textViewAdress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margibTextView"
+        android:paddingTop="@dimen/margibTextView"
+        android:text="@string/adress"
+        android:textAppearance="@style/MyTextStyle"
+        android:textSize="10sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heigh_divider"
+        android:background="@color/colorFonPrimary" />
 
     <LinearLayout
-        android:id="@+id/nav_layout_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorNavigationView"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="9dp">
 
+        <ImageView
+            android:layout_width="@dimen/size_image_label"
+            android:layout_height="@dimen/size_image_label"
+            android:paddingBottom="@dimen/pading_lable"
+            android:paddingLeft="@dimen/pading_lable"
+            android:paddingRight="@dimen/pading_lable"
+            android:paddingTop="@dimen/pading_lable"
+            android:src="@drawable/instagram" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
+        <ImageView
+            android:layout_width="@dimen/size_image_label"
+            android:layout_height="@dimen/size_image_label"
+            android:paddingBottom="@dimen/pading_lable"
+            android:paddingLeft="@dimen/pading_lable"
+            android:paddingRight="@dimen/pading_lable"
+            android:paddingTop="@dimen/pading_lable"
+            android:src="@drawable/vk" />
 
-        <TextView
-            android:id="@+id/textViewAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/about"
-            android:textAppearance="@style/MyTextStyle" />
+        <ImageView
+            android:layout_width="@dimen/size_image_label"
+            android:layout_height="@dimen/size_image_label"
+            android:paddingBottom="@dimen/pading_lable"
+            android:paddingLeft="@dimen/pading_lable"
+            android:paddingRight="@dimen/pading_lable"
+            android:paddingTop="@dimen/pading_lable"
+            android:src="@drawable/ok" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <TextView
-            android:id="@+id/textViewCashe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/cashe"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <TextView
-            android:id="@+id/textViewHelp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/help"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <TextView
-            android:id="@+id/textViewInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/info"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <TextView
-            android:id="@+id/textViewBatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/batc_cod"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <TextView
-            android:id="@+id/textViewOtzuvu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/otzuvu"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_navigator"
-            android:layout_marginTop="@dimen/margibTextView"
-            android:background="@drawable/button_ramka"
-            android:text="@string/ask_question"
-            android:textAppearance="@style/MyTextStyle" />
-
-        <ExpandableListView
-            android:id="@+id/expandablePhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginExpandebleView" />
-
-        <TextView
-            android:id="@+id/textViewAdress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margibTextView"
-            android:paddingTop="@dimen/margibTextView"
-            android:text="@string/adress"
-            android:textAppearance="@style/MyTextStyle"
-            android:textSize="10sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heigh_divider"
-            android:background="@color/colorFonPrimary" />
 
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

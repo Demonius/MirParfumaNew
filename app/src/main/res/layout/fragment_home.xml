@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarStyle="outsideOverlay"
+    app:layout_collapseMode="pin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_banner"
+            android:fadeScrollbars="false"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarSize="5dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbHorizontal="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:id="@+id/womenLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewWomen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/women_parfum"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorNavigationView" />
+
+        <LinearLayout
+            android:id="@+id/menLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewMen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/men_parfum"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:id="@+id/unisexLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewUnisex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/unisex_parfum"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:id="@+id/nishaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewNishevui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/nishevui_parfum"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:id="@+id/probnikLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewProbnik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/probnik"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/textViewBrendu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/brendu"
+                android:textAppearance="@style/TextStyleLayoutHome"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+                android:text="@string/vse"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+              android:id="@+id/spisokBrend"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/fab_margin"
+              android:fadeScrollbars="false"
+              android:scrollbarAlwaysDrawHorizontalTrack="true"
+              android:scrollbarSize="3dp"
+              android:scrollbarStyle="outsideOverlay"
+              android:scrollbarThumbHorizontal="@color/colorNavigationView"
+              android:scrollbars="horizontal"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/textViewBrendu"
+                android:layout_marginLeft="8dp" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/textViewNovinki"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/novinki"
+                android:textAppearance="@style/TextStyleLayoutHome"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+                android:text="@string/vse"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/spisokNovinki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="16dp"
+
+                android:layout_marginTop="16dp"
+                android:scrollbars="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNovinki" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="163dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/textViewSales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/sales"
+                android:textAppearance="@style/TextStyleLayoutHome"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+                android:text="@string/vse"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/spisokSales"
+                android:layout_width="336dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSales" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="163dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/textViewFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/favorite"
+                android:textAppearance="@style/TextStyleLayoutHome"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+                android:text="@string/vse"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/spisokFavorites"
+                android:layout_width="336dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFavorites" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/banner_dostavka" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:id="@+id/otzuvuLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewOtzuvuHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/otzuvu"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:id="@+id/casheLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+            <TextView
+                android:id="@+id/textViewCasheHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/cashe"
+                android:textAppearance="@style/TextStyleLayoutHome" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="30"
+                android:src="@drawable/disclosure_indicator" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDivider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorNavigationView"
+            android:orientation="vertical">
+
+            <ExpandableListView
+                android:id="@+id/expandablePhoneNumberHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginExpandebleView"
+                android:paddingLeft="@dimen/fab_margin" />
+
+            <TextView
+                android:id="@+id/textViewAdressHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margibTextView"
+                android:paddingLeft="@dimen/fab_margin"
+                android:paddingTop="@dimen/margibTextView"
+                android:text="@string/adress"
+                android:textAppearance="@style/MyTextStyle"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigh_divider"
+                android:background="@color/colorFonPrimary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="9dp">
+
+                <ImageView
+                    android:layout_width="@dimen/size_image_label"
+                    android:layout_height="@dimen/size_image_label"
+                    android:paddingBottom="@dimen/pading_lable"
+                    android:paddingLeft="@dimen/pading_lable"
+                    android:paddingRight="@dimen/pading_lable"
+                    android:paddingTop="@dimen/pading_lable"
+                    android:src="@drawable/instagram" />
+
+                <ImageView
+                    android:layout_width="@dimen/size_image_label"
+                    android:layout_height="@dimen/size_image_label"
+                    android:paddingBottom="@dimen/pading_lable"
+                    android:paddingLeft="@dimen/pading_lable"
+                    android:paddingRight="@dimen/pading_lable"
+                    android:paddingTop="@dimen/pading_lable"
+                    android:src="@drawable/vk" />
+
+                <ImageView
+                    android:layout_width="@dimen/size_image_label"
+                    android:layout_height="@dimen/size_image_label"
+                    android:paddingBottom="@dimen/pading_lable"
+                    android:paddingLeft="@dimen/pading_lable"
+                    android:paddingRight="@dimen/pading_lable"
+                    android:paddingTop="@dimen/pading_lable"
+                    android:src="@drawable/ok" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
