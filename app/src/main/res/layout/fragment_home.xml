@@ -267,7 +267,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/spisokNovinki"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="210dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="16dp"
 
@@ -284,7 +284,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="163dp"
+            android:layout_height="270dp"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
@@ -312,8 +312,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/spisokSales"
-                android:layout_width="336dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
 
@@ -337,7 +337,7 @@
             <TextView
                 android:id="@+id/textViewFavorites"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="270dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/favorite"
                 android:textAppearance="@style/TextStyleLayoutHome"
@@ -357,8 +357,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/spisokFavorites"
-                android:layout_width="336dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
 
