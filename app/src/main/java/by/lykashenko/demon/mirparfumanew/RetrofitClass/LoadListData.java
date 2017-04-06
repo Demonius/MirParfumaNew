@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by demon on 05.04.2017.
  */
 
-public class NewParfumList {
+public class LoadListData {
 
 
  public void load(String sql_string_new, final int i) {
@@ -56,13 +56,13 @@ Log.e(MainActivity.LOG_TAG,"ошибка загрузки с сервера");
 
  private OnLoadNewParfumList loadNewParfumList;
 
- public void registerOnLoadNewparfumList(OnLoadNewParfumList loadNewParfumList){
+ public void registerOnLoadListData(OnLoadNewParfumList loadNewParfumList){
   this.loadNewParfumList=loadNewParfumList;
  }
 
  private Context context;
 
- public NewParfumList(Context context){
+ public LoadListData(Context context){
   this.context=context;
  }
 
