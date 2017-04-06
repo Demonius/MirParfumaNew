@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NewParfumList {
 
 
- public void load(String sql_string_new) {
+ public void load(String sql_string_new, final int i) {
 
   Retrofit retrofit = new Retrofit.Builder()
     .baseUrl(MainActivity.URL)
@@ -34,8 +34,9 @@ public class NewParfumList {
    @Override
    public void onResponse(Call<ArrayList<NewParfum>> call, Response<ArrayList<NewParfum>> response) {
     if (response!=null){
+     Log.i(MainActivity.LOG_TAG,"данные загружены");
      ArrayList<NewParfum> newParfums = response.body();
-     loadNewParfumList.onLoadNewParfumList(newParfums);
+     loadNewParfumList.onLoadNewParfumList(newParfums,i);
     }else{
      Log.e(MainActivity.LOG_TAG,"ошибка сервера: код ответа => "+response.code()+"; сообщение => "+response.message());
     }
@@ -50,7 +51,7 @@ Log.e(MainActivity.LOG_TAG,"ошибка загрузки с сервера");
  }
 
  public interface OnLoadNewParfumList{
-  void onLoadNewParfumList(ArrayList<NewParfum> newParfums);
+  void onLoadNewParfumList(ArrayList<NewParfum> newParfums, int i);
  }
 
  private OnLoadNewParfumList loadNewParfumList;
