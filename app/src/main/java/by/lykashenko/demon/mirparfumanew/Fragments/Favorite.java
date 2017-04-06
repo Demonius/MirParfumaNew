@@ -27,7 +27,7 @@ public class Favorite extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View vFragment = inflater.inflate(R.layout.fragment_favorite, null);
+        View vFragment = inflater.inflate(R.layout.fragment_favorite_empty, null);
 
         imageViewFavorite = (ImageView) vFragment.findViewById(R.id.imageEmpty);
         imageViewFavorite.setImageResource(R.drawable.empty_favorite);

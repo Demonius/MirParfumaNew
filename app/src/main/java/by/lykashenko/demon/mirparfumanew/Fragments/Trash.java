@@ -27,7 +27,7 @@ public class Trash extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View vFragment = inflater.inflate(R.layout.fragment_favorite, null);
+        View vFragment = inflater.inflate(R.layout.fragment_favorite_empty, null);
 
         imageViewTrash = (ImageView) vFragment.findViewById(R.id.imageEmpty);
         imageViewTrash.setImageResource(R.drawable.empty_korzina);
