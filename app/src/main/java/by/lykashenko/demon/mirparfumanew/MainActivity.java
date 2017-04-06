@@ -30,6 +30,7 @@ import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
 import by.lykashenko.demon.mirparfumanew.Fragments.Home;
 import by.lykashenko.demon.mirparfumanew.Fragments.Search;
 import by.lykashenko.demon.mirparfumanew.Fragments.Trash;
+import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,11 +41,26 @@ public class MainActivity extends AppCompatActivity
     private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
     private ExpandableListView expandablePhoneNumber;
     private TabLayout tabLayout;
+    private CountArray countArray;
+    private TextView otzuvu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        countArray = new CountArray(this);
+        countArray.registerCallBackCount(new CountArray.OnCallBackCount() {
+            @Override
+            public void onCallBackCount(Integer count, Integer state) {
+                if (state == 4){
+                    String text = getResources().getString(R.string.otzuvu)+" ("+count+")";
+                    otzuvu.setText(text);
+                }
+            }
+        });
+
+        countArray.Count(Home.sql_count_otzuvu,4);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -125,6 +141,8 @@ public class MainActivity extends AppCompatActivity
         expandablePhoneNumber.setAdapter(adapterExpandable);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        otzuvu = (TextView) navigationView.findViewById(R.id.textViewOtzuvu);
 
 
     }
