@@ -28,13 +28,13 @@ import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
-import by.lykashenko.demon.mirparfumanew.RetrofitClass.NewParfumList;
+import by.lykashenko.demon.mirparfumanew.RetrofitClass.LoadListData;
 
 /**
  * Created by demon on 20.01.2017.
  */
 
-public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, NewParfumList.OnLoadNewParfumList {
+public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, LoadListData.OnLoadNewParfumList {
 
  private RecyclerView mRecyclerView, recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
  private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBrendu;
@@ -46,13 +46,16 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
  private ExpandableListView expandablePhoneNumber;
  private Integer state = 0;
  private LinearLayout casheLayout;
- private TextView textViewWomen, textViewMen, textViewUnisex;
+ private TextView textViewWomen, textViewMen, textViewUnisex, textViewOtzuvu;
  private static final Integer MENID = 984;
  private static final Integer WOMENID = 1112;
  private String sql_count_women = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"женский\"";
  private String sql_count_men = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"мужской\"";
  private String sql_count_unisex = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"унисекс\"";
-
+ public static String sql_count_otzuvu= "SELECT count(1) FROM `modx_tickets_comments` where thread = 27969 and createdby=0 and editedby=0";
+ private RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+ private LoadListData newListData;
+ public CountArray countArray;
 
  public View onCreateView(LayoutInflater inflater, ViewGroup container,
                           Bundle savedInstanceState) {
@@ -60,20 +63,27 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
   View vFragment = inflater.inflate(R.layout.fragment_home, null);
 
+  newListData = new LoadListData(getActivity());
+  newListData.registerOnLoadListData(this);
+
 //добавляем класс для подсчёта кол-ва данных
-  CountArray countArray = new CountArray(getActivity());
+  countArray = new CountArray(getActivity());
+
 // регестрируем interface OnCallBackCount
   countArray.registerCallBackCount(this);
+
 //view в которые добавляем данные
   textViewMen = (TextView) vFragment.findViewById(R.id.textViewMen);
   textViewWomen = (TextView) vFragment.findViewById(R.id.textViewWomen);
   textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);
+  textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);
+
 
 // Отправляем запросы на получение количества данных
   countArray.Count(sql_count_men, 1);
   countArray.Count(sql_count_women, 2);
   countArray.Count(sql_count_unisex, 3);
-
+  countArray.Count(sql_count_otzuvu, 4);
 
 // Доставка и оплата
   casheLayout = (LinearLayout) vFragment.findViewById(R.id.casheLayout);
@@ -86,6 +96,65 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
   });
 
   //номера телефонов для связи
+  addContactPhoneNumber(vFragment);
+
+//RecyclerView для banner верхенго
+  addRecyclerViewBanner(vFragment);
+
+//RecyclerView для пункта Бренды
+  addRecyclerViewBrendu(vFragment);
+
+  //RecyclerView для пункта новинки
+  addRecyclerViewNovinki(vFragment);
+
+  //RecyclerView для пункта Распродажи
+  addRecyclerViewSales(vFragment);
+
+  //RecyclerView для пункта Бестселлеры
+  addRecyclerViewFavorites(vFragment);
+
+  return vFragment;
+ }
+
+ private void addRecyclerViewFavorites(View vFragment) {
+  String sql_string_favorites = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46870%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
+  newListData.load(sql_string_favorites, 3);
+  recyclerViewFavorites = (RecyclerView) vFragment.findViewById(R.id.spisokFavorites);
+  LinearLayoutManager mLayoutManagerFavorites = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+  recyclerViewFavorites.setLayoutManager(mLayoutManagerFavorites);
+  recyclerViewFavorites.setItemAnimator(itemAnimator);
+ }
+
+ private void addRecyclerViewSales(View vFragment) {
+  String sql_string_sales = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where (cv.tmplvarid = 58 and cv.value like '%46868%') and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
+  newListData.load(sql_string_sales, 2);
+  recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
+  LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+  recyclerViewSales.setLayoutManager(mLayoutManagerSales);
+  recyclerViewSales.setItemAnimator(itemAnimator);
+ }
+
+ private void addRecyclerViewNovinki(View vFragment) {
+  String sql_string_new = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46869%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
+  newListData.load(sql_string_new, 1);
+  recyclerViewNewParfum = (RecyclerView) vFragment.findViewById(R.id.spisokNovinki);
+  LinearLayoutManager mLayoutManagerNewParfum = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+  recyclerViewNewParfum.setLayoutManager(mLayoutManagerNewParfum);
+  recyclerViewNewParfum.setItemAnimator(itemAnimator);
+ }
+
+ private void addRecyclerViewBrendu(View vFragment) {
+  String sql_string_limit = "SELECT con.id,cv.value FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
+  BrendList brendList = new BrendList(getActivity());
+  brendList.registerOnLoadBrendList(this);
+  brendList.load(sql_string_limit);
+  recyclerViewBrendu = (RecyclerView) vFragment.findViewById(R.id.spisokBrend);
+  mLayoutManagerBrendu = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+  recyclerViewBrendu.setLayoutManager(mLayoutManagerBrendu);
+  recyclerViewBrendu.setItemAnimator(itemAnimator);
+ }
+
+ private void addContactPhoneNumber(View vFragment) {
   ArrayList<Map<String, String>> listDataHeader = new ArrayList<Map<String, String>>();
   ArrayList<ArrayList<Map<String, String>>> listDataChild = new ArrayList<ArrayList<Map<String, String>>>();
   //заголовки
@@ -119,68 +188,18 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     childTo);
   expandablePhoneNumber = (ExpandableListView) vFragment.findViewById(R.id.expandablePhoneNumberHome);
   expandablePhoneNumber.setAdapter(adapterExpandable);
+ }
 
-
-//RecyclerView для banner верхенго
-  mRecyclerView = (RecyclerView) vFragment.findViewById(R.id.bannerView);
+ private void addRecyclerViewBanner(View view) {
+  mRecyclerView = (RecyclerView) view.findViewById(R.id.bannerView);
   mRecyclerView.setHasFixedSize(true);
   mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
   mRecyclerView.setLayoutManager(mLayoutManager);
-  RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+
   mRecyclerView.setItemAnimator(itemAnimator);
 
   adapter = new AdapterBanner(banner);
   mRecyclerView.setAdapter(adapter);
-
-//RecyclerView для пункта Бренды
-  String sql_string_limit = "SELECT con.id,cv.value FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
-  BrendList brendList = new BrendList(getActivity());
-  brendList.registerOnLoadBrendList(this);
-  brendList.load(sql_string_limit);
-  recyclerViewBrendu = (RecyclerView) vFragment.findViewById(R.id.spisokBrend);
-  mLayoutManagerBrendu = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-  recyclerViewBrendu.setLayoutManager(mLayoutManagerBrendu);
-  recyclerViewBrendu.setItemAnimator(itemAnimator);
-
-  //RecyclerView для пункта новинки
-  String sql_string_new = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46869%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
-  NewParfumList newParfumList = new NewParfumList(getActivity());
-  newParfumList.registerOnLoadNewparfumList(this);
-  newParfumList.load(sql_string_new,1);
-  recyclerViewNewParfum = (RecyclerView) vFragment.findViewById(R.id.spisokNovinki);
-  LinearLayoutManager mLayoutManagerNewParfum = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-  recyclerViewNewParfum.setLayoutManager(mLayoutManagerNewParfum);
-  recyclerViewNewParfum.setItemAnimator(itemAnimator);
-
-
-  //RecyclerView для пункта Распродажи
-  String sql_string_sales = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where (cv.tmplvarid = 58 and cv.value like '%46868%') and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
-  newParfumList.load(sql_string_sales, 2);
-  recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
-  LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-  recyclerViewSales.setLayoutManager(mLayoutManagerSales);
-  recyclerViewSales.setItemAnimator(itemAnimator);
-
-
-  //RecyclerView для пункта Бестселлеры
-  String sql_string_favorites = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46870%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
-  newParfumList.load(sql_string_favorites, 3);
-  recyclerViewFavorites = (RecyclerView) vFragment.findViewById(R.id.spisokFavorites);
-  LinearLayoutManager mLayoutManagerFavorites = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-  recyclerViewFavorites.setLayoutManager(mLayoutManagerFavorites);
-  recyclerViewFavorites.setItemAnimator(itemAnimator);
-
-//  SalesList salesList = new SalesList(getActivity());
-//  salesList.registerOnLoadSalesList(new SalesList.OnLoadSalesList() {
-//   @Override
-//   public void onLoadSalesList(ArrayList<Sales> sales) {
-//
-//   }
-//  });
-//  salesList.load(sql_string_sales);
-
-
-  return vFragment;
  }
 
 
@@ -203,6 +222,10 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     String text2 = getResources().getString(R.string.unisex_parfum) + " (" + count + ")";
     textViewUnisex.setText(text2);
     break;
+   case 4:
+    String otzuvu_count = getResources().getString(R.string.otzuvu)+" ("+count+")";
+    textViewOtzuvu.setText(otzuvu_count);
+    break;
   }
 
  }
@@ -218,7 +241,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
   switch (i) {
    case 1:
-   AdapterNewParfum adapterNewParfum = new AdapterNewParfum(newParfums);
+    AdapterNewParfum adapterNewParfum = new AdapterNewParfum(newParfums);
     recyclerViewNewParfum.setAdapter(adapterNewParfum);
     break;
    case 2:
@@ -227,8 +250,8 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     break;
    case 3:
     AdapterNewParfum adapterFavorites = new AdapterNewParfum(newParfums);
-   recyclerViewFavorites.setAdapter(adapterFavorites);
-   break;
+    recyclerViewFavorites.setAdapter(adapterFavorites);
+    break;
   }
  }
 
@@ -380,7 +403,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
  }
 
- //adapter для RecyclerView Новинки
+ //adapter для RecyclerView Новинки, Распродажи и Бестселлеры
  private class AdapterNewParfum extends RecyclerView.Adapter<AdapterNewParfum.ParfumViewHolder> {
 
   private ArrayList<NewParfum> newParfums;
