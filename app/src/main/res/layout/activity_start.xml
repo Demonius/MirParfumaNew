@@ -13,11 +13,11 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Click" />
+        <!--<Button-->
+            <!--android:id="@+id/button2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Click" />-->
 
         <ImageView
             android:layout_width="113dp"

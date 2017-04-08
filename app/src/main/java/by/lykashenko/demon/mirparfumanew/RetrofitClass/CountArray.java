@@ -54,8 +54,13 @@ public class CountArray {
             public void onResponse(Call<ArrayList<CountAdapter>> call, Response<ArrayList<CountAdapter>> response) {
                 if (response != null) {
 //                    Log.d(MainActivity.LOG_TAG, "Количество строк в запроск = " + response.body().get(0).getCount());
-                    outputCount = response.body().get(0).getCount();
-                    myCallback.onCallBackCount(outputCount, state1);
+                    try {
+                        outputCount = response.body().get(0).getCount();
+                        myCallback.onCallBackCount(outputCount, state1);
+                    }catch (NullPointerException exception){
+                        myCallback.onCallBackCount(0,5);
+//                        myCallback.onCallBackCount(0,state1);
+                    }
 
                 }
             }

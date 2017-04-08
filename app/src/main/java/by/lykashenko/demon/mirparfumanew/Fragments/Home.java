@@ -24,6 +24,7 @@ import java.util.Map;
 
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.NewParfum;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogExitError;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
@@ -52,7 +53,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
  private String sql_count_women = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"женский\"";
  private String sql_count_men = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"мужской\"";
  private String sql_count_unisex = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"унисекс\"";
- public static String sql_count_otzuvu= "SELECT count(1) FROM `modx_tickets_comments` where thread = 27969 and createdby=0 and editedby=0";
+ public static String sql_count_otzuvu = "SELECT count(1) FROM `modx_tickets_comments` where thread = 27969 and createdby=0 and editedby=0";
  private RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
  private LoadListData newListData;
  public CountArray countArray;
@@ -223,8 +224,13 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     textViewUnisex.setText(text2);
     break;
    case 4:
-    String otzuvu_count = getResources().getString(R.string.otzuvu)+" ("+count+")";
+    String otzuvu_count = getResources().getString(R.string.otzuvu) + " (" + count + ")";
     textViewOtzuvu.setText(otzuvu_count);
+    break;
+   case 5:
+    DialogExitError dialog = new DialogExitError();
+    dialog.show(getActivity().getFragmentManager(),"dlg1");
+
     break;
   }
 
@@ -232,26 +238,35 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
  @Override
  public void onLoadBrendList(ArrayList<Brendu> brendu) {
-  adapterBrendu = new AdapterBrendu(brendu);
-  recyclerViewBrendu.setAdapter(adapterBrendu);
+
+  Log.i(MainActivity.LOG_TAG, "brendu =>" + brendu);
+  if (brendu != null) {
+   adapterBrendu = new AdapterBrendu(brendu);
+   recyclerViewBrendu.setAdapter(adapterBrendu);
+  } else {
+   Log.d(MainActivity.LOG_TAG, "brendu => null");
+  }
  }
 
  @Override
  public void onLoadNewParfumList(ArrayList<NewParfum> newParfums, int i) {
-
-  switch (i) {
-   case 1:
-    AdapterNewParfum adapterNewParfum = new AdapterNewParfum(newParfums);
-    recyclerViewNewParfum.setAdapter(adapterNewParfum);
-    break;
-   case 2:
-    AdapterNewParfum adapterSales = new AdapterNewParfum(newParfums);
-    recyclerViewSales.setAdapter(adapterSales);
-    break;
-   case 3:
-    AdapterNewParfum adapterFavorites = new AdapterNewParfum(newParfums);
-    recyclerViewFavorites.setAdapter(adapterFavorites);
-    break;
+  if (newParfums != null) {
+   switch (i) {
+    case 1:
+     AdapterNewParfum adapterNewParfum = new AdapterNewParfum(newParfums);
+     recyclerViewNewParfum.setAdapter(adapterNewParfum);
+     break;
+    case 2:
+     AdapterNewParfum adapterSales = new AdapterNewParfum(newParfums);
+     recyclerViewSales.setAdapter(adapterSales);
+     break;
+    case 3:
+     AdapterNewParfum adapterFavorites = new AdapterNewParfum(newParfums);
+     recyclerViewFavorites.setAdapter(adapterFavorites);
+     break;
+   }
+  }else{
+   Log.d(MainActivity.LOG_TAG, "parfums null");
   }
  }
 

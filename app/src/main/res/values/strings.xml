@@ -43,5 +43,8 @@
     <string name="empty_trash">В вашей корзине пока пусто :(</string>
     <string name="text_empty_trash">Но это легко исправить. \n В нашем магазине тысячи прекрасных \n ароматов на любой вкус.</string>
     <string name="search_hint">   Начните писать, а мы подскажем...</string>
+  <string name="title_no_connection">Нет соединения с сайтом</string>
+    <string name="messge_no_connection">Уважаемый покупатель, на данный момент вы не можете воспользоваться нашими услугами. Мы уже знаем что не так и постараемся в ближайшее время всё исправить. Попробуйте воспользоваться нашим сервисом через некоторое время.</string>
+    <string name="positive_button">Хорошо</string>
 
 </resources>
