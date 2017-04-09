@@ -17,15 +17,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import by.lykashenko.demon.mirparfumanew.Adapters.ViewPagerAdapter;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.AboutDialogFragment;
 import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
 import by.lykashenko.demon.mirparfumanew.Fragments.Home;
 import by.lykashenko.demon.mirparfumanew.Fragments.Search;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity
     private ExpandableListView expandablePhoneNumber;
     private TabLayout tabLayout;
     private CountArray countArray;
-    private TextView otzuvu;
+    private TextView otzuvu, about, cashe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                Log.d(LOG_TAG,"экран № "+position);
+//                Log.d(LOG_TAG,"экран № "+position);
             }
 
             @Override
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         ArrayList<Map<String,String>> listDataHeader = new ArrayList<Map<String,String>>();
         ArrayList<ArrayList<Map<String, String>>> listDataChild = new ArrayList<ArrayList<Map<String, String>>>();
 
@@ -143,8 +147,30 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         otzuvu = (TextView) navigationView.findViewById(R.id.textViewOtzuvu);
+        about = (TextView) navigationView.findViewById(R.id.textViewAbout);
+        cashe = (TextView) navigationView.findViewById(R.id.textViewCashe);
 
+        //onClick
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutDialog();
+            }
+        });
 
+        cashe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutDialog();
+            }
+        });
+
+    }
+
+    private void AboutDialog() {
+
+        AboutDialogFragment aboutDialog = new AboutDialogFragment();
+        aboutDialog.show(getSupportFragmentManager(),"dlg1");
     }
 
     private void setupTabsIcon() {
