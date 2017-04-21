@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
+
+        <EditText
+            android:id="@+id/brendsearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="5dp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:textStyle="italic" />
+
+    <com.l4digital.fastscroll.FastScrollRecyclerView
+        android:id="@+id/recyclerViewSearchBrend"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/brendsearch"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/search_hint"
-        android:textStyle="italic"
-        android:imeOptions="actionSearch"
-        android:drawableLeft="@drawable/search_icon"
-        android:drawablePadding="5dp"
-        />
+        app:bubbleColor="#00bb00"
+        app:bubbleTextColor="#ffffff"
+        app:handleColor="#999999"
+        app:hideScrollbar="false"
+        app:showTrack="false"
+        app:trackColor="#bbbbbb" />
 
-</LinearLayout>
+
+
+</RelativeLayout>
