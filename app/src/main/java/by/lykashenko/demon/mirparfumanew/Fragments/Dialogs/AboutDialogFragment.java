@@ -46,14 +46,7 @@ public class AboutDialogFragment extends DialogFragment{
         Toolbar toolbarAbout = (Toolbar) v.findViewById(R.id.toolbarAbout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbarAbout);
         setHasOptionsMenu(true);
-//        toolbarAbout.setTitle(R.string.about);
-//        toolbarAbout.setNavigationIcon(android.R.drawable.btn_minus);
-//        toolbarAbout.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
+
         textAbout = (TextView) v.findViewById(R.id.textAbout);
         String text_about = getResources().getString(R.string.about_shop);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
