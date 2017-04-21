@@ -29,6 +29,7 @@ import java.util.Map;
 
 import by.lykashenko.demon.mirparfumanew.Adapters.ViewPagerAdapter;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.AboutDialogFragment;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.InfoDialogFragment;
 import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
 import by.lykashenko.demon.mirparfumanew.Fragments.Home;
 import by.lykashenko.demon.mirparfumanew.Fragments.Search;
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity
         otzuvu = (TextView) navigationView.findViewById(R.id.textViewOtzuvu);
         about = (TextView) navigationView.findViewById(R.id.textViewAbout);
         cashe = (TextView) navigationView.findViewById(R.id.textViewCashe);
+        TextView info = (TextView) navigationView.findViewById(R.id.textViewInfo);
 
         //onClick
         about.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +166,15 @@ public class MainActivity extends AppCompatActivity
                 AboutDialog();
             }
         });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoDialogFragment info = new InfoDialogFragment();
+                info.show(getSupportFragmentManager(),"dlg2");
+            }
+        });
+
 
     }
 
