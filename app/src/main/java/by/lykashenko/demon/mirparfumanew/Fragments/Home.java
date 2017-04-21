@@ -17,6 +17,8 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,9 +39,9 @@ import by.lykashenko.demon.mirparfumanew.RetrofitClass.LoadListData;
 
 public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, LoadListData.OnLoadNewParfumList {
 
-    private RecyclerView mRecyclerView, recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
+    private RecyclerView  recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
     private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBrendu;
-    private RecyclerView.Adapter adapter, adapterBrendu;
+    private RecyclerView.Adapter adapterBrendu;
     private Integer[] banner = new Integer[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4};
     private ArrayList<Brendu> brendu;
     private String[] mGroupsArrayCall = new String[]{"+375 29 157-57-05"};
@@ -63,6 +65,18 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
 
         View vFragment = inflater.inflate(R.layout.fragment_home, null);
+
+        CarouselView carouselView = (CarouselView) vFragment.findViewById(R.id.carouselView);
+        carouselView.setPageCount(banner.length);
+
+        carouselView.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(int i, ImageView imageView) {
+                imageView.setImageResource(banner[i]);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            }
+        });
+
 
         newListData = new LoadListData(getActivity());
         newListData.registerOnLoadListData(this);
@@ -98,9 +112,6 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         //номера телефонов для связи
         addContactPhoneNumber(vFragment);
-
-//RecyclerView для banner верхенго
-        addRecyclerViewBanner(vFragment);
 
 //RecyclerView для пункта Бренды
         addRecyclerViewBrendu(vFragment);
@@ -191,19 +202,6 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         expandablePhoneNumber.setAdapter(adapterExpandable);
     }
 
-    private void addRecyclerViewBanner(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.bannerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mRecyclerView.setItemAnimator(itemAnimator);
-
-        adapter = new AdapterBanner(banner);
-        mRecyclerView.setAdapter(adapter);
-    }
-
-
     //INTERFACE CALLBACK
 //Обработка interface OnCallBackCount для отображения в Home
     @Override
@@ -272,105 +270,6 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
 
     //ADAPTERS RECYCLERVIEW
-//adapter для RecyclerView banner
-    private class AdapterBanner extends RecyclerView.Adapter<AdapterBanner.BannerViewHolder> {
-
-        private Integer[] m_banner;
-
-        public AdapterBanner(Integer[] banner) {
-            m_banner = banner;
-        }
-
-        public class BannerViewHolder extends RecyclerView.ViewHolder {
-
-            public CardView cd;
-            public ImageView image;
-
-            public BannerViewHolder(View itemView) {
-                super(itemView);
-                cd = (CardView) itemView.findViewById(R.id.card_banner);
-                image = (ImageView) itemView.findViewById(R.id.image_banner);
-
-                cd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Integer position = getAdapterPosition();
-                        Log.d(MainActivity.LOG_TAG, "выбран banner " + position);
-                    }
-                });
-            }
-        }
-
-        @Override
-        public AdapterBanner.BannerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_banner, parent, false);
-            BannerViewHolder bannerViewHolder = new BannerViewHolder(v);
-            return bannerViewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(final BannerViewHolder holder, int position) {
-
-            holder.image.setImageResource(m_banner[position]);
-//меняет баннер через определённое время. Проблема с реализацией клика по конкретному банеру
-//            final BannerViewHolder holder1=holder;
-//
-//            Timer myTimer = new Timer(); // Создаем таймер
-//
-//
-//            myTimer.schedule(new TimerTask() { // Определяем задачу
-//
-//                Integer i =0;
-//                @Override
-//                public void run() {
-//                    if (state == 0) {
-//
-//                            Log.d(MainActivity.LOG_TAG, "позиция = "+i);
-//                            getActivity().runOnUiThread(new Runnable(){
-//                                @Override
-//                                public void run() {
-//                                    if (holder1.image.isShown())
-//                                    {
-//                                    holder1.image.setImageResource(m_banner[i]);
-//
-//                                    }else cancel();
-//                                }
-//                            });
-//                            i=i+1;
-//                            if (i==(getItemCount()-1)){
-//                                state = 1;
-//                            }
-//                    }else{
-//
-//                        Log.d(MainActivity.LOG_TAG, "позиция = "+i);
-//                        getActivity().runOnUiThread(new Runnable(){
-//                            @Override
-//                            public void run() {
-//                                if (holder1.image.isShown())
-//                                {
-//                                    holder1.image.setImageResource(m_banner[i]);
-//                                }else cancel();
-//                            }
-//                        });
-//                        i=i-1;
-//                        if (i==0){
-//                            state = 0;
-//                        }
-//                    }
-//
-//                }
-//            }, 0, 5000);
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return m_banner.length;
-        }
-    }
-
     //adapter для RecyclerView Бренды
     private class AdapterBrendu extends RecyclerView.Adapter<AdapterBrendu.BrenduViewHolder> {
         private ArrayList<Brendu> m_brendu;

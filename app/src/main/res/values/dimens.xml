@@ -19,5 +19,6 @@
     <dimen name="height_banner">150dp</dimen>
     <dimen name="pading_lable">10dp</dimen>
     <dimen name="size_image_label">36dp</dimen>
+    <dimen name="margin_indicator">5dp</dimen>
 
 </resources>

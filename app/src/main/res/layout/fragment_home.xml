@@ -11,16 +11,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-
-            android:id="@+id/bannerView"
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_banner"
-            android:fadeScrollbars="false"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarSize="5dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbHorizontal="@color/colorPrimary"/>
+            android:layout_height="150dp"
+            app:fillColor="@color/colorPrimary"
+            app:pageColor="@color/colorDivider"
+            app:radius="3dp"
+            app:pageTransformer="depth"
+            app:pageTransformInterval="5000"
+            app:slideInterval="10000"
+            app:strokeColor="@color/colorDivider"
+            app:strokeWidth="1dp"
+            app:indicatorMarginVertical="2dp"/>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+
+            <!--android:id="@+id/bannerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/height_banner"-->
+            <!--android:fadeScrollbars="false"-->
+            <!--android:scrollbarAlwaysDrawHorizontalTrack="true"-->
+            <!--android:scrollbarSize="5dp"-->
+            <!--android:scrollbarStyle="outsideOverlay"-->
+            <!--android:scrollbarThumbHorizontal="@color/colorPrimary"/>-->
 
         <LinearLayout
             android:id="@+id/womenLayout"
@@ -189,7 +203,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="200dp"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
@@ -270,9 +284,12 @@
                 android:layout_height="210dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="16dp"
-
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbarThumbHorizontal="@color/colorNavigationView"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
                 android:layout_marginTop="16dp"
                 android:scrollbars="horizontal"
+                android:scrollbarSize="3dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewNovinki" />
         </android.support.constraint.ConstraintLayout>
@@ -448,18 +465,21 @@
             android:layout_height="0.5dp"
             android:background="@color/colorDivider" />
 
+
+        <ExpandableListView
+            android:id="@+id/expandablePhoneNumberHome"
+            android:background="@color/colorNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginExpandebleView"
+            android:transformPivotY="15dp"
+            android:paddingLeft="@dimen/fab_margin"
+             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorNavigationView"
             android:orientation="vertical">
-
-            <ExpandableListView
-                android:id="@+id/expandablePhoneNumberHome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginExpandebleView"
-                android:paddingLeft="@dimen/fab_margin" />
 
             <TextView
                 android:id="@+id/textViewAdressHome"
