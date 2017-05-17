@@ -17,6 +17,16 @@ public class Brendu {
  private String alias;
  @SerializedName("value")
  private String value;
+ @SerializedName("count(val.contentid)")
+ private Integer count;
+
+ public Integer getCount() {
+  return count;
+ }
+
+ public void setCount(Integer count) {
+  this.count = count;
+ }
 
  public String getId() {
   return id;

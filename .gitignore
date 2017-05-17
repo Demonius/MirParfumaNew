@@ -12,3 +12,4 @@ app/src/main/res/drawable/banner1.jpg
 *.png
 .idea/codeStyleSettings.xml
 .idea/dictionaries/demon.xml
+build.gradle
