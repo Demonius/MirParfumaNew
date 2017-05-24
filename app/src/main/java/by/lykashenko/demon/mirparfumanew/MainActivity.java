@@ -19,6 +19,8 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -186,25 +188,37 @@ public class MainActivity extends AppCompatActivity
 
     private void setupTabsIcon() {
 
-            TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-            tabOne.setText(getResources().getString(R.string.home));
-            tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_home, 0, 0);
+        LinearLayout tabOne = (LinearLayout)  LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabOne.findViewById(R.id.image_tab).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_home));
+        ((TextView) tabOne.findViewById(R.id.text_tab)).setText(R.string.home);
+//            TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+//            tabOne.setText(getResources().getString(R.string.home));
+//            tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_home, 0, 0);
 
             tabLayout.getTabAt(0).setCustomView(tabOne);
 
-            TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-            tabTwo.setText(getResources().getString(R.string.search));
-            tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_search, 0, 0);
+//            TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+//            tabTwo.setText(getResources().getString(R.string.search));
+//            tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_search, 0, 0);
+        LinearLayout tabTwo = (LinearLayout)  LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.findViewById(R.id.image_tab).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_search));
+        ((TextView) tabTwo.findViewById(R.id.text_tab)).setText(R.string.search);
             tabLayout.getTabAt(1).setCustomView(tabTwo);
-
-            TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-            tabThree.setText(getResources().getString(R.string.favorites));
-            tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite, 0, 0);
+//
+//            TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+//            tabThree.setText(getResources().getString(R.string.favorites));
+//            tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite, 0, 0);
+        LinearLayout tabThree = (LinearLayout)  LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabThree.findViewById(R.id.image_tab).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_favorite));
+        ((TextView) tabThree.findViewById(R.id.text_tab)).setText(R.string.favorites);
             tabLayout.getTabAt(2).setCustomView(tabThree);
-
-            TextView tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-            tabFour.setText(getResources().getString(R.string.trash));
-            tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+//
+//            TextView tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+//            tabFour.setText(getResources().getString(R.string.trash));
+//            tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+        LinearLayout tabFour = (LinearLayout)  LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabFour.findViewById(R.id.image_tab).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_trash));
+        ((TextView) tabFour.findViewById(R.id.text_tab)).setText(R.string.trash);
             tabLayout.getTabAt(3).setCustomView(tabFour);
 
 
