@@ -27,6 +27,7 @@ import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.ParfumForBrend;
 import by.lykashenko.demon.mirparfumanew.Adapters.Child;
 import by.lykashenko.demon.mirparfumanew.Adapters.SectionHeader;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogFragmentParfum;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
@@ -203,7 +204,7 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
 
                 String firstLiter = brendu.get(y).getPagetitle().toUpperCase().substring(0, 1);
                 if (section.equals(firstLiter)) {
-                    childList.add(new Child(brendu.get(y).getId(),brendu.get(y).getPagetitle(), brendu.get(y).getCount().toString()));
+                    childList.add(new Child(brendu.get(y).getId(), brendu.get(y).getPagetitle(), brendu.get(y).getCount().toString()));
                 } else {
                     listSection.add(new SectionHeader(childList, section));
                     i = y - 1;
@@ -261,7 +262,12 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
 
 //                    searchNameBrendu.setText(child.getName().substring(0, (int) Math.floor(2 + child.getName().length() / 2)));
 
-
+                    DialogFragmentParfum parfum = new DialogFragmentParfum();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id",child.getId());
+                    bundle.putString("name",child.getName());
+                    parfum.setArguments(bundle);
+                    parfum.show(getActivity().getSupportFragmentManager(), "dlg_parfum_list");
 
                     Toast.makeText(context, "pressed id brend => " + child.getId(), Toast.LENGTH_SHORT).show();
                 }

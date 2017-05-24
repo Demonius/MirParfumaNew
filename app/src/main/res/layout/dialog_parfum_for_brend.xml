@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/image_back_parfumlist"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+
+                <TextView
+                    android:id="@+id/nameBrend"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="@string/about"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <ImageView
+                    android:id="@+id/imageLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_client_1" />
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listParfum"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_weight="1"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_home" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/home"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearSearch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/search"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearFavorites"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_favorite" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/favorites"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearTrash"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_trash" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/trash"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
