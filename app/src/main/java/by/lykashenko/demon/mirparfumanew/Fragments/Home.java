@@ -1,7 +1,9 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +30,7 @@ import java.util.Map;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.NewParfum;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogExitError;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogFragmentParfum;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
@@ -48,7 +52,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
     private ExpandableListView expandablePhoneNumber;
     private Integer state = 0;
-    private LinearLayout casheLayout;
+    private LinearLayout casheLayout,nisha,probniki;
     private TextView textViewWomen, textViewMen, textViewUnisex, textViewOtzuvu;
     private static final Integer MENID = 984;
     private static final Integer WOMENID = 1112;
@@ -59,12 +63,30 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
     private LoadListData newListData;
     public CountArray countArray;
+    private ViewStub viewStubSales,viewStubNisha, viewStubProbniki;
+    private View vFragment;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        View vFragment = inflater.inflate(R.layout.fragment_home, null);
+         vFragment = inflater.inflate(R.layout.fragment_home, null);
+
+//        nisha = (LinearLayout) vFragment.findViewById(R.id.nishaLayout);
+//        probniki = (LinearLayout) vFragment.findViewById(R.id.probnikLayout);
+        viewStubNisha = (ViewStub) vFragment.findViewById(R.id.viewStubNisha);
+        viewStubProbniki = (ViewStub) vFragment.findViewById(R.id.viewStubProbniki);
+        viewStubSales = (ViewStub) vFragment.findViewById(R.id.viewStubSales);
+//        nisha.setVisibility(View.INVISIBLE);
+//        probniki.setVisibility(View.INVISIBLE);
+
+        TextView textBrenduAll = (TextView) vFragment.findViewById(R.id.textViewAllBrendu);
+        textBrenduAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewPager) getActivity().findViewById(R.id.viewpager)).setCurrentItem(1);
+            }
+        });
 
         CarouselView carouselView = (CarouselView) vFragment.findViewById(R.id.carouselView);
         carouselView.setPageCount(banner.length);
@@ -140,10 +162,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private void addRecyclerViewSales(View vFragment) {
         String sql_string_sales = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where (cv.tmplvarid = 58 and cv.value like '%46868%') and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_sales, 2);
-        recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
-        LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewSales.setLayoutManager(mLayoutManagerSales);
-        recyclerViewSales.setItemAnimator(itemAnimator);
+
     }
 
     private void addRecyclerViewNovinki(View vFragment) {
@@ -156,7 +175,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     }
 
     private void addRecyclerViewBrendu(View vFragment) {
-        String sql_string_limit = "SELECT con.id,cv.value FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
+        String sql_string_limit = "SELECT con.id,cv.value,con.pagetitle FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
         BrendList brendList = new BrendList(getActivity());
         brendList.registerOnLoadBrendList(this);
         brendList.load(sql_string_limit);
@@ -205,7 +224,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     //INTERFACE CALLBACK
 //Обработка interface OnCallBackCount для отображения в Home
     @Override
-    public void onCallBackCount(Integer count, Integer state) {
+    public void onCallBackCount(String count, Integer state) {
 
         switch (state) {
             case 1:
@@ -255,8 +274,16 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                     recyclerViewNewParfum.setAdapter(adapterNewParfum);
                     break;
                 case 2:
-                    AdapterNewParfum adapterSales = new AdapterNewParfum(newParfums);
-                    recyclerViewSales.setAdapter(adapterSales);
+                    if (newParfums.size()>0) {
+                        viewStubSales.inflate();
+                        recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
+                        LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                        recyclerViewSales.setLayoutManager(mLayoutManagerSales);
+                        recyclerViewSales.setItemAnimator(itemAnimator);
+                        AdapterNewParfum adapterSales = new AdapterNewParfum(newParfums);
+                        recyclerViewSales.setAdapter(adapterSales);
+
+                    }
                     break;
                 case 3:
                     AdapterNewParfum adapterFavorites = new AdapterNewParfum(newParfums);
@@ -285,6 +312,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
             public BrenduViewHolder(View itemView) {
                 super(itemView);
+
                 cd = (CardView) itemView.findViewById(R.id.card_brendu);
                 image = (ImageView) itemView.findViewById(R.id.imageViewBrendu);
 
@@ -300,12 +328,22 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         }
 
         @Override
-        public void onBindViewHolder(BrenduViewHolder holder, int position) {
+        public void onBindViewHolder(BrenduViewHolder holder, final int position) {
             String url_image_brend = "http://s6458.h6.modhost.pro/" + m_brendu.get(position).getValue();
             Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
             Picasso.with(getContext()).load(url_image_brend).into(holder.image);
 //            holder.image.setImageResource(m_brendu[position]);
-
+            holder.cd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogFragmentParfum parfum = new DialogFragmentParfum();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id",m_brendu.get(position).getId());
+                    bundle.putString("name",m_brendu.get(position).getPagetitle());
+                    parfum.setArguments(bundle);
+                    parfum.show(getActivity().getSupportFragmentManager(), "dlg_parfum_list");
+                }
+            });
 
         }
 

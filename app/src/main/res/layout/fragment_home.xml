@@ -16,25 +16,25 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             app:fillColor="@color/colorPrimary"
+            app:indicatorMarginVertical="2dp"
             app:pageColor="@color/colorDivider"
-            app:radius="3dp"
-            app:pageTransformer="depth"
             app:pageTransformInterval="5000"
+            app:pageTransformer="depth"
+            app:radius="3dp"
             app:slideInterval="10000"
             app:strokeColor="@color/colorDivider"
-            app:strokeWidth="1dp"
-            app:indicatorMarginVertical="2dp"/>
+            app:strokeWidth="1dp" />
 
         <!--<android.support.v7.widget.RecyclerView-->
 
-            <!--android:id="@+id/bannerView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/height_banner"-->
-            <!--android:fadeScrollbars="false"-->
-            <!--android:scrollbarAlwaysDrawHorizontalTrack="true"-->
-            <!--android:scrollbarSize="5dp"-->
-            <!--android:scrollbarStyle="outsideOverlay"-->
-            <!--android:scrollbarThumbHorizontal="@color/colorPrimary"/>-->
+        <!--android:id="@+id/bannerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/height_banner"-->
+        <!--android:fadeScrollbars="false"-->
+        <!--android:scrollbarAlwaysDrawHorizontalTrack="true"-->
+        <!--android:scrollbarSize="5dp"-->
+        <!--android:scrollbarStyle="outsideOverlay"-->
+        <!--android:scrollbarThumbHorizontal="@color/colorPrimary"/>-->
 
         <LinearLayout
             android:id="@+id/womenLayout"
@@ -135,57 +135,38 @@
             android:layout_height="0.5dp"
             android:background="@color/colorDivider" />
 
-        <LinearLayout
-            android:id="@+id/nishaLayout"
+        <ViewStub
+            android:id="@+id/viewStubNisha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
+            android:inflatedId="@+id/inflate"
+            android:layout="@layout/viewstub_layout_nishevui"/>
+
+
+
+        <ViewStub
+            android:id="@+id/viewStubProbniki"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/inflate"
+            android:layout="@layout/viewstub_layout_probniki"/>
+
+        <LinearLayout
+            android:id="@+id/pickLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
 
             <TextView
-                android:id="@+id/textViewNishevui"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/margibTextView"
                 android:paddingTop="@dimen/margibTextView"
-                android:text="@string/nishevui_parfum"
-                android:textAppearance="@style/TextStyleLayoutHome" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="13dp"
-                android:layout_marginTop="15dp"
-                android:layout_weight="30"
-                android:src="@drawable/disclosure_indicator" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorDivider" />
-
-        <LinearLayout
-            android:id="@+id/probnikLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-
-            <TextView
-                android:id="@+id/textViewProbnik"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingBottom="@dimen/margibTextView"
-                android:paddingTop="@dimen/margibTextView"
-                android:text="@string/probnik"
+                android:text="@string/pick_parfum"
                 android:textAppearance="@style/TextStyleLayoutHome" />
 
             <ImageView
@@ -220,7 +201,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewAllBrendu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -230,19 +211,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.RecyclerView
-              android:id="@+id/spisokBrend"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/fab_margin"
-              android:fadeScrollbars="false"
-              android:scrollbarAlwaysDrawHorizontalTrack="true"
-              android:scrollbarSize="3dp"
-              android:scrollbarStyle="outsideOverlay"
-              android:scrollbarThumbHorizontal="@color/colorNavigationView"
-              android:scrollbars="horizontal"
-              app:layout_constraintLeft_toLeftOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/textViewBrendu"
-                android:layout_marginLeft="8dp" />
+                android:id="@+id/spisokBrend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:fadeScrollbars="false"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarSize="3dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbarThumbHorizontal="@color/colorNavigationView"
+                android:scrollbars="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBrendu" />
         </android.support.constraint.ConstraintLayout>
 
         <View
@@ -284,60 +265,27 @@
                 android:layout_height="210dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarSize="3dp"
                 android:scrollbarStyle="insideOverlay"
                 android:scrollbarThumbHorizontal="@color/colorNavigationView"
-                android:scrollbarAlwaysDrawHorizontalTrack="true"
-                android:layout_marginTop="16dp"
                 android:scrollbars="horizontal"
-                android:scrollbarSize="3dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewNovinki" />
         </android.support.constraint.ConstraintLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/colorDivider" />
 
-        <android.support.constraint.ConstraintLayout
+        <ViewStub
+            android:id="@+id/viewStubSales"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/inflate"
+            android:layout="@layout/viewstub_layout_sales" />
 
-            <TextView
-                android:id="@+id/textViewSales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/sales"
-                android:textAppearance="@style/TextStyleLayoutHome"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="16dp"
-                android:text="@string/vse"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/spisokSales"
-                android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewSales" />
-        </android.support.constraint.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
@@ -468,13 +416,13 @@
 
         <ExpandableListView
             android:id="@+id/expandablePhoneNumberHome"
-            android:background="@color/colorNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginExpandebleView"
-            android:transformPivotY="15dp"
+            android:background="@color/colorNavigationView"
             android:paddingLeft="@dimen/fab_margin"
-             />
+            android:transformPivotY="15dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

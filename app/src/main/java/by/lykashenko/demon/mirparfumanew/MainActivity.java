@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         countArray = new CountArray(this);
         countArray.registerCallBackCount(new CountArray.OnCallBackCount() {
             @Override
-            public void onCallBackCount(Integer count, Integer state) {
+            public void onCallBackCount(String count, Integer state) {
                 if (state == 4){
                     String text = getResources().getString(R.string.otzuvu)+" ("+count+")";
                     otzuvu.setText(text);
