@@ -65,7 +65,7 @@ public class BrendList {
 
             @Override
             public void onFailure(Call<ArrayList<Brendu>> call, Throwable t) {
-                Log.e(MainActivity.LOG_TAG, "ошибка азпроса => " + t.getMessage());
+                Log.e(MainActivity.LOG_TAG, "ошибка запроса => " + t.getMessage());
             }
         });
 

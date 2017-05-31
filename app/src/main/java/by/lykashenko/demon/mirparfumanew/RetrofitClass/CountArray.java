@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CountArray {
     public interface OnCallBackCount {
-        void onCallBackCount(Integer count, Integer state);
+        void onCallBackCount(String count, Integer state);
     }
     private OnCallBackCount myCallback;
     public void registerCallBackCount(OnCallBackCount callback) {
@@ -30,7 +30,7 @@ public class CountArray {
 
 
     private Context context;
-    private Integer outputCount = 0;
+    private String outputCount ="0";
 
 
     public CountArray(Context context) {
@@ -58,7 +58,7 @@ public class CountArray {
                         outputCount = response.body().get(0).getCount();
                         myCallback.onCallBackCount(outputCount, state1);
                     }catch (NullPointerException exception){
-                        myCallback.onCallBackCount(0,5);
+                        myCallback.onCallBackCount("0",5);
 //                        myCallback.onCallBackCount(0,state1);
                     }
 
