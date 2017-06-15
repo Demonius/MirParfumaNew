@@ -27,7 +27,6 @@ import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.ParfumForBrend;
 import by.lykashenko.demon.mirparfumanew.Adapters.Child;
 import by.lykashenko.demon.mirparfumanew.Adapters.SectionHeader;
-import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogFragmentParfum;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
@@ -35,7 +34,7 @@ import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetParfumForBrend;
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 /**
- * Created by demon on 08.02.2017.
+ * Created by Admin on 05.06.17.
  */
 
 public class Search extends Fragment implements BrendList.OnLoadBrendList, GetParfumForBrend.OnLoadParfumList {
@@ -45,6 +44,8 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
     private EditText searchNameBrendu;
     private ArrayList<Brendu> arrayBrendu, brenduRead;
     private TestAdapter mAdapter;
+    private FragmentParfumList parfumList;
+    private String sql_load_brendu;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +54,12 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
 
         View vFragment = inflater.inflate(R.layout.fragment_search, null);
 
+        sql_load_brendu = "SELECT brendu.id,brendu.pagetitle, count(val.contentid) FROM modx_site_tmplvar_contentvalues as val,(SELECT con.id,con.pagetitle FROM modx_site_content as con WHERE con.parent = 854)as brendu WHERE brendu.pagetitle LIKE val.value GROUP BY brendu.pagetitle ORDER BY brendu.pagetitle ASC";
+
+        parfumList = new FragmentParfumList();
         searchNameBrendu = (EditText) vFragment.findViewById(R.id.brendsearch);
-        ImageView clearSearch = (ImageView) vFragment.findViewById(R.id.imageViewClear);
+        final ImageView clearSearch = (ImageView) vFragment.findViewById(R.id.imageViewClear);
+        clearSearch.setVisibility(View.INVISIBLE);
         clearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,11 +71,19 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
         searchNameBrendu.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (s == null) {
+                    clearSearch.setVisibility(View.INVISIBLE);
+                } else {
+                    clearSearch.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.equals("")) clearSearch.setVisibility(View.INVISIBLE);
+                else clearSearch.setVisibility(View.VISIBLE);
+
+
                 Changeadapter(brenduRead, s);
             }
 
@@ -82,7 +95,7 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
         });
 
         // downloads list with brend name from site
-        String sql_load_brendu = "SELECT brendu.id,brendu.pagetitle, count(val.contentid) FROM modx_site_tmplvar_contentvalues as val,(SELECT con.id,con.pagetitle FROM modx_site_content as con WHERE con.parent = 854)as brendu WHERE brendu.pagetitle LIKE val.value GROUP BY brendu.pagetitle ORDER BY brendu.pagetitle ASC";
+//        String sql_load_brendu = "SELECT brendu.id,brendu.pagetitle, count(val.contentid) FROM modx_site_tmplvar_contentvalues as val,(SELECT con.id,con.pagetitle FROM modx_site_content as con WHERE con.parent = 854)as brendu WHERE brendu.pagetitle LIKE val.value GROUP BY brendu.pagetitle ORDER BY brendu.pagetitle ASC";
 
         brendSearch = (IndexFastScrollRecyclerView) vFragment.findViewById(R.id.brendSearch);
 
@@ -231,43 +244,37 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
         }
 
         @Override
-        public SectionViewHolder onCreateSectionViewHolder(ViewGroup viewGroup, int i) {
+        public AdapterSectionBrendu.SectionViewHolder onCreateSectionViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(context).inflate(R.layout.brend_search_section, viewGroup, false);
-            return new SectionViewHolder(view);
+            return new AdapterSectionBrendu.SectionViewHolder(view);
         }
 
         @Override
-        public ChildViewHolder onCreateChildViewHolder(final ViewGroup viewGroup, int i) {
+        public AdapterSectionBrendu.ChildViewHolder onCreateChildViewHolder(final ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(context).inflate(R.layout.brend_searc, viewGroup, false);
 
-            return new ChildViewHolder(view);
+            return new AdapterSectionBrendu.ChildViewHolder(view);
         }
 
         @Override
-        public void onBindSectionViewHolder(SectionViewHolder sectionViewHolder, int i, SectionHeader sectionHeader) {
+        public void onBindSectionViewHolder(AdapterSectionBrendu.SectionViewHolder sectionViewHolder, int i, SectionHeader sectionHeader) {
             sectionViewHolder.section.setText(sectionHeader.getSectinText());
         }
 
         @Override
-        public void onBindChildViewHolder(ChildViewHolder childViewHolder, int i, int i1, final Child child) {
+        public void onBindChildViewHolder(AdapterSectionBrendu.ChildViewHolder childViewHolder, int i, int i1, final Child child) {
             childViewHolder.nameBrend.setText(child.getName());
             String textCount = "(" + child.getCount() + ")";
             childViewHolder.countBrend.setText(textCount);
             childViewHolder.cd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    int itemPosition = ;
-//                    int sectionClick = ;
-//                        String text = list.
 
-//                    searchNameBrendu.setText(child.getName().substring(0, (int) Math.floor(2 + child.getName().length() / 2)));
-
-                    DialogFragmentParfum parfum = new DialogFragmentParfum();
                     Bundle bundle = new Bundle();
-                    bundle.putString("id",child.getId());
-                    bundle.putString("name",child.getName());
-                    parfum.setArguments(bundle);
-                    parfum.show(getActivity().getSupportFragmentManager(), "dlg_parfum_list");
+                    bundle.putString("id", child.getId());
+                    bundle.putString("name", child.getName());
+                    bundle.putInt("state", 1);
+                    loadBrendInfo.onLoadBrendInfo(bundle);
 
                     Toast.makeText(context, "pressed id brend => " + child.getId(), Toast.LENGTH_SHORT).show();
                 }
@@ -350,17 +357,17 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
 //        }
 
         @Override
-        public TestViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public TestAdapter.TestViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.brend_searc, viewGroup, false);
-            TestViewHolder testViewHolder = new TestViewHolder(v);
+            TestAdapter.TestViewHolder testViewHolder = new TestAdapter.TestViewHolder(v);
 
 
             return testViewHolder;
         }
 
         @Override
-        public void onBindViewHolder(TestViewHolder testViewHolder, int i) {
+        public void onBindViewHolder(TestAdapter.TestViewHolder testViewHolder, final int i) {
             final Integer position = i;
 
 
@@ -380,9 +387,21 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
             testViewHolder.cd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Bundle bundle = new Bundle();
                     if (array.get(position).getCount() != 0) {
-                        searchNameBrendu.setText(array.get(position).getPagetitle().substring(0, (int) Math.floor(2 + array.get(position).getPagetitle().length() / 2)));
+                        //след. строку заменить на вызов fragment
+
+                        bundle.putString("id", array.get(i).getId());
+                        bundle.putString("name", array.get(i).getPagetitle());
+                        bundle.putInt("state", 1);
+
+
+                    }else{
+                        bundle.putString("id", array.get(i).getId());
+                        bundle.putString("name", array.get(i).getPagetitle());
+                        bundle.putInt("state", 2);
                     }
+                    loadBrendInfo.onLoadBrendInfo(bundle);
                 }
             });
         }
@@ -412,6 +431,16 @@ public class Search extends Fragment implements BrendList.OnLoadBrendList, GetPa
 
             }
         }
+    }
+
+    public interface LoadBrendInfo {
+        void onLoadBrendInfo(Bundle bundle);
+    }
+
+    private LoadBrendInfo loadBrendInfo;
+
+    public void registerLoadBrendInfo(LoadBrendInfo loadBrendInfo) {
+        this.loadBrendInfo = loadBrendInfo;
     }
 
 }

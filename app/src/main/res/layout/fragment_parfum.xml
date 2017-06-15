@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="12dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselViewParfum"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:autoPlay="false"
+                app:fillColor="@color/colorPrimary"
+                app:indicatorMarginVertical="2dp"
+                app:pageColor="@color/colorDivider"
+                app:strokeColor="@color/colorDivider"
+                app:strokeWidth="1dp">
+
+            </com.synnapps.carouselview.CarouselView>
+
+            <TextView
+                android:id="@+id/nameParfumCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="NameParfumCenter"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/cenaOtParfum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp" />
+
+            <TextView
+                android:id="@+id/cenaParfum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:fillViewport="true"
+                android:scrollbarSize="2dp">
+
+                <RadioGroup
+                    android:id="@+id/choise_ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorNavigationView" />
+
+            <ViewStub
+                android:id="@+id/view_stub_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/inflate"
+                android:layout="@layout/view_stub_about_parfum" />
+
+            <ViewStub
+                android:id="@+id/character"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/inflate"
+                android:layout="@layout/viewstub_layout_character" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_add_favorites"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/background_add_favorites"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_favorite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:gravity="center"
+                        android:text="@string/add_favorites" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_share"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_home"
+                    android:gravity="left|center_vertical"
+                    android:text="Поделиться"
+                    android:textAllCaps="false" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/otzuvu_parfum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/otzuvu"
+                    android:textAppearance="@style/TextStyleLayoutHome" />
+
+                <RatingBar
+                    android:id="@+id/ratting_parfum"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorNavigationView" />
+
+            <at.blogc.android.views.ExpandableTextView
+                android:id="@+id/zakaz_for"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="Условия предварительного заказа"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:animation_duration="1000">
+
+            </at.blogc.android.views.ExpandableTextView>
+
+            <Button
+                android:id="@+id/button_zakaz_for"
+                android:text="@string/zakaz_for"
+                android:textAllCaps="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/layout_add_trash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:animationCache="false"
+                android:background="@color/colorPrimary"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_trash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="12dp"
+                    android:gravity="center"
+                    android:text="@string/add_to_trash"
+                    android:textColor="@color/colorFonPrimary"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

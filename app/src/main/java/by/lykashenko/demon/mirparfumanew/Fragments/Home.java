@@ -1,7 +1,6 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -30,7 +29,7 @@ import java.util.Map;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.NewParfum;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogExitError;
-import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogFragmentParfum;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogPodborParfum;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
@@ -42,6 +41,17 @@ import by.lykashenko.demon.mirparfumanew.RetrofitClass.LoadListData;
  */
 
 public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, LoadListData.OnLoadNewParfumList {
+
+    public interface StartBrenduHome{
+        void onStartBrenduHome(Bundle bundle);
+        void onClickParfumCategory(Integer i);
+    }
+
+    StartBrenduHome startBrenduHome;
+
+    public void registerHomeBrendu(StartBrenduHome startBrenduHome){
+        this.startBrenduHome=startBrenduHome;
+    }
 
     private RecyclerView  recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
     private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBrendu;
@@ -72,13 +82,9 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
          vFragment = inflater.inflate(R.layout.fragment_home, null);
 
-//        nisha = (LinearLayout) vFragment.findViewById(R.id.nishaLayout);
-//        probniki = (LinearLayout) vFragment.findViewById(R.id.probnikLayout);
         viewStubNisha = (ViewStub) vFragment.findViewById(R.id.viewStubNisha);
         viewStubProbniki = (ViewStub) vFragment.findViewById(R.id.viewStubProbniki);
         viewStubSales = (ViewStub) vFragment.findViewById(R.id.viewStubSales);
-//        nisha.setVisibility(View.INVISIBLE);
-//        probniki.setVisibility(View.INVISIBLE);
 
         TextView textBrenduAll = (TextView) vFragment.findViewById(R.id.textViewAllBrendu);
         textBrenduAll.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +121,14 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);
         textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);
 
+        LinearLayout podbor = (LinearLayout) vFragment.findViewById(R.id.pickLayout);
+        podbor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogPodborParfum podborAll = new DialogPodborParfum();
+
+            }
+        });
 
 // Отправляем запросы на получение количества данных
         countArray.Count(sql_count_men, 1);
@@ -146,6 +160,14 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         //RecyclerView для пункта Бестселлеры
         addRecyclerViewFavorites(vFragment);
+
+        LinearLayout women = (LinearLayout) vFragment.findViewById(R.id.womenLayout);
+        women.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBrenduHome.onClickParfumCategory(1);
+            }
+        });
 
         return vFragment;
     }
@@ -330,18 +352,18 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         @Override
         public void onBindViewHolder(BrenduViewHolder holder, final int position) {
             String url_image_brend = "http://s6458.h6.modhost.pro/" + m_brendu.get(position).getValue();
-            Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
+//            Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
             Picasso.with(getContext()).load(url_image_brend).into(holder.image);
-//            holder.image.setImageResource(m_brendu[position]);
             holder.cd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragmentParfum parfum = new DialogFragmentParfum();
+//вызов второго активити с brend
                     Bundle bundle = new Bundle();
-                    bundle.putString("id",m_brendu.get(position).getId());
-                    bundle.putString("name",m_brendu.get(position).getPagetitle());
-                    parfum.setArguments(bundle);
-                    parfum.show(getActivity().getSupportFragmentManager(), "dlg_parfum_list");
+                    bundle.putString("id", m_brendu.get(position).getId());
+                    bundle.putString("name", m_brendu.get(position).getPagetitle());
+                    bundle.putInt("state",1);
+                    startBrenduHome.onStartBrenduHome(bundle);
+
                 }
             });
 
@@ -372,10 +394,21 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         }
 
         @Override
-        public void onBindViewHolder(ParfumViewHolder holder, int position) {
+        public void onBindViewHolder(ParfumViewHolder holder, final int position) {
             String url_image_parfum = "http://s6458.h6.modhost.pro/" + newParfums.get(position).getImage();
             Picasso.with(getContext()).load(url_image_parfum).into(holder.imageParfum);
             holder.nameParfum.setText(newParfums.get(position).getPagetitle());
+holder.cd.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", newParfums.get(position).getContentid());
+        bundle.putString("name", newParfums.get(position).getPagetitle());
+        bundle.putInt("state",2);
+        startBrenduHome.onStartBrenduHome(bundle);
+
+    }
+});
 
         }
 
