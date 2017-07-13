@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         maven {
@@ -14,7 +13,6 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 allprojects {
 
     repositories {
@@ -22,7 +20,10 @@ allprojects {
         jcenter()
     }
 }
-
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+dependencies {
 }

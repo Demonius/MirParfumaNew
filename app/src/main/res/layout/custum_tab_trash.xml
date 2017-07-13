@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/tab"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:id="@+id/layot_tab"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center" >
+
+
+
+        <ImageView
+            android:id="@+id/image_tab"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="IMAGE" />
+
+        <TextView
+            android:id="@+id/text_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="@string/search"
+            android:textAlignment="center"
+            android:textColor="@color/colorFonPrimary"
+            android:textSize="@dimen/tab_label" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/widget_counter"
+        android:layout_width="18dip"
+        android:layout_height="18dip"
+        android:layout_alignBottom="@+id/layot_tab"
+        android:layout_alignLeft="@+id/layot_tab"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="27dp"
+        android:layout_marginLeft="30dp"
+        android:background="@android:drawable/ic_notification_overlay"
+        android:gravity="center"
+        android:maxLines="1"
+        android:shadowColor="#ff000000"
+        android:shadowRadius="1.0"
+        android:textColor="#ffffffff"
+        android:textSize="8dip" />
+
+
+</RelativeLayout>

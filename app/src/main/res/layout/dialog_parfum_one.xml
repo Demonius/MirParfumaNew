@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_card"
+
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/image_back_parfum"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+
+                <TextView
+                    android:id="@+id/nameParfum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="@string/about"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <ImageView
+                    android:id="@+id/imageLoginFromParfum"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_client_1" />
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/panelParfum"
+        android:layout_below="@+id/appBarLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselViewParfum"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:autoPlay="false"
+                app:fillColor="@color/colorPrimary"
+                app:indicatorMarginVertical="2dp"
+                app:pageColor="@color/colorDivider"
+                app:strokeColor="@color/colorDivider"
+                app:strokeWidth="1dp">
+
+            </com.synnapps.carouselview.CarouselView>
+
+            <TextView
+                android:id="@+id/nameParfumCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="NameParfumCenter"
+android:paddingTop="10dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/cenaOtParfum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="Ваша цена за 50 мл (edt)" />
+
+            <TextView
+                android:id="@+id/cenaParfum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="от 165 руб. "
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorNavigationView" />
+
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/aboutParfum"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/panelParfum"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearHomeParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_home" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/home"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearSearchParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/search"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearFavoritesParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_favorite" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/favorites"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearTrashParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_trash" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/trash"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
