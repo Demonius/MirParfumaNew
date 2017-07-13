@@ -16,16 +16,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
+
+import by.lykashenko.demon.mirparfumanew.Fragments.FragmentOtzuvu;
 import by.lykashenko.demon.mirparfumanew.Fragments.FragmentParfum;
 import by.lykashenko.demon.mirparfumanew.Fragments.FragmentParfumList;
+import by.lykashenko.demon.mirparfumanew.Table.ListParfum;
 
 import static by.lykashenko.demon.mirparfumanew.MainActivity.BREND_OK;
 import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
 
-public class BrendActivity extends AppCompatActivity implements View.OnClickListener, FragmentParfumList.GetInfoOfParfum {
+public class BrendActivity extends AppCompatActivity implements View.OnClickListener,
+        FragmentParfumList.GetInfoOfParfum,
+        FragmentParfum.LoadListOtzuvu{
 
     private ProgressDialog progressDialog;
     public static TextView titleToolbar;
+
+    @Override
+
+    protected  void onDestroy(){
+        super.onDestroy();
+
+        ActiveAndroid.beginTransaction();
+        new Delete().from(ListParfum.class).execute();
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +77,13 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("id", bundle.getString("id"));
                     bundle1.putString("name", bundle.getString("name"));
+                    bundle1.putInt("sex", bundle.getInt("sex"));
                     fragment1.setArguments(bundle1);
                     fTrans.add(R.id.frameBrendActivity, fragment1);
                     break;
                 case 2:
                     FragmentParfum fragmentParfum = new FragmentParfum();
+                    fragmentParfum.registerLoadOtzuvu(this);
                     fragmentParfum.setArguments(bundle);
                     fTrans.add(R.id.frameBrendActivity, fragmentParfum);
                     break;
@@ -129,6 +151,7 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onGetInfoOfParfum(Bundle bundle) {
         FragmentParfum fragmentParfum = new FragmentParfum();
+        fragmentParfum.registerLoadOtzuvu(this);
         fragmentParfum.setArguments(bundle);
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frameBrendActivity, fragmentParfum);
@@ -156,6 +179,19 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLoadListOtzuvu(String id, String count) {
+        FragmentOtzuvu fragmentOtzuvu = new FragmentOtzuvu();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("count", count);
+        fragmentOtzuvu.setArguments(bundle);
+        FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.addToBackStack("otzuvu");
+        fTrans.replace(R.id.frameBrendActivity, fragmentOtzuvu);
+        fTrans.commit();
     }
 //    public void onSaveInstanceState(Bundle outState){
 //        getSupportFragmentManager().putFragment(outState,"fragment1",fragment);

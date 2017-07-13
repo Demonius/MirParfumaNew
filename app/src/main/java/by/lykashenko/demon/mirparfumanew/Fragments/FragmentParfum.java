@@ -1,8 +1,10 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,10 +41,13 @@ import by.lykashenko.demon.mirparfumanew.Adapters.CenaParfum;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountOtzuvuParfum;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetFullInfoOfParfum;
-import by.lykashenko.demon.mirparfumanew.Table.Favorites;
+import by.lykashenko.demon.mirparfumanew.Table.*;
+import by.lykashenko.demon.mirparfumanew.Table.Trash;
 
 import static by.lykashenko.demon.mirparfumanew.BrendActivity.titleToolbar;
 import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+import static by.lykashenko.demon.mirparfumanew.MainActivity.message_add_favorites;
+import static by.lykashenko.demon.mirparfumanew.StartActivity.name_receiver;
 import static java.lang.Math.round;
 
 /**
@@ -65,16 +70,27 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
     private String name_parfum;
     private TextView nameParfum;
     private Integer rattingParfum;
+    private String id, count_otzuvu;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public interface LoadListOtzuvu {
+        void onLoadListOtzuvu(String id, String count);
+    }
+
+    private LoadListOtzuvu loadListOtzuvu;
+
+    public void registerLoadOtzuvu(LoadListOtzuvu loadListOtzuvu) {
+        this.loadListOtzuvu = loadListOtzuvu;
+    }
+
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_parfum, container, false);
-        final String id = getArguments().getString("id");
+        id = getArguments().getString("id");
         Log.d(LOG_TAG, "id_Parfum => " + id);
         name = getArguments().getString("name");
         String nameparfum = "";
         String[] name_list = name.split(" ");
-        Pattern pattern = Pattern.compile("[а-яА-ЯёЁ]"+"*");
+        Pattern pattern = Pattern.compile("[а-яА-ЯёЁ]" + "*");
         for (int i = 0; i < name_list.length; i++) {
             if (!pattern.matcher(name_list[i]).matches()) {
                 if (!name_list[i].equals(" ")) {
@@ -129,6 +145,14 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         CountOtzuvuParfum countOtzuvuParfum = new CountOtzuvuParfum();
         countOtzuvuParfum.registerCountLoad(this);
         countOtzuvuParfum.load(sql);
+        LinearLayout otzuvu_click = (LinearLayout) v.findViewById(R.id.otzuv_layout);
+        otzuvu_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadListOtzuvu.onLoadListOtzuvu(id, count_otzuvu);
+                Log.d(LOG_TAG, "id => " + id + "| count => " + count_otzuvu);
+            }
+        });
 
         rattingParfum = getArguments().getInt("ratting");
         final RatingBar ratingParfum = (RatingBar) v.findViewById(R.id.ratting_parfum);
@@ -146,7 +170,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
 //добавлено в избранные или нет
 
-        Boolean check =CheckParfumFavorites(id);
+        Boolean check = CheckParfumFavorites(id);
 
         final LinearLayout add_favorites = (LinearLayout) v.findViewById(R.id.layout_add_favorites);
         if (!check) {
@@ -162,9 +186,22 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
                 if (!CheckParfumFavorites(id)) {
 
-                    CenaParfum addcena = cenaParfums.get(radioChoiseMl.getCheckedRadioButtonId());
-                    String cenaFor = addcena.getTitle();
-                    String cena_parfum = addcena.getPrice();
+                    CenaParfum addcena = null;
+
+                    try {
+                        addcena = cenaParfums.get(radioChoiseMl.getCheckedRadioButtonId());
+                    } catch (ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    String cenaFor;
+                    String cena_parfum;
+                    if (addcena != null) {
+                        cenaFor = addcena.getTitle();
+                        cena_parfum = addcena.getPrice();
+                    } else {
+                        cenaFor = "0";
+                        cena_parfum = getResources().getString(R.string.no_parfum);
+                    }
                     //name
                     //imageList[0]
 //                    rattingParfum
@@ -174,20 +211,75 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                     favorites.name_parfum = name;
                     favorites.image_parfum = imageList[0];
                     favorites.ratting_parfum = rattingParfum;
-                    favorites.cena_for=cenaFor;
-                    favorites.cena_parfum=cena_parfum;
+                    favorites.cena_for = cenaFor;
+                    favorites.cena_parfum = cena_parfum;
                     favorites.save();
 
 
                     add_favorites.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 } else {
 
-                    new Delete().from(Favorites.class).where("id_parfum = ?",id).execute();
+                    new Delete().from(Favorites.class).where("id_parfum = ?", id).execute();
                     add_favorites.setBackgroundColor(getResources().getColor(R.color.background_add_favorites));
                 }
 
                 ActiveAndroid.setTransactionSuccessful();
                 ActiveAndroid.endTransaction();
+
+                Intent serviceStartedIntent = new Intent(message_add_favorites);
+                serviceStartedIntent.putExtra("update", 2);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(serviceStartedIntent);
+            }
+        });
+
+        final LinearLayout layoutAddTrash = (LinearLayout) v.findViewById(R.id.layout_add_trash);
+        if (checkTrash(id)) {
+            Log.d(LOG_TAG, "true");
+            layoutAddTrash.setBackgroundResource(R.color.colorFonPrimary);
+        } else {
+            Log.d(LOG_TAG, "false");
+            layoutAddTrash.setBackgroundResource(R.color.colorPrimary);
+        }
+        layoutAddTrash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (!checkTrash(id)) {
+                    Log.d(LOG_TAG, "click false");
+                    layoutAddTrash.setBackgroundColor(getResources().getColor(R.color.colorFonPrimary));
+                    CenaParfum addcena = null;
+
+                    try {
+                        addcena = cenaParfums.get(radioChoiseMl.getCheckedRadioButtonId());
+                    } catch (ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    String cenaFor;
+                    String cena_parfum;
+                    if (addcena != null) {
+                        cenaFor = addcena.getTitle();
+                        cena_parfum = addcena.getPrice();
+                    } else {
+                        cenaFor = "0";
+                        cena_parfum = getResources().getString(R.string.no_parfum);
+                    }
+
+                    Trash trash = new Trash();
+                    trash.id_parfum = id;
+                    trash.name_parfum = name;
+                    trash.image_parfum = imageList[0];
+                    trash.ratting_parfum = Integer.toString(rattingParfum);
+                    trash.cena_for = cenaFor;
+                    trash.cena_parfum = cena_parfum;
+                    trash.count_parfum = 1;
+                    trash.save();
+
+                    Intent serviceStartedIntent = new Intent(message_add_favorites);
+                    serviceStartedIntent.putExtra("update", 3);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(serviceStartedIntent);
+                }
+
             }
         });
 
@@ -356,23 +448,32 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         });
 
 
-
-
-
-
         getFullInfo.load(sql_query_info_parfum);
         return v;
+    }
+
+    private boolean checkTrash(String id) {
+        ActiveAndroid.beginTransaction();
+        List<by.lykashenko.demon.mirparfumanew.Table.Trash> trash = new Select().from(Trash.class).where("id_parfum =?", id).execute();
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
+        Log.d(LOG_TAG, "есть в корзине" + trash.size());
+        if (trash.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private Boolean CheckParfumFavorites(String id) {
 
         ActiveAndroid.beginTransaction();
-        List<Model> items  = new Select().from(Favorites.class).where("id_parfum = ?",id).execute();
+        List<Model> items = new Select().from(Favorites.class).where("id_parfum = ?", id).execute();
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
-        if (items.size()>0){
+        if (items.size() > 0) {
             return true;
-        }else return false;
+        } else return false;
 
     }
 
@@ -420,11 +521,16 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
 
     @Override
-    public void onCountLoad(String count) {
-        if (count.equals("")) {
-            count = getResources().getString(R.string.no_count);
+    public void onCountLoad(final String count) {
+        count_otzuvu = count;
+        String text;
+        if (count.equals("0")) {
+            text = getResources().getString(R.string.no_count);
+        } else {
+            text = getResources().getString(R.string.otzuvu) + " (" + count + ")";
         }
-        String text = getResources().getString(R.string.otzuvu) + " (" + count + ")";
         otzuvu_parfum.setText(text);
+
+
     }
 }

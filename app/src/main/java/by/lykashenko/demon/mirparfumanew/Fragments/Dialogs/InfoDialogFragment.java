@@ -20,6 +20,7 @@ import by.lykashenko.demon.mirparfumanew.R;
 
 public class InfoDialogFragment extends DialogFragment {
 
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

@@ -34,7 +34,7 @@ public class LoadListData {
    @Override
    public void onResponse(Call<ArrayList<NewParfum>> call, Response<ArrayList<NewParfum>> response) {
     if (response!=null){
-     Log.i(MainActivity.LOG_TAG,"данные загружены");
+//     Log.i(MainActivity.LOG_TAG,"данные загружены");
      ArrayList<NewParfum> newParfums = response.body();
      loadNewParfumList.onLoadNewParfumList(newParfums,i);
     }else{

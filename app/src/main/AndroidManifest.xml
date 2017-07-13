@@ -15,13 +15,18 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,17 +36,33 @@
         <activity
             android:name=".BrendActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AnimationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <meta-data android:name="AA_DB_NAME" android:value="Parfum.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="Parfum.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="by.lykashenko.demon.mirparfumanew.Table.Favorites, by.lykashenko.demon.mirparfumanew.Table.Trash" />
+            android:value="by.lykashenko.demon.mirparfumanew.Table.Favorites,
+            by.lykashenko.demon.mirparfumanew.Table.Trash,
+            by.lykashenko.demon.mirparfumanew.Table.BrenduCount,
+            by.lykashenko.demon.mirparfumanew.Table.Type,
+            by.lykashenko.demon.mirparfumanew.Table.Year,
+            by.lykashenko.demon.mirparfumanew.Table.Country,
+            by.lykashenko.demon.mirparfumanew.Table.ListParfum,
+            by.lykashenko.demon.mirparfumanew.Table.BrenduAll,
+            by.lykashenko.demon.mirparfumanew.Table.ForTable,
+            by.lykashenko.demon.mirparfumanew.Table.Nota,
+            by.lykashenko.demon.mirparfumanew.Table.Semeistvo" />
     </application>
 
 </manifest>

@@ -31,6 +31,7 @@
         <item name="android:textColor">@color/colorFonPrimary</item>
         <item name="android:textSize">@dimen/textSizePhoneNumber</item>
         <item name="android:typeface">sans</item>
+
     </style>
 
     <style name="TextStyleLayoutHome" parent="@style/TextAppearance.AppCompat.Body1">
@@ -58,8 +59,23 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_animation</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_animation</item>
+    </style>
+    <style name="DownUpActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_up_animation</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_animation</item>
+    </style>
 
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorFonPrimary</item>
+    </style>
 
+    <style name="TrashSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:textSize">20sp</item>
+
+    </style>
 
     <dimen name="textSizePhoneNumber">24sp</dimen>
     <dimen name="textSizeHomeLayout">17sp</dimen>

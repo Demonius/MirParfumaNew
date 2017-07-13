@@ -1,6 +1,386 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/slideView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</LinearLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_podbor_min"
+        android:layout_marginRight="@dimen/margin_podbor_min"
+        android:layout_marginTop="@dimen/margin_podbor_min"
+        android:background="@drawable/rounded_up">
+
+        <LinearLayout
+            android:id="@+id/title_podbor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/close_podbor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/pading_lable"
+                android:text="@string/Close"
+                android:textColor="@color/colorPrimary"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/text_title_podbor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/podbor_"
+                android:textAlignment="center"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/apply_podbor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="@dimen/pading_lable"
+                android:text="@string/apply"
+                android:textColor="@color/colorPrimary"
+                android:textSize="21sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/title_podbor"
+            android:background="@color/colorDivider" />
+        <TextView
+            android:id="@+id/textPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/title_podbor"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="@string/price"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/priceFull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textPrice"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:text="10-100"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            android:id="@+id/rangePrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textPrice"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            app:corner_radius="20"
+            app:gap="20"
+            app:max_value="450"
+            app:min_value="30" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/rangePrice"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textBrendu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rangePrice"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="@string/brendu"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_brendu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textBrendu"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageBrendu"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageBrendu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_brendu"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textBrendu"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textFor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textBrendu"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/for_"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_for"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textFor"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageFor"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_for"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textFor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textFor"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/type"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textType"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageType"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_type"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textType"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textType"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/year"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textYear"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageYear"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_year"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textYear"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textAromat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textYear"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/semeistvo"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_aromat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textAromat"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageAromat"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageAromat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_aromat"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textAromat"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textNota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textAromat"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/first_note"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_nota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textNota"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageNota"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageNota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_nota"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textNota"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/textCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textNota"
+            android:layout_marginLeft="@dimen/margin_podbor"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_2"
+            android:text="@string/country"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_properties_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textCountry"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/imageCountry"
+            android:text="@string/all"
+            android:textSize="@dimen/textSizeHomeLayout"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_properties_country"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_podbor"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/disclosure_indicator"
+            android:theme="@style/TextStyleLayoutHome" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/textCountry"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorDivider" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

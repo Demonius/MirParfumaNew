@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,10 @@ import by.lykashenko.demon.mirparfumanew.Adapters.ParfumCollection;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.Table.Favorites;
 
+import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+
 /**
+ *
  * Created by demon on 08.02.2017.
  */
 
@@ -34,17 +38,17 @@ public class Favorite extends Fragment implements AdapterParfumView.ClickParfum 
     @Override
     public void onClickParfum(Bundle bundle) {
         bundle.putInt("state", 2);
-        goToCatalog.onGoToCatalog(2,bundle);
+        goToCatalog.onGoToCatalog(2, bundle);
     }
 
-    public interface GoToCatalog{
-        void onGoToCatalog(Integer state,@Nullable Bundle bundle);
+    public interface GoToCatalog {
+        void onGoToCatalog(Integer state, @Nullable Bundle bundle);
     }
 
     private GoToCatalog goToCatalog;
 
-    public void registerGoToCatalog(GoToCatalog goToCatalog){
-        this.goToCatalog=goToCatalog;
+    public void registerGoToCatalog(GoToCatalog goToCatalog) {
+        this.goToCatalog = goToCatalog;
     }
 
     private Button btnGo;
@@ -58,22 +62,21 @@ public class Favorite extends Fragment implements AdapterParfumView.ClickParfum 
         List<Favorites> favoritesList = new Select().from(Favorites.class).execute();
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
-        ArrayList<ParfumCollection> parfumList = new ArrayList<>() ;
-        for (Favorites favorite:favoritesList
-             ) {
+        ArrayList<ParfumCollection> parfumList = new ArrayList<>();
+        for (Favorites favorite : favoritesList
+                ) {
 
             ParfumCollection parfum = new ParfumCollection();
-
             parfum.setIdParfum(favorite.id_parfum);
             parfum.setNameParfum(favorite.name_parfum);
             parfum.setReatingParfum(favorite.ratting_parfum);
             parfum.setImageParfum(favorite.image_parfum);
-            parfum.setCenaFor(favorite.cena_for);
-            parfum.setCenaParfum(favorite.cena_parfum);
+            parfum.setCenaFor("Ваша цена за "+favorite.cena_for);
+            parfum.setCenaParfum("От "+favorite.cena_parfum+" р.");
 
             parfumList.add(parfum);
         }
-
+        Log.e(LOG_TAG, "col-vo favorites =>" + favoritesList.size() + "; перезаписано => " + parfumList.size());
         View vFragment = null;
         if (favoritesList.isEmpty()) {
 
@@ -94,7 +97,7 @@ public class Favorite extends Fragment implements AdapterParfumView.ClickParfum 
             btnGo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goToCatalog.onGoToCatalog(1,null);
+                    goToCatalog.onGoToCatalog(1, null);
 //                Toast.makeText(getContext(), "Переход в каталог", Toast.LENGTH_LONG).show();
                 }
             });
@@ -105,8 +108,9 @@ public class Favorite extends Fragment implements AdapterParfumView.ClickParfum 
             listFavorite.setHasFixedSize(true);
             LinearLayoutManager lv = new LinearLayoutManager(getContext());
             listFavorite.setLayoutManager(lv);
-            AdapterParfumView adapter = new AdapterParfumView(parfumList,getContext(),1);
+            AdapterParfumView adapter = new AdapterParfumView(parfumList, getContext(), 1);
             adapter.registerClickParfum(this);
+            listFavorite.setAdapter(adapter);
         }
 
         return vFragment;

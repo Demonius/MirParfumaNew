@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/margin_otzuvu"
+        android:layout_marginTop="@dimen/margin_otzuvu"
+        android:hint="name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/date_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="12-02-2012 12:23"
+        android:textSize="16sp"
+        android:layout_alignBottom="@+id/name"
+        android:layout_toRightOf="@+id/name"
+        android:layout_marginLeft="@dimen/margin_otzuvu"/>
+
+    <RatingBar
+        android:id="@+id/ratting_star"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/name"
+        android:layout_marginRight="@dimen/margin_otzuvu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rating="5"
+        />
+
+    <TextView
+        android:id="@+id/otzuv"
+        android:layout_margin="@dimen/margin_otzuvu"
+        android:minLines="3"
+        android:hint="отзыв"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"/>
+
+</RelativeLayout>

@@ -133,10 +133,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/otzuv_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="12dp"
+                android:clickable="true"
                 android:paddingTop="12dp">
 
                 <TextView
@@ -189,6 +191,7 @@
                 android:layout_marginTop="5dp"
                 android:animationCache="false"
                 android:background="@color/colorPrimary"
+                android:clickable="true"
                 android:gravity="center">
 
                 <ImageView

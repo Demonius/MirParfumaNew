@@ -93,7 +93,8 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
 
         }
         holder.priceParfum.setText(priceParfum);
-        holder.priceFor.setText(parfumCollections.get(position).getCenaFor());
+        if (parfumCollections.get(position).getCenaFor()!="0"){
+        holder.priceFor.setText(parfumCollections.get(position).getCenaFor());}
         holder.ratingParfum.setRating((float) parfumCollections.get(position).getReatingParfum());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +103,6 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
                 Bundle bundle = new Bundle();
                 bundle.putString("id", parfumCollections.get(position).getIdParfum());
                 bundle.putString("name", parfumCollections.get(position).getNameParfum());
-//                    bundle.putString("image", parfumCollections.get(position).getImageParfum());
-//                    bundle.putString("idBrend", id);
                 bundle.putInt("ratting", parfumCollections.get(position).getReatingParfum());
 
                 clickParfum.onClickParfum(bundle);

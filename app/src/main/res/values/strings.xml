@@ -72,5 +72,32 @@
     <string name="zakaz_for">Предзаказ (скидка до 15%)</string>
     <string name="to_trash">Добавить в корзину</string>
     <string name="add_to_trash">Добавить в корзину</string>
+    <string name="price">Цена:</string>
+    <string name="podbor">Подбор парфюмерии</string>
+    <string name="all">Все</string>
+    <string name="Close">Закрыть</string>
+    <string name="brends">брендов</string>
+    <string name="choise">Выбрано</string>
+    <string name="podbor_">Фильтры</string>
+    <string name="apply">Готово</string>
+    <string name="deselect_all">Снять выделение</string>
+    <string name="select_all">Выделить всё</string>
+    <string name="choiseBrendu">Выберите бренды</string>
+    <string name="no_choise_brend">Выберите хотя бы один бренд</string>
+    <string name="cancel">Отмена</string>
+    <string name="choiseType">Выберите тип парфюмерии</string>
+    <string name="types">типов</string>
+    <string name="no_otzuvu">Нет отзывов</string>
+    <string name="load">Загружено</string>
+    <string name="iz">из</string>
+    <string name="loasStart">Загружаем данные с сайта....</string>
+    <string name="loadMain">Данные в приложении актуальны</string>
+    <string name="choiseBrenduSearch">Вы выбрали</string>
+    <string name="number_picker_formatter">1</string>
+    <string name="vsego">Итого</string>
+    <string name="no_choise_for">Выберите хотя бы один элемент</string>
+    <string name="for_for">для</string>
+    <string name="search_for">Искать для</string>
+    <string name="choiseFor">Выберите для кого</string>
 
 </resources>

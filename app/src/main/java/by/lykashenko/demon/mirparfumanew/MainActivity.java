@@ -1,10 +1,14 @@
 package by.lykashenko.demon.mirparfumanew;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 
 import android.support.design.widget.NavigationView;
@@ -13,6 +17,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,18 +27,26 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.mancj.slideup.SlideUp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.AboutDialogFragment;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogChoiseBrendu;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogChoiseFor;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogChoiseType;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.InfoDialogFragment;
 import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
 import by.lykashenko.demon.mirparfumanew.Fragments.Home;
@@ -42,11 +56,17 @@ import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
 import by.lykashenko.demon.mirparfumanew.Table.Favorites;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Home.StartBrenduHome, Search.LoadBrendInfo, Favorite.GoToCatalog {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        Home.StartBrenduHome,
+        Search.LoadBrendInfo,
+        Favorite.GoToCatalog,
+        DialogChoiseBrendu.CloseChoiseBrendu,
+        DialogChoiseType.CloseChoiseType, Trash.GoToCatalog, DialogChoiseFor.CloseChoiseFor {
 
     public static final String LOG_TAG = "MirParfuma";
     public static final String URL = "http://s6458.h6.modhost.pro/";
     public static final Integer BREND_OK = 100;
+    public static final String CLASS_BRENDU = "state_brendu";
     private String[] mGroupsArrayCall = new String[]{"+375 29 157-57-05"};
     private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
     private ExpandableListView expandablePhoneNumber;
@@ -57,14 +77,114 @@ public class MainActivity extends AppCompatActivity
     private ViewStub viewStubImageToolbar, viewStubTextToolbar;
     private ViewPagerAdapter adapter;
     private DrawerLayout drawer;
+    private SlideUp slideUp;
+    private TextView countBrend;
+    private DialogChoiseBrendu choiseBrendu;
+    private DialogChoiseType choiseType;
+    private DialogChoiseFor choiseFor;
+//    private DialogChoiseYear choiseYear;
+//    private DialogChoiseSemeistvo choiseSemeistvo;
+//    private DialogChoiseNota choiseNota;
+//    private DialogChoiseCountry choiseCountry;
+    private BroadcastReceiver receiveAddFavorites;
+    public final static String message_add_favorites = "add.favorites";
+    private Context context;
+    private TextView countType;
+    private Integer classBrendu = 0; //0-все, 1-мужской, 2- женский, 3- унисекс
+    private TextView countFor;
 
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiveAddFavorites);
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Configuration dbConfiguration = new Configuration.Builder(this).setDatabaseName("Parfum.db").setModelClasses(Favorites.class, by.lykashenko.demon.mirparfumanew.Table.Trash.class).create();
-        ActiveAndroid.initialize(dbConfiguration);
+        context = this;
+
+        receiveAddFavorites = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+//                Integer currentPageId = viewPager.getCurrentItem();
+
+                Bundle bundle1 = intent.getExtras();
+                Integer updateFragment = bundle1.getInt("update");
+
+                switch (updateFragment) {
+
+                    case 2:
+                        Search fragmentSearch = new Search();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(CLASS_BRENDU, classBrendu);
+                        fragmentSearch.setArguments(bundle);
+                        fragmentSearch.registerLoadBrendInfo(MainActivity.this);
+                        adapter.updateFragment(fragmentSearch, 1);
+                        Favorite favoriteNew = new Favorite();
+                        favoriteNew.registerGoToCatalog(MainActivity.this);
+                        adapter.updateFragment(favoriteNew, 2);
+                        break;
+                    case 3:
+                        Trash fragmentTrash = new Trash();
+                        fragmentTrash.registerGoToCatalog(MainActivity.this);
+                        adapter.updateFragment(fragmentTrash, 3);
+
+                }
+
+
+                viewPager.getAdapter().notifyDataSetChanged();
+                setupTabsIcon();
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiveAddFavorites, new IntentFilter(message_add_favorites));
+
+        choiseBrendu = new DialogChoiseBrendu();
+        choiseBrendu.register(this);
+
+        choiseType = new DialogChoiseType();
+        choiseType.register(this);
+
+        choiseFor = new DialogChoiseFor();
+        choiseFor.regesterCloseFor(this);
+
+        View slideView = findViewById(R.id.slideView);
+        slideUp = new SlideUp.Builder(slideView)
+                .withListeners(new SlideUp.Listener.Events() {
+
+                    @Override
+                    public void onVisibilityChanged(int visibility) {
+                        if (visibility == View.GONE) {
+                            //Log.i(LOG_TAG, "podbor close");
+//                            viewPager.setAlpha(1);
+//                            tabLayout.setAlpha(1);
+                        }
+//						else Log.i(LOG_TAG, "podbor open");
+
+                    }
+
+                    @Override
+                    public void onSlide(float percent) {
+                        if (percent / 100 > 0.3) {
+                            viewPager.setAlpha(percent / 100);
+                            tabLayout.setAlpha(percent / 100);
+                        }
+//                        dim.setAlpha(1 - (percent / 100));
+                    }
+                })
+                .withStartGravity(Gravity.BOTTOM)
+                .withLoggingEnabled(true)
+                .withGesturesEnabled(true)
+                .withStartState(SlideUp.State.HIDDEN)
+                .build();
+
+        PodborActivationUI();
+
         countArray = new CountArray(this);
         countArray.registerCallBackCount(new CountArray.OnCallBackCount() {
             @Override
@@ -91,7 +211,7 @@ public class MainActivity extends AppCompatActivity
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
+        viewPager.setAlpha(1);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabsIcon();
@@ -104,7 +224,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(MainActivity.this, "экран => " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "экран => " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -198,6 +318,84 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void PodborActivationUI() {
+
+        TextView close, apply;
+
+
+        close = (TextView) findViewById(R.id.close_podbor);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideUp.hide();
+            }
+        });
+
+        apply = (TextView) findViewById(R.id.apply_podbor);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideUp.hide();
+                Bundle bundle = new Bundle();
+                bundle.putInt("state", 0);
+                Intent intent = new Intent(getApplicationContext(), BrendActivity.class);
+                intent.putExtra("bundle", bundle);
+                startActivityForResult(intent, BREND_OK);
+                //перенаправить на BrendActivity
+            }
+        });
+
+        CrystalRangeSeekbar rangePrice = (CrystalRangeSeekbar) findViewById(R.id.rangePrice);
+
+        final TextView textPrice = (TextView) findViewById(R.id.priceFull);
+
+        rangePrice.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                String text = minValue + " - " + maxValue;
+                textPrice.setText(text);
+            }
+        });
+        rangePrice.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                //Log.d(LOG_TAG, "minValue => " + minValue + "; maxValue => " + maxValue);
+            }
+        });
+
+        TextView textBrendu = (TextView) findViewById(R.id.textBrendu);
+        textBrendu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choiseBrendu.show(getSupportFragmentManager(), "choiseBrendu");
+            }
+        });
+
+        countBrend = (TextView) findViewById(R.id.text_properties_brendu);
+
+        TextView textType = (TextView) findViewById(R.id.textType);
+        textType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choiseType.show(getSupportFragmentManager(), "choiseType");
+            }
+        });
+
+        countType = (TextView) findViewById(R.id.text_properties_type);
+
+        TextView choiseForText = (TextView) findViewById(R.id.textFor);
+        choiseForText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choiseFor.show(getSupportFragmentManager(), "choiseFor");
+            }
+        });
+
+
+        countFor = (TextView) findViewById(R.id.text_properties_for);
+
+    }
+
     private void AboutDialog() {
 
         AboutDialogFragment aboutDialog = new AboutDialogFragment();
@@ -231,16 +429,26 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         Home fragmentHome = new Home();
         fragmentHome.registerHomeBrendu(this);
         adapter.addFragment(fragmentHome, getResources().getString(R.string.home));
+
         Search fragmentSearch = new Search();
+        Bundle bundle = new Bundle();
+        bundle.putInt(CLASS_BRENDU, classBrendu);
+        fragmentSearch.setArguments(bundle);
         fragmentSearch.registerLoadBrendInfo(this);
         adapter.addFragment(fragmentSearch, getResources().getString(R.string.search));
+
         Favorite fragmentFavorite = new Favorite();
         fragmentFavorite.registerGoToCatalog(this);
         adapter.addFragment(fragmentFavorite, getResources().getString(R.string.favorites));
-        adapter.addFragment(new Trash(), getResources().getString(R.string.trash));
+
+        Trash trashFragment = new Trash();
+        trashFragment.registerGoToCatalog(this);
+        adapter.addFragment(trashFragment, getResources().getString(R.string.trash));
+
         viewPager.setAdapter(adapter);
     }
 
@@ -249,6 +457,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (slideUp.isVisible()) {
+            slideUp.hide();
         } else {
             super.onBackPressed();
         }
@@ -297,6 +507,7 @@ public class MainActivity extends AppCompatActivity
 
 
         Intent intent = new Intent(this, BrendActivity.class);
+        bundle.putInt("sex", classBrendu);
         intent.putExtra("bundle", bundle);
         startActivityForResult(intent, BREND_OK);
     }
@@ -316,12 +527,32 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClickParfumCategory(Integer i) {
-        switch (i) {
-            case 1:
-//viewPager.setCurrentItem(1);
+        if (classBrendu != i) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    classBrendu = i;
+                    break;
 
-                break;
+            }
+            Search fragmentSearch = new Search();
+            Bundle bundle = new Bundle();
+            bundle.putInt(CLASS_BRENDU, classBrendu);
+            fragmentSearch.setArguments(bundle);
+            fragmentSearch.registerLoadBrendInfo(this);
+            adapter.updateFragment(fragmentSearch, 1);
+            viewPager.getAdapter().notifyDataSetChanged();
+            setupTabsIcon();
+
         }
+        viewPager.setCurrentItem(1);
+    }
+
+    @Override
+    public void onClickPodborStart() {
+        slideUp.show();
     }
 
     @Override
@@ -338,8 +569,41 @@ public class MainActivity extends AppCompatActivity
             case 2:
                 onStartBrenduHome(bundle);
                 break;
-
-
         }
+    }
+
+    @Override
+    public void onCloseChoiseBrendu(String count) {
+        countBrend.setText(count);
+    }
+
+    @Override
+    public void onCloseChoiseType(String count) {
+        countType.setText(count);
+    }
+
+    @Override
+    public void onGoToCatalog(Integer state) {
+
+        switch (state) {
+            case 1:
+            viewPager.setCurrentItem(1, true);
+                 break;
+            case 2:
+                Trash newTrash = new Trash();
+                newTrash.registerGoToCatalog(MainActivity.this);
+                adapter.updateFragment(newTrash, 3);
+                viewPager.getAdapter().notifyDataSetChanged();
+                setupTabsIcon();
+
+                viewPager.setCurrentItem(3);
+
+                break;
+        }
+    }
+
+    @Override
+    public void onCloseChoiseFor(String for_sex) {
+        countFor.setText(for_sex);
     }
 }
