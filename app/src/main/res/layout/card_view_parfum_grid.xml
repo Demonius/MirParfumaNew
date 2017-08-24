@@ -9,7 +9,8 @@
     android:layout_marginLeft="2.5dp"
     android:layout_marginRight="2.5dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="3dp">
+    app:cardElevation="3dp"
+    android:id="@+id/cardViewParfum">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
     <ImageView
         android:id="@+id/imageParfumCatalog"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="150dp"
         android:padding="5dp"
         app:srcCompat="@drawable/banner2" />
 

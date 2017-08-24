@@ -1,12 +1,14 @@
 package by.lykashenko.demon.mirparfumanew.Adapters;
 
-import java.util.ArrayList;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by demon on 24.05.2017.
  */
 
-public class ParfumCollection {
+public class ParfumCollection implements Parcelable {
 
     String idParfum;
     String nameParfum;
@@ -14,6 +16,10 @@ public class ParfumCollection {
     Integer reatingParfum;
     String cenaParfum;
     String cenaFor;
+
+    public ParfumCollection() {
+    }
+
 
     public String getCenaFor() {
         return cenaFor;
@@ -67,4 +73,46 @@ public class ParfumCollection {
     }
 
 
+
+    protected ParfumCollection(Parcel in) {
+        idParfum = in.readString();
+        nameParfum = in.readString();
+        imageParfum = in.readString();
+        reatingParfum = in.readByte() == 0x00 ? null : in.readInt();
+        cenaParfum = in.readString();
+        cenaFor = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idParfum);
+        dest.writeString(nameParfum);
+        dest.writeString(imageParfum);
+        if (reatingParfum == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(reatingParfum);
+        }
+        dest.writeString(cenaParfum);
+        dest.writeString(cenaFor);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ParfumCollection> CREATOR = new Parcelable.Creator<ParfumCollection>() {
+        @Override
+        public ParfumCollection createFromParcel(Parcel in) {
+            return new ParfumCollection(in);
+        }
+
+        @Override
+        public ParfumCollection[] newArray(int size) {
+            return new ParfumCollection[size];
+        }
+    };
 }

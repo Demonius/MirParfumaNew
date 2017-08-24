@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="by.lykashenko.demon.mirparfumanew.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -15,34 +15,56 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarAbout"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetRight="@dimen/margin_podbor_min"
+            app:contentInsetEnd="@dimen/margin_podbor_min"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextAppearance="@style/TitleText"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <ImageView
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_height="?attr/actionBarSize">-->
+            <ViewStub
+                android:id="@+id/viewStubImageToolbar"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/imageToolbarHeight"
-                android:scaleType="fitCenter"
-                android:src="@drawable/logo" />
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/inflate"
+                android:layout_gravity="center"
+                android:layout="@layout/viewstub_layout_image_toolbar"/>
+
+            <ViewStub
+                android:id="@+id/viewStubTextToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inflatedId="@+id/inflate"
+                android:layout="@layout/viewstub_layout_textview_toolbar"/>
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_weight="8">
 
 
         </android.support.v4.view.ViewPager>
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -53,6 +75,7 @@
             android:layout_gravity="bottom"
             app:tabMode="fixed"
             android:layout_weight="1"/>
-
-
 </LinearLayout>
+    <include layout="@layout/dialog_podbor"/>
+
+</android.support.design.widget.CoordinatorLayout>

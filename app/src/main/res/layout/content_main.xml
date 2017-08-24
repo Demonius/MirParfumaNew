@@ -8,4 +8,6 @@
     tools:context="by.lykashenko.demon.mirparfumanew.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+
+
 </FrameLayout>

@@ -1,7 +1,6 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -9,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.mancj.slideup.SlideUp;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -30,20 +31,53 @@ import java.util.Map;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.NewParfum;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogExitError;
-import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogFragmentParfum;
-import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.LoadListData;
 
+import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+
 /**
+ *
  * Created by demon on 20.01.2017.
  */
 
-public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, LoadListData.OnLoadNewParfumList {
+public class Home extends Fragment implements CountArray.OnCallBackCount, BrendList.OnLoadBrendList, LoadListData.OnLoadNewParfumList, View.OnClickListener {
 
-    private RecyclerView  recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.menLayout:
+                startBrenduHome.onClickParfumCategory(1);
+                break;
+            case R.id.womenLayout:
+                startBrenduHome.onClickParfumCategory(2);
+                break;
+            case R.id.unisexLayout:
+                startBrenduHome.onClickParfumCategory(3);
+                break;
+            case R.id.otzuvuLayout:
+                break;
+
+        }
+    }
+
+    public interface StartBrenduHome {
+        void onStartBrenduHome(Bundle bundle);
+
+        void onClickParfumCategory(Integer i);
+
+        void onClickPodborStart();
+    }
+
+    StartBrenduHome startBrenduHome;
+
+    public void registerHomeBrendu(StartBrenduHome startBrenduHome) {
+        this.startBrenduHome = startBrenduHome;
+    }
+
+    private RecyclerView recyclerViewBrendu, recyclerViewNewParfum, recyclerViewSales, recyclerViewFavorites;
     private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBrendu;
     private RecyclerView.Adapter adapterBrendu;
     private Integer[] banner = new Integer[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4};
@@ -52,7 +86,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
     private ExpandableListView expandablePhoneNumber;
     private Integer state = 0;
-    private LinearLayout casheLayout,nisha,probniki;
+    private LinearLayout casheLayout, nisha, probniki;
     private TextView textViewWomen, textViewMen, textViewUnisex, textViewOtzuvu;
     private static final Integer MENID = 984;
     private static final Integer WOMENID = 1112;
@@ -63,28 +97,24 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
     private LoadListData newListData;
     public CountArray countArray;
-    private ViewStub viewStubSales,viewStubNisha, viewStubProbniki;
+    private ViewStub viewStubSales, viewStubNisha, viewStubProbniki;
     private View vFragment;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-         vFragment = inflater.inflate(R.layout.fragment_home, null);
+        vFragment = inflater.inflate(R.layout.fragment_home, null);
 
-//        nisha = (LinearLayout) vFragment.findViewById(R.id.nishaLayout);
-//        probniki = (LinearLayout) vFragment.findViewById(R.id.probnikLayout);
         viewStubNisha = (ViewStub) vFragment.findViewById(R.id.viewStubNisha);
         viewStubProbniki = (ViewStub) vFragment.findViewById(R.id.viewStubProbniki);
         viewStubSales = (ViewStub) vFragment.findViewById(R.id.viewStubSales);
-//        nisha.setVisibility(View.INVISIBLE);
-//        probniki.setVisibility(View.INVISIBLE);
 
         TextView textBrenduAll = (TextView) vFragment.findViewById(R.id.textViewAllBrendu);
         textBrenduAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ViewPager) getActivity().findViewById(R.id.viewpager)).setCurrentItem(1);
+                startBrenduHome.onClickParfumCategory(0);
             }
         });
 
@@ -110,11 +140,28 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         countArray.registerCallBackCount(this);
 
 //view в которые добавляем данные
-        textViewMen = (TextView) vFragment.findViewById(R.id.textViewMen);
-        textViewWomen = (TextView) vFragment.findViewById(R.id.textViewWomen);
-        textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);
-        textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);
+        textViewMen = (TextView) vFragment.findViewById(R.id.textViewMen);//menLayout
+        LinearLayout menLayout = (LinearLayout) vFragment.findViewById(R.id.menLayout);
+        menLayout.setOnClickListener(this);
+        textViewWomen = (TextView) vFragment.findViewById(R.id.textViewWomen);//womenLayout
+        LinearLayout womenLayout = (LinearLayout) vFragment.findViewById(R.id.womenLayout);
+        womenLayout.setOnClickListener(this);
+        textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);//unisexLayout
+        LinearLayout unisexLayout = (LinearLayout) vFragment.findViewById(R.id.unisexLayout);
+        unisexLayout.setOnClickListener(this);
+        textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);//otzuvuLayout
+        LinearLayout otzuvuLayout = (LinearLayout) vFragment.findViewById(R.id.otzuvuLayout);
+        otzuvuLayout.setOnClickListener(this);
 
+        LinearLayout podbor = (LinearLayout) vFragment.findViewById(R.id.pickLayout);
+        podbor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startBrenduHome.onClickPodborStart();
+
+            }
+        });
 
 // Отправляем запросы на получение количества данных
         countArray.Count(sql_count_men, 1);
@@ -175,10 +222,10 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     }
 
     private void addRecyclerViewBrendu(View vFragment) {
-        String sql_string_limit = "SELECT con.id,cv.value,con.pagetitle FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
+        String sql_string_limit = "SELECT con.id as brend_id,con.pagetitle as brend_name, cv.value FROM modx_site_content as con, modx_site_tmplvar_contentvalues as cv WHERE con.parent = 854 and cv.contentid=con.id and cv.tmplvarid=1 ORDER BY rand() Limit 10";
         BrendList brendList = new BrendList(getActivity());
         brendList.registerOnLoadBrendList(this);
-        brendList.load(sql_string_limit);
+        brendList.load(sql_string_limit,7);
         recyclerViewBrendu = (RecyclerView) vFragment.findViewById(R.id.spisokBrend);
         mLayoutManagerBrendu = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewBrendu.setLayoutManager(mLayoutManagerBrendu);
@@ -226,43 +273,49 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     @Override
     public void onCallBackCount(String count, Integer state) {
 
-        switch (state) {
-            case 1:
-                String text = getResources().getString(R.string.men_parfum) + " (" + count + ")";
-                textViewMen.setText(text);
-                break;
+        if (isAdded()) {
 
-            case 2:
-                String text1 = getResources().getString(R.string.women_parfum) + " (" + count + ")";
-                textViewWomen.setText(text1);
-                break;
-            case 3:
-                String text2 = getResources().getString(R.string.unisex_parfum) + " (" + count + ")";
-                textViewUnisex.setText(text2);
-                break;
-            case 4:
-                String otzuvu_count = getResources().getString(R.string.otzuvu) + " (" + count + ")";
-                textViewOtzuvu.setText(otzuvu_count);
-                break;
-            case 5:
-                DialogExitError dialog = new DialogExitError();
-                dialog.show(getActivity().getFragmentManager(), "dlg1");
+            switch (state) {
+                case 1:
+                    String text = getResources().getString(R.string.men_parfum) + " (" + count + ")";
+                    textViewMen.setText(text);
+                    break;
 
-                break;
+                case 2:
+                    String text1 = getResources().getString(R.string.women_parfum) + " (" + count + ")";
+                    textViewWomen.setText(text1);
+                    break;
+                case 3:
+                    String text2 = getResources().getString(R.string.unisex_parfum) + " (" + count + ")";
+                    textViewUnisex.setText(text2);
+                    break;
+                case 4:
+                    String otzuvu_count = getResources().getString(R.string.otzuvu) + " (" + count + ")";
+                    textViewOtzuvu.setText(otzuvu_count);
+                    break;
+                case 5:
+                    DialogExitError dialog = new DialogExitError();
+                    dialog.show(getActivity().getFragmentManager(), "dlg1");
+
+                    break;
+            }
         }
-
     }
 
     @Override
     public void onLoadBrendList(ArrayList<Brendu> brendu) {
 
-        Log.i(MainActivity.LOG_TAG, "brendu =>" + brendu);
         if (brendu != null) {
             adapterBrendu = new AdapterBrendu(brendu);
             recyclerViewBrendu.setAdapter(adapterBrendu);
         } else {
-            Log.d(MainActivity.LOG_TAG, "brendu => null");
+            Log.d(LOG_TAG, "brendu => null");
         }
+    }
+
+    @Override
+    public void onProgress(Integer i, Integer count) {
+
     }
 
     @Override
@@ -274,7 +327,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                     recyclerViewNewParfum.setAdapter(adapterNewParfum);
                     break;
                 case 2:
-                    if (newParfums.size()>0) {
+                    if (newParfums.size() > 0) {
                         viewStubSales.inflate();
                         recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
                         LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -291,7 +344,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                     break;
             }
         } else {
-            Log.d(MainActivity.LOG_TAG, "parfums null");
+            Log.d(LOG_TAG, "parfums null");
         }
     }
 
@@ -330,18 +383,18 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         @Override
         public void onBindViewHolder(BrenduViewHolder holder, final int position) {
             String url_image_brend = "http://s6458.h6.modhost.pro/" + m_brendu.get(position).getValue();
-            Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
+//            Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
             Picasso.with(getContext()).load(url_image_brend).into(holder.image);
-//            holder.image.setImageResource(m_brendu[position]);
             holder.cd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragmentParfum parfum = new DialogFragmentParfum();
+//вызов второго активити с brend
                     Bundle bundle = new Bundle();
-                    bundle.putString("id",m_brendu.get(position).getId());
-                    bundle.putString("name",m_brendu.get(position).getPagetitle());
-                    parfum.setArguments(bundle);
-                    parfum.show(getActivity().getSupportFragmentManager(), "dlg_parfum_list");
+                    bundle.putString("id", m_brendu.get(position).getBrend_id());
+                    bundle.putString("name", m_brendu.get(position).getBrend_name());
+                    bundle.putInt("state", 1);
+                    startBrenduHome.onStartBrenduHome(bundle);
+
                 }
             });
 
@@ -372,10 +425,21 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         }
 
         @Override
-        public void onBindViewHolder(ParfumViewHolder holder, int position) {
+        public void onBindViewHolder(ParfumViewHolder holder, final int position) {
             String url_image_parfum = "http://s6458.h6.modhost.pro/" + newParfums.get(position).getImage();
             Picasso.with(getContext()).load(url_image_parfum).into(holder.imageParfum);
             holder.nameParfum.setText(newParfums.get(position).getPagetitle());
+            holder.cd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", newParfums.get(position).getContentid());
+                    bundle.putString("name", newParfums.get(position).getPagetitle());
+                    bundle.putInt("state", 2);
+                    startBrenduHome.onStartBrenduHome(bundle);
+
+                }
+            });
 
         }
 

@@ -18,8 +18,6 @@
             app:fillColor="@color/colorPrimary"
             app:indicatorMarginVertical="2dp"
             app:pageColor="@color/colorDivider"
-            app:pageTransformInterval="5000"
-            app:pageTransformer="depth"
             app:radius="3dp"
             app:slideInterval="10000"
             app:strokeColor="@color/colorDivider"
@@ -223,7 +221,8 @@
                 android:scrollbarThumbHorizontal="@color/colorNavigationView"
                 android:scrollbars="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewBrendu" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewBrendu"
+                android:layout_marginStart="8dp" />
         </android.support.constraint.ConstraintLayout>
 
         <View
@@ -261,9 +260,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/spisokNovinki"
-                android:layout_width="match_parent"
+                android:layout_width="336dp"
                 android:layout_height="210dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:scrollbarAlwaysDrawHorizontalTrack="true"
@@ -322,7 +321,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/spisokFavorites"
-                android:layout_width="match_parent"
+                android:layout_width="336dp"
                 android:layout_height="210dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
@@ -437,6 +436,7 @@
                 android:paddingLeft="@dimen/fab_margin"
                 android:paddingTop="@dimen/margibTextView"
                 android:text="@string/adress"
+                android:textAllCaps="false"
                 android:textAppearance="@style/MyTextStyle"
                 android:textSize="14sp" />
 
@@ -486,6 +486,9 @@
         </LinearLayout>
 
 
+
     </LinearLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>

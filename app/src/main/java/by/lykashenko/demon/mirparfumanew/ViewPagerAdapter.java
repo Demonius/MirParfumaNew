@@ -36,9 +36,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return mFragmentTitleList.get(position);
         }
 
+        @Override
+        public int getItemPosition(Object object){
+        return POSITION_NONE;
+        }
+
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+        }
+
+        public void updateFragment(Fragment fragment, Integer id){
+
+        mFragmentList.set(id,fragment);
+
+
         }
 
 }

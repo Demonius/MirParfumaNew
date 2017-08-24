@@ -14,10 +14,10 @@
         android:orientation="vertical">
 
         <!--<Button-->
-            <!--android:id="@+id/button2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Click" />-->
+        <!--android:id="@+id/button2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Click" />-->
 
         <ImageView
             android:layout_width="113dp"
@@ -42,5 +42,15 @@
             android:layout_gravity="center_horizontal"
             android:indeterminateDrawable="@drawable/my_progress_bar"
             android:indeterminateOnly="true" />
+
+        <TextView
+            android:id="@+id/textLoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_indicator_margin_horizontal"
+            android:gravity="center"
+            android:textColor="@color/colorFonPrimary"
+            android:textSize="13sp"
+            android:textStyle="italic" />
     </LinearLayout>
 </LinearLayout>

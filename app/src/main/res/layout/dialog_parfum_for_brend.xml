@@ -7,58 +7,58 @@
     android:background="#989595"
     android:theme="@style/AppTheme.NoActionBar">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appBarLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
 
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingRight="16dp">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingRight="16dp">-->
 
-                <ImageView
-                    android:id="@+id/image_back_parfumlist"
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/image_back_parfumlist"-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />-->
 
-                <TextView
-                    android:id="@+id/nameBrend"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="center"
-                    android:text="@string/about"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                <!--<TextView-->
+                    <!--android:id="@+id/nameBrend"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="10"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="@string/about"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Title" />-->
 
-                <ImageView
-                    android:id="@+id/imageLogin"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_client_1" />
-            </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageLogin"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:src="@drawable/ic_client_1" />-->
+            <!--</LinearLayout>-->
 
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        <!--</android.support.v7.widget.Toolbar>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
 
     <ImageButton
         android:id="@+id/changeAdapter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
@@ -75,109 +75,109 @@
         android:paddingTop="5dp"
       />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="65dp"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:orientation="horizontal">-->
 
-        <LinearLayout
-            android:id="@+id/linearHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearHome"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_home" />
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:src="@drawable/ic_home" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:paddingTop="5dp"
-                android:text="@string/home"
-                android:textAlignment="center"
-                android:textColor="@color/colorFonPrimary"
-                android:textSize="@dimen/tab_label" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@string/font_fontFamily_medium"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:text="@string/home"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/colorFonPrimary"-->
+                <!--android:textSize="@dimen/tab_label" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/linearSearch"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearSearch"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_search" />
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:src="@drawable/ic_search" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:paddingTop="5dp"
-                android:text="@string/search"
-                android:textAlignment="center"
-                android:textColor="@color/colorFonPrimary"
-                android:textSize="@dimen/tab_label" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@string/font_fontFamily_medium"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:text="@string/search"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/colorFonPrimary"-->
+                <!--android:textSize="@dimen/tab_label" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/linearFavorites"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearFavorites"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_favorite" />
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:src="@drawable/ic_favorite" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:paddingTop="5dp"
-                android:text="@string/favorites"
-                android:textAlignment="center"
-                android:textColor="@color/colorFonPrimary"
-                android:textSize="@dimen/tab_label" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@string/font_fontFamily_medium"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:text="@string/favorites"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/colorFonPrimary"-->
+                <!--android:textSize="@dimen/tab_label" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/linearTrash"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearTrash"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_trash" />
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:src="@drawable/ic_trash" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:paddingTop="5dp"
-                android:text="@string/trash"
-                android:textAlignment="center"
-                android:textColor="@color/colorFonPrimary"
-                android:textSize="@dimen/tab_label" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@string/font_fontFamily_medium"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:text="@string/trash"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/colorFonPrimary"-->
+                <!--android:textSize="@dimen/tab_label" />-->
+        <!--</LinearLayout>-->
 
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 </LinearLayout>

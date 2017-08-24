@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<ImageView
-    android:id="@+id/imageEmpty"
-    android:layout_width="match_parent"
-    android:layout_height="180dp"
-    />
+
+
+    <ImageView
+        android:id="@+id/imageEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="180dp" />
 
 
     <TextView
         android:id="@+id/textViewTopEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:paddingTop="56dp"
+        android:textAlignment="center"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewBotomEmpty"
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:textAlignment="center"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnEmpty"
@@ -35,8 +36,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="20dp"
-        android:textAllCaps="false"
         android:background="@drawable/button_ramka"
+        android:textAllCaps="false"
         android:textSize="16sp" />
 
 </LinearLayout>
