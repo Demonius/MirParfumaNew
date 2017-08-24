@@ -171,7 +171,7 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
 					"ltrim(substring(con.pagetitle,(char_length(substring_index(con.pagetitle,' ',2))+1)))as pagetitle" +
 					" FROM modx_site_content as con,modx_site_tmplvar_contentvalues as val," +
 					"(SELECT val.contentid FROM modx_site_content as con, modx_site_tmplvar_contentvalues " +
-					"as val where con.id=" + id + " and val.value like concat('%',con.pagetitle,'%'))as idp where " +
+					"as val where con.id=" + id + " and val.value like concat(con.pagetitle,'%') group by contentid)as idp where " +
 					"val.contentid=idp.contentid and con.id=idp.contentid and (val.tmplvarid = 76 " +
 					"or val.tmplvarid = 1) order by val.contentid ASC";
 
