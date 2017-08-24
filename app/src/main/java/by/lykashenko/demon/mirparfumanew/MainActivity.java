@@ -17,7 +17,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,19 +26,14 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.mancj.slideup.SlideUp;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +53,6 @@ import by.lykashenko.demon.mirparfumanew.Fragments.Home;
 import by.lykashenko.demon.mirparfumanew.Fragments.Search;
 import by.lykashenko.demon.mirparfumanew.Fragments.Trash;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
-import by.lykashenko.demon.mirparfumanew.Table.Favorites;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener,
