@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    android:id="@+id/cardViewNewParfum"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="200dp"
-                                    android:layout_marginRight="10dp"
-                                    app:cardCornerRadius="5dp"
-                                    app:cardElevation="5dp"
-                                    app:contentPadding="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewNewParfum"
+    android:layout_width="80dp"
+    android:layout_height="105dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="1dp">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <ImageView
-      android:id="@+id/imageParfum"
-      android:layout_width="120dp"
-      android:layout_height="match_parent"
-      android:layout_weight="1"
-      app:srcCompat="@android:color/background_dark"/>
+        <ImageView
+            android:id="@+id/imageParfum"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@android:color/background_dark" />
 
-    <TextView
-      android:id="@+id/nameParfum"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_weight="2"
-      android:paddingTop="10dp"
-      android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/nameParfum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="12345678901234567890124"
+            android:maxLines="2"
+            android:textSize="@dimen/text_size_card_name_parfum"
+            android:textAlignment="center" />
 
-  </LinearLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>

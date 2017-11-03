@@ -1,6 +1,13 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -13,6 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,7 +41,10 @@ import java.util.Map;
 
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.NewParfum;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.AboutDialogFragment;
 import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.DialogExitError;
+import by.lykashenko.demon.mirparfumanew.Fragments.Dialogs.OtzuvuDialogFragment;
+import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountArray;
@@ -58,7 +72,10 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                 startBrenduHome.onClickParfumCategory(3);
                 break;
             case R.id.otzuvuLayout:
+                new OtzuvuDialogFragment().show(getFragmentManager(),"otzuvu");
                 break;
+            case R.id.banner_dostavka:
+                new AboutDialogFragment().show(getFragmentManager(),"about");
 
         }
     }
@@ -82,18 +99,15 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private RecyclerView.Adapter adapterBrendu;
     private Integer[] banner = new Integer[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4};
     private ArrayList<Brendu> brendu;
-    private String[] mGroupsArrayCall = new String[]{"+375 29 157-57-05"};
-    private String[] mCallOther = new String[]{"+375 29 864-35-73", "+375 25 938-71-09"};
-    private ExpandableListView expandablePhoneNumber;
-    private Integer state = 0;
-    private LinearLayout casheLayout, nisha, probniki;
+    private LinearLayout nisha;
+    private LinearLayout probniki;
     private TextView textViewWomen, textViewMen, textViewUnisex, textViewOtzuvu;
     private static final Integer MENID = 984;
     private static final Integer WOMENID = 1112;
-    private String sql_count_women = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"женский\"";
-    private String sql_count_men = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"мужской\"";
+    private String sql_count_women = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"женщин\"";
+    private String sql_count_men = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"мужчин\"";
     private String sql_count_unisex = "SELECT count(1) FROM modx_site_tmplvar_contentvalues where tmplvarid = 67 and value=\"унисекс\"";
-    public static String sql_count_otzuvu = "SELECT count(1) FROM `modx_tickets_comments` where thread = 27969 and createdby=0 and editedby=0";
+    public static String sql_count_otzuvu = "SELECT count(1) FROM `modx_tickets_comments` where thread = 27969 and createdby=0 and published=1";
     private RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
     private LoadListData newListData;
     public CountArray countArray;
@@ -106,11 +120,11 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         vFragment = inflater.inflate(R.layout.fragment_home, null);
 
-        viewStubNisha = (ViewStub) vFragment.findViewById(R.id.viewStubNisha);
-        viewStubProbniki = (ViewStub) vFragment.findViewById(R.id.viewStubProbniki);
-        viewStubSales = (ViewStub) vFragment.findViewById(R.id.viewStubSales);
+        viewStubNisha = vFragment.findViewById(R.id.viewStubNisha);
+        viewStubProbniki = vFragment.findViewById(R.id.viewStubProbniki);
+        viewStubSales = vFragment.findViewById(R.id.viewStubSales);
 
-        TextView textBrenduAll = (TextView) vFragment.findViewById(R.id.textViewAllBrendu);
+        TextView textBrenduAll = vFragment.findViewById(R.id.textViewAllBrendu);
         textBrenduAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +132,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
             }
         });
 
-        CarouselView carouselView = (CarouselView) vFragment.findViewById(R.id.carouselView);
+        CarouselView carouselView = vFragment.findViewById(R.id.carouselView);
         carouselView.setPageCount(banner.length);
 
         carouselView.setImageListener(new ImageListener() {
@@ -140,20 +154,20 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         countArray.registerCallBackCount(this);
 
 //view в которые добавляем данные
-        textViewMen = (TextView) vFragment.findViewById(R.id.textViewMen);//menLayout
-        LinearLayout menLayout = (LinearLayout) vFragment.findViewById(R.id.menLayout);
+        textViewMen = vFragment.findViewById(R.id.textViewMen);//menLayout
+        LinearLayout menLayout = vFragment.findViewById(R.id.menLayout);
         menLayout.setOnClickListener(this);
-        textViewWomen = (TextView) vFragment.findViewById(R.id.textViewWomen);//womenLayout
-        LinearLayout womenLayout = (LinearLayout) vFragment.findViewById(R.id.womenLayout);
+        textViewWomen = vFragment.findViewById(R.id.textViewWomen);//womenLayout
+        LinearLayout womenLayout = vFragment.findViewById(R.id.womenLayout);
         womenLayout.setOnClickListener(this);
-        textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);//unisexLayout
-        LinearLayout unisexLayout = (LinearLayout) vFragment.findViewById(R.id.unisexLayout);
+        textViewUnisex = vFragment.findViewById(R.id.textViewUnisex);//unisexLayout
+        LinearLayout unisexLayout = vFragment.findViewById(R.id.unisexLayout);
         unisexLayout.setOnClickListener(this);
-        textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);//otzuvuLayout
-        LinearLayout otzuvuLayout = (LinearLayout) vFragment.findViewById(R.id.otzuvuLayout);
+        textViewOtzuvu = vFragment.findViewById(R.id.textViewOtzuvuHome);//otzuvuLayout
+        LinearLayout otzuvuLayout = vFragment.findViewById(R.id.otzuvuLayout);
         otzuvuLayout.setOnClickListener(this);
 
-        LinearLayout podbor = (LinearLayout) vFragment.findViewById(R.id.pickLayout);
+        LinearLayout podbor = vFragment.findViewById(R.id.pickLayout);
         podbor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,14 +184,16 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         countArray.Count(sql_count_otzuvu, 4);
 
 // Доставка и оплата
-        casheLayout = (LinearLayout) vFragment.findViewById(R.id.casheLayout);
-
+        LinearLayout casheLayout = vFragment.findViewById(R.id.casheLayout);
         casheLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new AboutDialogFragment().show(getFragmentManager(),"about");
             }
         });
+
+        ImageView imageDostavka = vFragment.findViewById(R.id.banner_dostavka);
+        imageDostavka.setOnClickListener(this);
 
         //номера телефонов для связи
         addContactPhoneNumber(vFragment);
@@ -200,7 +216,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private void addRecyclerViewFavorites(View vFragment) {
         String sql_string_favorites = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46870%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_favorites, 3);
-        recyclerViewFavorites = (RecyclerView) vFragment.findViewById(R.id.spisokFavorites);
+        recyclerViewFavorites = vFragment.findViewById(R.id.spisokFavorites);
         LinearLayoutManager mLayoutManagerFavorites = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewFavorites.setLayoutManager(mLayoutManagerFavorites);
         recyclerViewFavorites.setItemAnimator(itemAnimator);
@@ -215,7 +231,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private void addRecyclerViewNovinki(View vFragment) {
         String sql_string_new = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46869%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_new, 1);
-        recyclerViewNewParfum = (RecyclerView) vFragment.findViewById(R.id.spisokNovinki);
+        recyclerViewNewParfum = vFragment.findViewById(R.id.spisokNovinki);
         LinearLayoutManager mLayoutManagerNewParfum = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewNewParfum.setLayoutManager(mLayoutManagerNewParfum);
         recyclerViewNewParfum.setItemAnimator(itemAnimator);
@@ -226,46 +242,124 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         BrendList brendList = new BrendList(getActivity());
         brendList.registerOnLoadBrendList(this);
         brendList.load(sql_string_limit,7);
-        recyclerViewBrendu = (RecyclerView) vFragment.findViewById(R.id.spisokBrend);
+        recyclerViewBrendu = vFragment.findViewById(R.id.spisokBrend);
         mLayoutManagerBrendu = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewBrendu.setLayoutManager(mLayoutManagerBrendu);
         recyclerViewBrendu.setItemAnimator(itemAnimator);
     }
 
-    private void addContactPhoneNumber(View vFragment) {
-        ArrayList<Map<String, String>> listDataHeader = new ArrayList<Map<String, String>>();
-        ArrayList<ArrayList<Map<String, String>>> listDataChild = new ArrayList<ArrayList<Map<String, String>>>();
-        //заголовки
-        Map<String, String> m = new HashMap<String, String>();
-        m.put("groupName", mGroupsArrayCall[0]);
-        listDataHeader.add(m);
-        // список атрибутов групп для чтения
-        String groupFrom[] = new String[]{"groupName"};
-        // список ID view-элементов, в которые будет помещены атрибуты групп
-        int groupTo[] = new int[]{R.id.textViewGroupList};
-        //список
-        ArrayList<Map<String, String>> number = new ArrayList<Map<String, String>>();
-        Map<String, String> mChild = new HashMap<String, String>();
-        mChild.put("phoneNumber", mCallOther[0]);
-        number.add(mChild);
-        mChild.put("phoneNumber", mCallOther[1]);
-        number.add(mChild);
-        listDataChild.add(number);
-        // список атрибутов элементов для чтения
-        String childFrom[] = new String[]{"phoneNumber"};
-        // список ID view-элементов, в которые будет помещены атрибуты элементов
-        int childTo[] = new int[]{R.id.textViewChildGroup};
-        SimpleExpandableListAdapter adapterExpandable = new SimpleExpandableListAdapter(getContext(),
-                listDataHeader,
-                R.layout.group_name,
-                groupFrom,
-                groupTo,
-                listDataChild,
-                R.layout.child_group_name,
-                childFrom,
-                childTo);
-        expandablePhoneNumber = (ExpandableListView) vFragment.findViewById(R.id.expandablePhoneNumberHome);
-        expandablePhoneNumber.setAdapter(adapterExpandable);
+    private void addContactPhoneNumber(final View vFragment) {
+        final LinearLayout block_number = vFragment.findViewById(R.id.block_phone_call);
+        final View layout = LayoutInflater.from(getContext()).inflate(R.layout.add_two_number, null);
+
+        final ImageView imageArrowUpDown = vFragment.findViewById(R.id.image_arrow);
+
+        final TextView textNumberVelcom = vFragment.findViewById(R.id.number_velcom);
+
+        textNumberVelcom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.velcom)));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 100);
+                    }
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.velcom)));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        final Animation animImageDown = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        final Animation animImageUp = new RotateAnimation(180f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animImageDown.setInterpolator(new LinearInterpolator());
+        animImageUp.setInterpolator(new LinearInterpolator());
+        animImageDown.setDuration(300);
+        animImageDown.setFillEnabled(true);
+        animImageUp.setFillEnabled(true);
+        animImageUp.setDuration(300);
+
+        imageArrowUpDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (block_number.getChildCount() == 1) {
+                    Animation animatedUp = new ScaleAnimation(1f, 1f,
+                            0f, 1f,
+                            Animation.RELATIVE_TO_PARENT, 0f,
+                            Animation.RELATIVE_TO_PARENT, 0f);
+                    animatedUp.setDuration(300);
+                    layout.setAnimation(animatedUp);
+                    block_number.addView(layout);
+                    //animated image
+                    animImageDown.setFillAfter(true);
+                    imageArrowUpDown.startAnimation(animImageDown);
+
+                    TextView textNumberMTS = vFragment.findViewById(R.id.number_mts);
+                    TextView textNumberLife = vFragment.findViewById(R.id.number_life);
+
+                    textNumberMTS.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.mts)));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+
+                                } else {
+                                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 200);
+                                }
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.mts)));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+                    textNumberLife.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.life)));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+
+                                } else {
+                                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 200);
+                                }
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getResources().getString(R.string.life)));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Animation animatedDown = new ScaleAnimation(
+                            1f, 1f,
+                            1f, 0f,
+                            Animation.RELATIVE_TO_PARENT, 0f,
+                            Animation.RELATIVE_TO_PARENT, 0f);
+                    animatedDown.setDuration(300);
+                    layout.setAnimation(animatedDown);
+                    block_number.removeView(layout);
+                    //animated image
+                    animImageUp.setFillAfter(true);
+                    imageArrowUpDown.startAnimation(animImageUp);
+
+                }
+            }
+        });
     }
 
     //INTERFACE CALLBACK
@@ -329,7 +423,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                 case 2:
                     if (newParfums.size() > 0) {
                         viewStubSales.inflate();
-                        recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
+                        recyclerViewSales = vFragment.findViewById(R.id.spisokSales);
                         LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         recyclerViewSales.setLayoutManager(mLayoutManagerSales);
                         recyclerViewSales.setItemAnimator(itemAnimator);
@@ -366,8 +460,8 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
             public BrenduViewHolder(View itemView) {
                 super(itemView);
 
-                cd = (CardView) itemView.findViewById(R.id.card_brendu);
-                image = (ImageView) itemView.findViewById(R.id.imageViewBrendu);
+                cd = itemView.findViewById(R.id.card_brendu);
+                image = itemView.findViewById(R.id.imageViewBrendu);
 
 
             }
@@ -382,7 +476,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         @Override
         public void onBindViewHolder(BrenduViewHolder holder, final int position) {
-            String url_image_brend = "http://s6458.h6.modhost.pro/" + m_brendu.get(position).getValue();
+            String url_image_brend = MainActivity.URL + m_brendu.get(position).getValue();
 //            Log.i(MainActivity.LOG_TAG, "brend image => " + url_image_brend);
             Picasso.with(getContext()).load(url_image_brend).into(holder.image);
             holder.cd.setOnClickListener(new View.OnClickListener() {
@@ -426,9 +520,16 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         @Override
         public void onBindViewHolder(ParfumViewHolder holder, final int position) {
-            String url_image_parfum = "http://s6458.h6.modhost.pro/" + newParfums.get(position).getImage();
+            String name_parfum = "";
+            String url_image_parfum = MainActivity.URL + newParfums.get(position).getImage();
             Picasso.with(getContext()).load(url_image_parfum).into(holder.imageParfum);
-            holder.nameParfum.setText(newParfums.get(position).getPagetitle());
+            String text_parfum = newParfums.get(position).getPagetitle().substring(15,newParfums.get(position).getPagetitle().length());
+            if (text_parfum.length()>30){
+            name_parfum = text_parfum.substring(0,26)+"...";
+            }else{
+                name_parfum = text_parfum;
+            }
+            holder.nameParfum.setText(name_parfum);
             holder.cd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -456,9 +557,9 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
             public ParfumViewHolder(View itemView) {
                 super(itemView);
-                cd = (CardView) itemView.findViewById(R.id.cardViewNewParfum);
-                imageParfum = (ImageView) itemView.findViewById(R.id.imageParfum);
-                nameParfum = (TextView) itemView.findViewById(R.id.nameParfum);
+                cd = itemView.findViewById(R.id.cardViewNewParfum);
+                imageParfum = itemView.findViewById(R.id.imageParfum);
+                nameParfum = itemView.findViewById(R.id.nameParfum);
             }
         }
     }

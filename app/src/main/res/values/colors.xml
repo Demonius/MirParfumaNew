@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#B82769</color>
-    <color name="colorPrimaryDark">#B82769</color>
+    <color name="colorPrimaryDark">#aa2769</color>
     <color name="colorAccent">#EC1468</color>
     <color name="colorNavigationView">#34323a</color>
     <color name="colorFonPrimary">#f8f1ed</color>
     <color name="colorFonSecond">#FFDCC6</color>
     <color name="colorDivider">#666666</color>
+    <color name="colorTextOtzuvu">#cd000000</color>
     <color name="background_add_favorites">#adadad</color>
+    <color name="colorTabSelected">#EC1468</color>
 </resources>

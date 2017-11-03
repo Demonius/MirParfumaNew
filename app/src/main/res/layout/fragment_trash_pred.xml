@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_post" />
+                    android:src="@drawable/ic_post_mail" />
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_marginLeft="12dp"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_cyrer" />
+                    android:src="@drawable/ic_kyrer" />
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_marginLeft="12dp"

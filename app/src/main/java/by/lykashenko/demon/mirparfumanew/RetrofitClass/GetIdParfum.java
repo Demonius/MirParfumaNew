@@ -14,6 +14,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+
 /**
  * Created by demon on 24.05.2017.
  */
@@ -42,22 +44,30 @@ public class GetIdParfum {
 			@Override
 			public void onResponse(Call<ArrayList<IdParfum>> call, Response<ArrayList<IdParfum>> response) {
 				if (response!=null){
-					Log.i(MainActivity.LOG_TAG,"idparfum answer code => "+response.code()+"| message => "+response.message());
+					Log.i(LOG_TAG,"idparfum answer code => "+response.code()+"| message => "+response.message());
 					if (response.code()==200) {
+						ArrayList<IdParfum> parfums = response.body();
+
+						if (parfums != null) {
+							Log.i(LOG_TAG,"count id parfum => "+parfums.size() );
+						}else{
+							Log.e(LOG_TAG,"count id parfum => "+null );
+
+						}
 						try {
 							onLoadIdParfum.onLoadIdParfum(response.body());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}else{
-						Log.e(MainActivity.LOG_TAG,"error answer server via load id parfum");
+						Log.e(LOG_TAG,"error answer server via load id parfum");
 					}
 				}
 			}
 
 			@Override
 			public void onFailure(Call<ArrayList<IdParfum>> call, Throwable t) {
-				Log.e(MainActivity.LOG_TAG,"error answer with error_text => "+t.getMessage());
+				Log.e(LOG_TAG,"error answer with error_text => "+t.getMessage());
 			}
 		});
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="170dp"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
@@ -35,11 +36,16 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/spisokSales"
             android:layout_width="match_parent"
-            android:layout_height="210dp"
+            android:layout_height="115dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-
             android:layout_marginTop="16dp"
+            android:fadeScrollbars="false"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarSize="3dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbarThumbHorizontal="@drawable/gripper"
+            android:scrollbars="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewSales" />
     </android.support.constraint.ConstraintLayout>

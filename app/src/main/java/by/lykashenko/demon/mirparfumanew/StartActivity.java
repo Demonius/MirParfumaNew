@@ -95,20 +95,7 @@ private TextView textLoad;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Configuration dbConfiguration = new Configuration.Builder(this).setDatabaseName("Parfum.db").
-                setModelClasses(Favorites.class,
-                        by.lykashenko.demon.mirparfumanew.Table.Trash.class,
-                        BrenduCount.class,
-                        Type.class,
-                        Year.class,
-                        Country.class,
-                        ListParfum.class,
-                        BrenduAll.class,
-                        ForTable.class,
-                        Nota.class,
-                        Semeistvo.class).create();
-        ActiveAndroid.initialize(dbConfiguration);
-        textLoad = (TextView) findViewById(R.id.textLoad);
+        textLoad = findViewById(R.id.textLoad);
         SharedPreferences sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
         Integer load = sharedPreferences.getInt("state",0);
         if (load == 0){

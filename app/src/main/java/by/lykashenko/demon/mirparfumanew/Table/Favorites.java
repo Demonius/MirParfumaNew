@@ -1,10 +1,16 @@
 package by.lykashenko.demon.mirparfumanew.Table;
 
+import android.util.Log;
+
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
-import by.lykashenko.demon.mirparfumanew.Fragments.Favorite;
+import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+
 
 /**
  * Created by demon on 13.06.2017.
@@ -41,5 +47,37 @@ public class Favorites extends Model {
         this.ratting_parfum = ratting_parfum;
         this.cena_for = cena_for;
         this.cena_parfum = cena_parfum;
+    }
+
+    public static Boolean isFavorites(String id){
+        Favorites favorite;
+        Boolean state = false;
+        ActiveAndroid.beginTransaction();
+        try{
+            favorite = new Select().from(Favorites.class).where("id_parfum = ?",id).executeSingle();
+            if (favorite.getId()>0){
+                state = true;
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        catch (NullPointerException error){
+            state = false;
+//            Log.e(LOG_TAG, "no data to table \'Favorites\'");
+        }
+
+        finally {
+            ActiveAndroid.endTransaction();
+        }
+        return state;
+    }
+
+    public static void deleteFromFavorites(String id) {
+        ActiveAndroid.beginTransaction();
+        try{
+            new Delete().from(Favorites.class).where("id_parfum = ?", id).execute();
+            ActiveAndroid.setTransactionSuccessful();
+        }finally {
+            ActiveAndroid.endTransaction();
+        }
     }
 }

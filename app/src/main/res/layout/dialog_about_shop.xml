@@ -11,43 +11,60 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-
+            android:id="@+id/toolbar_shop_about"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_horizontal"
             android:background="?attr/colorPrimary"
+            android:gravity="center_horizontal"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/arrow_left"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageView
-                android:id="@+id/image_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_trash"/>
-
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginRight="58dp"
                 android:text="@string/about"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="@dimen/text_size_toolbar_title"
+                 />
 
         </android.support.v7.widget.Toolbar>
 
 
     </android.support.design.widget.AppBarLayout>
+
     <ImageView
 
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:src="@drawable/about_shop"
-        />
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/about_shop" />
 
     <TextView
         android:id="@+id/textAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="12dp"
         android:scrollbars="vertical"
-        android:padding="@dimen/activity_horizontal_margin" />
+        android:text="@string/about_shop_title_text"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textAboutFor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="14dp"
+
+        android:layout_marginRight="14dp"
+        android:text="@string/about_shop_text"
+        android:textSize="13dp" />
 </LinearLayout>

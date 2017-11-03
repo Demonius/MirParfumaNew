@@ -1,7 +1,9 @@
 package by.lykashenko.demon.mirparfumanew.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import by.lykashenko.demon.mirparfumanew.R;
+import by.lykashenko.demon.mirparfumanew.Table.Favorites;
+
+import static by.lykashenko.demon.mirparfumanew.MainActivity.message_add_favorites;
 
 /**
  * Created by Admin on 13.06.17.
@@ -23,14 +28,14 @@ import by.lykashenko.demon.mirparfumanew.R;
 
 public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.ParfumViewHolder> {
 
-    public interface ClickParfum{
+    public interface ClickParfum {
         void onClickParfum(Bundle bundle);
     }
 
     private ClickParfum clickParfum;
 
-    public void registerClickParfum(ClickParfum clickParfum){
-        this.clickParfum=clickParfum;
+    public void registerClickParfum(ClickParfum clickParfum) {
+        this.clickParfum = clickParfum;
     }
 
     private ArrayList<ParfumCollection> parfumCollections;
@@ -39,8 +44,8 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
 
     public AdapterParfumView(ArrayList<ParfumCollection> parfumCollections, Context context, Integer state) {
         this.parfumCollections = parfumCollections;
-        this.context=context;
-        this.state=state;
+        this.context = context;
+        this.state = state;
 
     }
 
@@ -50,17 +55,19 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
         TextView nameParfum, priceParfum, priceFor;
         RatingBar ratingParfum;
         CardView cv;
+        ImageView fState;
 
         public ParfumViewHolder(View itemView) {
 
             super(itemView);
 
-            cv = (CardView) itemView.findViewById(R.id.cardViewParfum);
-            imageParfum = (ImageView) itemView.findViewById(R.id.imageParfumCatalog);
-            nameParfum = (TextView) itemView.findViewById(R.id.nameParfumCatalog);
-            priceFor = (TextView) itemView.findViewById(R.id.cenaFor);
-            priceParfum = (TextView) itemView.findViewById(R.id.priceParfumMin);
-            ratingParfum = (RatingBar) itemView.findViewById(R.id.ratingBarParfum);
+            cv = itemView.findViewById(R.id.cardViewParfum);
+            imageParfum = itemView.findViewById(R.id.imageParfumCatalog);
+            nameParfum = itemView.findViewById(R.id.nameParfumCatalog);
+            priceFor = itemView.findViewById(R.id.cenaFor);
+            priceParfum = itemView.findViewById(R.id.priceParfumMin);
+            ratingParfum = itemView.findViewById(R.id.ratingBarParfum);
+            fState = itemView.findViewById(R.id.image_favorite_state);
             ratingParfum.setNumStars(5);
             ratingParfum.isIndicator();
 
@@ -86,15 +93,33 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
         Picasso.with(context).load(url_image_brend).into(holder.imageParfum);
         holder.nameParfum.setText(parfumCollections.get(position).getNameParfum());
         String priceParfum = parfumCollections.get(position).getCenaParfum();
-        if(priceParfum.equals(context.getResources().getString(R.string.no_parfum))){
-            holder.priceParfum.setTextSize(22);
-        }else{
-            holder.priceParfum.setTextSize(25);
 
+        if (Favorites.isFavorites(parfumCollections.get(position).getIdParfum())) {
+            holder.fState.setVisibility(View.VISIBLE);
+            holder.fState.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Favorites.deleteFromFavorites(parfumCollections.get(position).getIdParfum());
+                    Intent serviceStartedIntent = new Intent(message_add_favorites);
+                    serviceStartedIntent.putExtra("update", 2);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(serviceStartedIntent);
+                }
+            });
+        } else {
+            holder.fState.setVisibility(View.INVISIBLE);
         }
+
+
+//        if(priceParfum.equals(context.getResources().getString(R.string.no_parfum))){
+//            holder.priceParfum.setTextSize(17);
+//        }else{
+//            holder.priceParfum.setTextSize(17);
+//
+//        }
         holder.priceParfum.setText(priceParfum);
-        if (parfumCollections.get(position).getCenaFor()!="0"){
-        holder.priceFor.setText(parfumCollections.get(position).getCenaFor());}
+        if (parfumCollections.get(position).getCenaFor() != "0") {
+            holder.priceFor.setText(parfumCollections.get(position).getCenaFor());
+        }
         holder.ratingParfum.setRating((float) parfumCollections.get(position).getReatingParfum());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {

@@ -10,11 +10,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_info"
 
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/arrow_left"
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -23,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/info"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_marginRight="58dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/text_size_toolbar_title"/>
 
 
     </android.support.v7.widget.Toolbar>

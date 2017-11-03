@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import at.blogc.android.views.ExpandableTextView;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Parfum;
 import by.lykashenko.demon.mirparfumanew.Adapters.CenaParfum;
+import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.CountOtzuvuParfum;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetFullInfoOfParfum;
@@ -300,7 +301,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
                     switch (oneParfum.getTmplvarid()) {
                         case "1":
-                            String image = "http://s6458.h6.modhost.pro/" + oneParfum.getValue();
+                            String image = MainActivity.URL + oneParfum.getValue();
                             imageList = new String[]{image};
                             imageParfum.setPageCount(imageList.length);
                             break;
@@ -457,7 +458,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         List<by.lykashenko.demon.mirparfumanew.Table.Trash> trash = new Select().from(Trash.class).where("id_parfum =?", id).execute();
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
-        Log.d(LOG_TAG, "есть в корзине" + trash.size());
+        Log.d(LOG_TAG, "есть в корзине " + trash.size());
         if (trash.size() > 0) {
             return true;
         } else {

@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tab"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/image_tab"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="IMAGE"
+        app:layout_constraintBottom_toTopOf="@+id/text_tab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-
-
-    <LinearLayout
-        android:id="@+id/layot_tab"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/text_tab"
         android:layout_width="wrap_content"
-        android:gravity="center" >
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="@string/search"
+        android:textAlignment="center"
+        android:textColor="@color/colorFonPrimary"
+        android:textSize="@dimen/tab_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_tab"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/image_tab"
+        app:layout_constraintTop_toBottomOf="@+id/image_tab" />
 
-
-
-        <ImageView
-            android:id="@+id/image_tab"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="IMAGE" />
-
-        <TextView
-            android:id="@+id/text_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:text="@string/search"
-            android:textAlignment="center"
-            android:textColor="@color/colorFonPrimary"
-            android:textSize="@dimen/tab_label" />
-    </LinearLayout>
     <TextView
         android:id="@+id/widget_counter"
-        android:layout_width="18dip"
-        android:layout_height="18dip"
-        android:layout_alignBottom="@+id/layot_tab"
-        android:layout_alignLeft="@+id/layot_tab"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="27dp"
-        android:layout_marginLeft="30dp"
         android:background="@android:drawable/ic_notification_overlay"
         android:gravity="center"
+        android:layout_marginBottom="9dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
         android:maxLines="1"
         android:shadowColor="#ff000000"
         android:shadowRadius="1.0"
+        android:text="0"
         android:textColor="#ffffffff"
-        android:textSize="8dip" />
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_tab"
+        app:layout_constraintStart_toStartOf="@+id/image_tab" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

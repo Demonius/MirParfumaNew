@@ -1,0 +1,18 @@
+<resources>
+    <dimen name="tab_label">9sp</dimen>
+
+
+    <dimen name="text_size_title">13sp</dimen>
+    <dimen name="text_size_subtitle">11sp</dimen>
+    <dimen name="text_size_toolbar_title">17sp</dimen>
+
+    <dimen name="text_size_otzuv_administrator">15sp</dimen>
+    <dimen name="text_size_client_otzuv">14sp</dimen>
+    <dimen name="text_size_date_client_otzuv">13sp</dimen>
+    <dimen name="text_size_name_client_otzuv">17sp</dimen>
+
+    <dimen name="text_size_card_name_parfum">9sp</dimen>
+
+    <dimen name="text_size_search_input">15sp</dimen>
+
+</resources>

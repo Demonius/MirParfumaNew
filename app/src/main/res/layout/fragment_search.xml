@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/layoutSearch"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorFonPrimary">
+    android:background="#FFDCC6"
+    android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/brendsearch"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:drawableLeft="@drawable/search_icon"
-        android:drawablePadding="5dp"
-        android:hint="@string/search_hint"
-        android:imeOptions="actionSearch"
-        android:textStyle="italic" />
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="5dp">
+
+        <EditText
+            android:id="@+id/brendsearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="5dp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:paddingRight="15dp"
+            android:textSize="@dimen/text_size_search_input"
+            android:textStyle="italic" />
+
+        <ImageView
+            android:id="@+id/imageViewClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic__clear"
+            android:visibility="invisible" />
+    </android.support.v7.widget.CardView>
 
     <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
         android:id="@+id/brendSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:layout_below="@+id/brendsearch"
-        android:layout_alignParentBottom="true"/>
-
-    <ImageView
-        android:id="@+id/imageViewClear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/brendsearch"
-        android:layout_alignRight="@+id/brendsearch"
-        android:layout_alignTop="@+id/brendsearch"
-        android:layout_marginTop="1dp"
-        android:visibility="invisible"
-        app:srcCompat="@android:drawable/ic_delete" />
+        android:layout_alignParentBottom="true"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        android:layout_below="@+id/card"
+        android:background="@color/colorFonPrimary"/>
 
 
 </RelativeLayout>

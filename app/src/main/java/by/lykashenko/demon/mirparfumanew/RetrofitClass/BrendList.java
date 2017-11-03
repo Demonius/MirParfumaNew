@@ -190,44 +190,8 @@ public class BrendList {
         protected Integer doInBackground(ArrayList<Brendu>... params) {
             for (int i = 0; i < params[0].size(); i++) {
                 Brendu brend = params[0].get(i);
-                BrenduAll brenduAll = new BrenduAll(brend.getBrend_id(), brend.getBrend_name(), brend.getParfum_id(), brend.getValue(), brend.getSex(), true);
-                brenduAll.save();
+               new BrenduAll(brend.getBrend_id(), brend.getBrend_name(), brend.getParfum_id(), brend.getValue(), brend.getSex(), true).save();
                 publishProgress(i, params[0].size());
-            }
-            int count = 1;
-            for (int i = 0; i < params[0].size() - 1; i++) {
-                if (params[0].get(i).getBrend_id().equals(params[0].get(i + 1).getBrend_id())) {
-//                    Log.d(LOG_TAG,"равенство: "+params[0].get(i).getBrend_id()+" <=> "+params[0].get(i + 1).getBrend_id());
-                    count++;
-                    if (i == (params[0].size() - 1)) {
-                        BrenduCount brenduCount = new BrenduCount();
-                        brenduCount.id_brend = params[0].get(i).getBrend_id();
-                        brenduCount.name = params[0].get(i).getBrend_name();
-                        brenduCount.count = count;
-                        brenduCount.check = true;
-                        brenduCount.save();
-//                        Log.e(LOG_TAG, "count => "+count);
-                    }
-                } else {
-                    if ((params[0].size() - i) == 2) {
-                        BrenduCount brenduCount = new BrenduCount();
-                        brenduCount.id_brend = params[0].get(i + 1).getBrend_id();
-                        brenduCount.name = params[0].get(i + 1).getBrend_name();
-                        brenduCount.count = 1;
-                        brenduCount.check = true;
-                        brenduCount.save();
-//                        Log.e(LOG_TAG, "count => "+1);
-                        i = params[0].size();
-                    }
-                    BrenduCount brenduCount = new BrenduCount();
-                    brenduCount.id_brend = params[0].get(i).getBrend_id();
-                    brenduCount.name = params[0].get(i).getBrend_name();
-                    brenduCount.count = count;
-                    brenduCount.check = true;
-                    brenduCount.save();
-//                    Log.e(LOG_TAG, "count => "+count);
-                    count = 1;
-                }
             }
             return 1;
         }

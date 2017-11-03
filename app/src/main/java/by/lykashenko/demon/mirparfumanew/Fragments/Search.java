@@ -1,8 +1,6 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -21,13 +19,12 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 import com.intrusoft.sectionedrecyclerview.SectionRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
-import by.lykashenko.demon.mirparfumanew.Adapters.BrenduSexCount;
 import by.lykashenko.demon.mirparfumanew.Adapters.Child;
 import by.lykashenko.demon.mirparfumanew.Adapters.SectionHeader;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
@@ -87,16 +84,11 @@ public class Search extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-//                Log.d(LOG_TAG,"start => "+start+"; before => "+before);
-
-                if ((s.length()>before)&&(s.length()>1)){
+                if ((s.length() > before) && (s.length() > 1)) {
                     ChangeAdapter(list, s.toString());
-                }else {
+                } else {
                     ChangeAdapter(listBrenduSection, s.toString());
                 }
-//                Log.d(LOG_TAG, "string => "+s);
-//                Log.d(LOG_TAG, "поиск.....");
-//                mAdapter.setFilter(s.toString());
             }
 
             @Override
@@ -115,36 +107,31 @@ public class Search extends Fragment {
         Log.d(LOG_TAG, "sex=> " + state_brendu);
 
         ActiveAndroid.beginTransaction();
-
+        ActiveAndroid.setLoggingEnabled(true);
+        String sql = "";
         List<BrenduAll> sexBrenduList = new ArrayList<>();
         switch (state_brendu) {
             case 0:
-                brenduAlls = new Select().from(BrenduCount.class).orderBy("name_brend ASC").execute();
+                sql = "Select _id,brend_id as id_brend,brend_name as name_brend,count(parfum_name) as count, check_podbor  as checkedPodbor from brenduall group by brend_id order by brend_name ASC";
                 break;
             case 1:
-                sexBrenduList = new Select().from(BrenduAll.class).where("sex like ?", "мужской").orderBy("brend_name ASC").execute();
+                sql = "Select _id,brend_id as id_brend,brend_name as name_brend,count(parfum_name) as count, check_podbor  as checkedPodbor from brenduall where sex like \'мужчин\' group by brend_id order by brend_name ASC";
                 break;
             case 2:
-                sexBrenduList = new Select().from(BrenduAll.class).where("sex like ?", "женский").orderBy("brend_name ASC").execute();
+                sql = "Select _id,brend_id as id_brend,brend_name as name_brend,count(parfum_name) as count, check_podbor  as checkedPodbor from brenduall where sex like \'женщин\' group by brend_id order by brend_name ASC";
                 break;
             case 3:
-                sexBrenduList = new Select().from(BrenduAll.class).where("sex like ?", "унисекс").orderBy("brend_name ASC").execute();
+                sql = "Select _id,brend_id as id_brend,brend_name as name_brend,count(parfum_name) as count, check_podbor  as checkedPodbor from brenduall where sex like \'унисекс\' group by brend_id order by brend_name ASC";
                 break;
         }
+
+        List<BrenduCount> listCount = SQLiteUtils.rawQuery(BrenduCount.class, sql, null);
+
+        Log.d(LOG_TAG, "brendu size =>>>>> " + listCount.size());
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
 
-        if (sexBrenduList.size() > 0) {
-            List<BrenduCount> brenduSexCounts = CountSex(sexBrenduList);
-            listBrenduSection = LoadListBrendWithSection(brenduSexCounts);
-        } else {
-            listBrenduSection = LoadListBrendWithSection(brenduAlls);
-        }
-
-
-//        LoadBrenduCount loadBrenduCount = new LoadBrenduCount();
-//        loadBrenduCount.execute(brenduAlls);
-
+        listBrenduSection = LoadListBrendWithSection(listCount);
 
         brendSearch = (IndexFastScrollRecyclerView) vFragment.findViewById(R.id.brendSearch);
         brendSearch.setIndexTextSize(10);
@@ -152,54 +139,8 @@ public class Search extends Fragment {
         mAdapter = new AdapterSectionBrendu(getContext(), listBrenduSection);
         brendSearch.setAdapter(mAdapter);
 
-
-//        Log.d(LOG_TAG, "brendu alls size => " + brenduAlls.size());
-//        Log.d(LOG_TAG, "brendu alls count => " + brenduSexCounts.size());
-
-
         return vFragment;
     }
-
-    private List<BrenduCount> CountSex(List<BrenduAll> sexBrenduList) {
-        List<BrenduCount> list = new ArrayList<>();
-        int count = 1;
-        for (int i = 0; i < sexBrenduList.size() - 1; i++) {
-            if (sexBrenduList.get(i).brend_id.equals(sexBrenduList.get(i + 1).brend_id)) {
-//                    Log.d(LOG_TAG,"равенство: "+sexBrenduList.get(i).getBrend_id()+" <=> "+sexBrenduList.get(i + 1).getBrend_id());
-                count++;
-                if (i == (sexBrenduList.size() - 1)) {
-                    BrenduCount brenduCount = new BrenduCount();
-                    brenduCount.id_brend = sexBrenduList.get(i).brend_id;
-                    brenduCount.name = sexBrenduList.get(i).brend_name;
-                    brenduCount.count = count;
-                    brenduCount.check = true;
-                    list.add(brenduCount);
-//                        Log.e(LOG_TAG, "count => "+count);
-                }
-            } else {
-                if ((sexBrenduList.size() - i) == 2) {
-                    BrenduCount brenduCount = new BrenduCount();
-                    brenduCount.id_brend = sexBrenduList.get(i + 1).brend_id;
-                    brenduCount.name = sexBrenduList.get(i + 1).brend_name;
-                    brenduCount.count = 1;
-                    brenduCount.check = true;
-                    list.add(brenduCount);
-//                        Log.e(LOG_TAG, "count => "+1);
-                    i = sexBrenduList.size();
-                }
-                BrenduCount brenduCount = new BrenduCount();
-                brenduCount.id_brend = sexBrenduList.get(i).brend_id;
-                brenduCount.name = sexBrenduList.get(i).brend_name;
-                brenduCount.count = count;
-                brenduCount.check = true;
-                list.add(brenduCount);
-//                    Log.e(LOG_TAG, "count => "+count);
-                count = 1;
-            }
-        }
-        return list;
-    }
-
 
     private void ChangeAdapter(List<SectionHeader> listSectionNow, String s) {
 
@@ -207,7 +148,7 @@ public class Search extends Fragment {
             list = new ArrayList<>();
             for (SectionHeader section : listSectionNow
                     ) {
-                List<Child> newChild=new ArrayList<>();
+                List<Child> newChild = new ArrayList<>();
                 for (Child child : section.getChildItems()
                         ) {
 
@@ -218,8 +159,8 @@ public class Search extends Fragment {
                         newChild.add(child);
                     }
                 }
-                if (newChild.size()>0){
-                    list.add(new SectionHeader(newChild,section.getSectinText()));
+                if (newChild.size() > 0) {
+                    list.add(new SectionHeader(newChild, section.getSectinText()));
                 }
 
             }
@@ -227,34 +168,34 @@ public class Search extends Fragment {
             if (list.size() != 0) {
                 mAdapter = new AdapterSectionBrendu(getContext(), list);
                 brendSearch.setAdapter(mAdapter);
-                if ((list.size()==1)&&(list.get(0).getChildItems().size()==1)){
+                if ((list.size() == 1) && (list.get(0).getChildItems().size() == 1)) {
                     List<BrenduAll> listParfumNew = new ArrayList<>();
                     switch (state_brendu) {
                         case 0:
-                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?",list.get(0).getChildItems().get(0).getId()).execute();
+                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?", list.get(0).getChildItems().get(0).getId()).execute();
                             break;
                         case 1:
-                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?",list.get(0).getChildItems().get(0).getId()).where("sex like ?", "мужской").execute();
+                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?", list.get(0).getChildItems().get(0).getId()).where("sex like ?", "мужской").execute();
                             break;
                         case 2:
-                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?",list.get(0).getChildItems().get(0).getId()).where("sex like ?", "женский").execute();
+                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?", list.get(0).getChildItems().get(0).getId()).where("sex like ?", "женский").execute();
                             break;
                         case 3:
-                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?",list.get(0).getChildItems().get(0).getId()).where("sex like ?", "унисекс").execute();
+                            listParfumNew = new Select().from(BrenduAll.class).where("brend_id = ?", list.get(0).getChildItems().get(0).getId()).where("sex like ?", "унисекс").execute();
                             break;
                     }
-                    AdapterOneBrend adapterOneBrend = new AdapterOneBrend(list,listParfumNew);
+                    AdapterOneBrend adapterOneBrend = new AdapterOneBrend(list, listParfumNew);
                     brendSearch.setAdapter(adapterOneBrend);
                 }
             } else { //size=0
-                Child newchild = new Child("0",getResources().getString(R.string.noBrendu),"0");
+                Child newchild = new Child("0", getResources().getString(R.string.noBrendu), "0");
                 List<Child> newListChild = new ArrayList<>();
                 newListChild.add(newchild);
-                SectionHeader newSection = new SectionHeader(newListChild,"0");
+                SectionHeader newSection = new SectionHeader(newListChild, "0");
                 List<SectionHeader> listNull = new ArrayList<>();
                 listNull.add(newSection);
                 List<BrenduAll> listParfumNew = new ArrayList<>();
-                AdapterOneBrend adapterOneBrend = new AdapterOneBrend(listNull,listParfumNew);
+                AdapterOneBrend adapterOneBrend = new AdapterOneBrend(listNull, listParfumNew);
                 brendSearch.setAdapter(adapterOneBrend);
 
             }
@@ -271,14 +212,22 @@ public class Search extends Fragment {
         List<SectionHeader> listSection = new ArrayList<>();
         for (int i = 0; i < brendu.size(); i++) {
             String section = brendu.get(i).name.toUpperCase().substring(0, 1);
+//            Log.d(LOG_TAG,"bukvu brendu ->> "+ section);
             List<Child> childList = new ArrayList<>();
             for (int y = i; y < brendu.size(); y++) {
-
                 String firstLiter = brendu.get(y).name.toUpperCase().substring(0, 1);
+//                Log.d(LOG_TAG,"first liter brend ->> "+ firstLiter);
+
                 if (section.equals(firstLiter)) {
                     childList.add(new Child(brendu.get(y).id_brend, brendu.get(y).name, Integer.toString(brendu.get(y).count)));
+                    if (brendu.size()-y == 1){
+                        listSection.add(new SectionHeader(childList, section));
+//                        Log.d(LOG_TAG,"bukvu brendu ->> "+ section+ " child count => "+childList.size());
+
+                    }
                 } else {
                     listSection.add(new SectionHeader(childList, section));
+//                    Log.d(LOG_TAG,"bukvu brendu ->> "+ section+ " child count => "+childList.size());
                     i = y - 1;
                     break;
                 }
@@ -306,7 +255,7 @@ public class Search extends Fragment {
 
         @Override
         public AdapterSectionBrendu.ChildViewHolder onCreateChildViewHolder(final ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(context).inflate(R.layout.brend_searc, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.brend_search_child, viewGroup, false);
 
             return new AdapterSectionBrendu.ChildViewHolder(view);
         }
@@ -318,10 +267,10 @@ public class Search extends Fragment {
 
         @Override
         public void onBindChildViewHolder(AdapterSectionBrendu.ChildViewHolder childViewHolder, int i, int i1, final Child child) {
-            if (child.getCount().equals("0")){
-                childViewHolder.nameBrend.setText(child.getName());
-                childViewHolder.cd.setEnabled(false);
-            }else {
+            if (child.getCount().equals("0")) {
+//                childViewHolder.nameBrend.setText(child.getName());
+//                childViewHolder.cd.setEnabled(false);
+            } else {
                 childViewHolder.nameBrend.setText(child.getName());
                 String textCount = "(" + child.getCount() + ")";
                 childViewHolder.countBrend.setText(textCount);
@@ -341,8 +290,8 @@ public class Search extends Fragment {
 
         @Override
         public Object[] getSections() {
-            List<String> sections = new ArrayList<>(26);
-            mSectionPositions = new ArrayList<>(26);
+            List<String> sections = new ArrayList<>(list.size());
+            mSectionPositions = new ArrayList<>(list.size());
             Integer position = 0;
             for (int i = 0, size = list.size(); i < size; i++) {
 
@@ -439,7 +388,7 @@ public class Search extends Fragment {
 
         @Override
         public OneBrendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.brend_searc, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.brend_search_child, parent, false);
             OneBrendViewHolder viewHolder = new OneBrendViewHolder(v);
             return viewHolder;
         }
@@ -449,26 +398,26 @@ public class Search extends Fragment {
 
             if (position == 0) {
                 holder.nameBrend.setText(brendu.get(0).getChildItems().get(0).getName());
-                if (brendu.get(0).getChildItems().get(0).getCount().equals("0")){
+                if (brendu.get(0).getChildItems().get(0).getCount().equals("0")) {
                     holder.countBrend.setText("");
                     holder.countBrend.setWidth(holder.cd.getWidth());
                     holder.image.setVisibility(View.INVISIBLE);
                     holder.cd.setCardElevation(0);
                     holder.cd.setRadius(0);
                     holder.cd.setPreventCornerOverlap(false);
-                }else {
+                } else {
                     holder.countBrend.setText(brendu.get(0).getChildItems().get(0).getCount());
 
-                holder.cd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", brendu.get(0).getChildItems().get(0).getId());
-                        bundle.putString("name", brendu.get(0).getChildItems().get(0).getName());
-                        bundle.putInt("state", 1);
-                        loadBrendInfo.onLoadBrendInfo(bundle);
-                    }
-                });
+                    holder.cd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", brendu.get(0).getChildItems().get(0).getId());
+                            bundle.putString("name", brendu.get(0).getChildItems().get(0).getName());
+                            bundle.putInt("state", 1);
+                            loadBrendInfo.onLoadBrendInfo(bundle);
+                        }
+                    });
                 }
             } else {
                 holder.nameBrend.setText(parfum.get(position - 1).parfum_name);

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_otzuvu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/otzuv_client_layput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/name_client"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Victor"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_name_client_otzuv"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/date_otzuv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="05-06-2017"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_date_client_otzuv"
+            app:layout_constraintBaseline_toBaselineOf="@id/name_client"
+            app:layout_constraintStart_toEndOf="@id/name_client" />
+
+        <RatingBar
+            android:id="@+id/ratting_otzuv"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/date_otzuv"
+            android:rating="5" />
+
+        <TextView
+            android:id="@+id/text_otzuv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="text otzuva"
+            android:textColor="@color/colorTextOtzuvu"
+            android:textSize="@dimen/text_size_client_otzuv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_client" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/answer_text_otzuv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/sent_message_background"
+        android:paddingBottom="10dp"
+        android:paddingEnd="18dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="18dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:text=""
+        android:textSize="@dimen/text_size_otzuv_administrator" />
+
+</LinearLayout>

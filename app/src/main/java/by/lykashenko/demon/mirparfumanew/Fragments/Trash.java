@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -31,12 +33,13 @@ import java.util.List;
 
 import by.lykashenko.demon.mirparfumanew.R;
 
+import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
+
 /**
  * Created by demon on 08.02.2017.
  */
 
 public class Trash extends Fragment {
-
 
     public interface GoToCatalog {
         void onGoToCatalog(Integer state);
@@ -51,6 +54,7 @@ public class Trash extends Fragment {
     private View vFragment;
     private List<by.lykashenko.demon.mirparfumanew.Table.Trash> trashList;
     private TextView text_symma;
+    private Integer nadbavkaZaDostavky = 0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,19 +70,22 @@ public class Trash extends Fragment {
             //есть записи
             vFragment = inflater.inflate(R.layout.fragment_trash, null);
 
-            RecyclerView list_trash = (RecyclerView) vFragment.findViewById(R.id.rw_trash_list);
-            text_symma = (TextView) vFragment.findViewById(R.id.symmaParfum);
+            RecyclerView list_trash = vFragment.findViewById(R.id.rw_trash_list);
+            text_symma = vFragment.findViewById(R.id.symmaParfum);
 
             list_trash.setHasFixedSize(true);
             LinearLayoutManager lm = new LinearLayoutManager(getContext());
             list_trash.setLayoutManager(lm);
             AdapterTrash adapter = new AdapterTrash(trashList);
             list_trash.setAdapter(adapter);
-            update(trashList,0);
-            final RadioButton radioSam = (RadioButton) vFragment.findViewById(R.id.samZabery);
-            final RadioButton radioCyrer = (RadioButton) vFragment.findViewById(R.id.dostavkapoMinsk);
-            LinearLayout layoutDostavka = (LinearLayout) vFragment.findViewById(R.id.layoutDostavka);
-            LinearLayout layoutSam = (LinearLayout) vFragment.findViewById(R.id.layoutSam);
+
+
+            final RadioButton radioSam = vFragment.findViewById(R.id.samZabery);
+            final RadioButton radioCyrer = vFragment.findViewById(R.id.dostavkapoMinsk);
+            final RadioButton radioPost = vFragment.findViewById(R.id.dostavkaPost);
+            LinearLayout layoutDostavka = vFragment.findViewById(R.id.layoutDostavkaMinsk);
+            LinearLayout layoutDostavkaPost = vFragment.findViewById(R.id.layoutDostavkaPost);
+            LinearLayout layoutSam = vFragment.findViewById(R.id.layoutSam);
 
             layoutDostavka.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,6 +93,7 @@ public class Trash extends Fragment {
                     if (!radioCyrer.isChecked()){
                         radioCyrer.setChecked(true);
                         radioSam.setChecked(false);
+                        radioPost.setChecked(false);
                     }
                 }
             });
@@ -96,6 +104,17 @@ public class Trash extends Fragment {
                     if (!radioSam.isChecked()){
                         radioCyrer.setChecked(false);
                         radioSam.setChecked(true);
+                        radioPost.setChecked(false);
+                    }
+                }
+            });
+            layoutDostavkaPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!radioPost.isChecked()){
+                        radioCyrer.setChecked(false);
+                        radioSam.setChecked(false);
+                        radioPost.setChecked(true);
                     }
                 }
             });
@@ -106,6 +125,9 @@ public class Trash extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
                         radioCyrer.setChecked(false);
+                        radioPost.setChecked(false);
+                        nadbavkaZaDostavky = 0;
+                        update(trashList,nadbavkaZaDostavky);
                     }
                 }
             });
@@ -114,11 +136,27 @@ public class Trash extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
                         radioSam.setChecked(false);
+                        radioPost.setChecked(false);
+nadbavkaZaDostavky=5;
+                        update(trashList,nadbavkaZaDostavky);
                     }
                 }
             });
 
-            Button addZakaz = (Button) vFragment.findViewById(R.id.pred_zakaz);
+            radioPost.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        radioSam.setChecked(false);
+                        radioCyrer.setChecked(false);
+                        nadbavkaZaDostavky=5;
+                        update(trashList,nadbavkaZaDostavky);
+                    }
+                }
+            });
+
+
+            Button addZakaz = vFragment.findViewById(R.id.pred_zakaz);
             addZakaz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,18 +165,19 @@ public class Trash extends Fragment {
             });
         } else {
 //нет данных
+
             vFragment = inflater.inflate(R.layout.fragment_favorite_empty, null);
 
-            ImageView imageViewTrash = (ImageView) vFragment.findViewById(R.id.imageEmpty);
+            ImageView imageViewTrash = vFragment.findViewById(R.id.imageEmpty);
             imageViewTrash.setImageResource(R.drawable.empty_korzina);
 
-            TextView textViewTop = (TextView) vFragment.findViewById(R.id.textViewTopEmpty);
+            TextView textViewTop = vFragment.findViewById(R.id.textViewTopEmpty);
             textViewTop.setText(R.string.empty_trash);
 
-            TextView textViewBotom = (TextView) vFragment.findViewById(R.id.textViewBotomEmpty);
+            TextView textViewBotom = vFragment.findViewById(R.id.textViewBotomEmpty);
             textViewBotom.setText(R.string.text_empty_trash);
 
-            Button btnGo = (Button) vFragment.findViewById(R.id.btnEmpty);
+            Button btnGo = vFragment.findViewById(R.id.btnEmpty);
             btnGo.setText(R.string.button_favorite);
 
             btnGo.setOnClickListener(new View.OnClickListener() {
@@ -177,9 +216,9 @@ public class Trash extends Fragment {
             String url_image_brend = trashList1.get(position).image_parfum;
             Picasso.with(getContext()).load(url_image_brend).into(holder.imageTrash);
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, data);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            holder.colvoTrash.setAdapter(adapter);
+//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, data);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            holder.colvoTrash.setAdapter(adapter);
             final Integer pos = position;
             holder.colvoTrash.setSelection(0);
             holder.colvoTrash.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -193,6 +232,7 @@ public class Trash extends Fragment {
 
                 }
             });
+
             holder.deleteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,18 +259,19 @@ public class Trash extends Fragment {
             private TextView cenaForTrash;
             private TextView cenaTrash;
             private Spinner colvoTrash;
+
             private ImageButton deleteItem;
 
 
             public TrashViewHolder(View itemView) {
                 super(itemView);
-                imageTrash = (ImageView) itemView.findViewById(R.id.imageParfumTrash);
-                nameTrash = (TextView) itemView.findViewById(R.id.nameParfumTrash);
-                ratingTrash = (RatingBar) itemView.findViewById(R.id.ratingBarTrash);
-                cenaForTrash = (TextView) itemView.findViewById(R.id.cenaForTrash);
-                cenaTrash = (TextView) itemView.findViewById(R.id.priceParfumMinTrash);
-                colvoTrash = (Spinner) itemView.findViewById(R.id.spinnerColTrash);
-                deleteItem = (ImageButton) itemView.findViewById(R.id.deleteTrashItem);
+                imageTrash = itemView.findViewById(R.id.imageParfumTrash);
+                nameTrash = itemView.findViewById(R.id.nameParfumTrash);
+                ratingTrash = itemView.findViewById(R.id.ratingBarTrash);
+                cenaForTrash = itemView.findViewById(R.id.cenaForTrash);
+                cenaTrash = itemView.findViewById(R.id.priceParfumMinTrash);
+                colvoTrash = itemView.findViewById(R.id.spinner_count_parfum);
+                deleteItem = itemView.findViewById(R.id.deleteTrashItem);
                 ratingTrash.setIsIndicator(false);
                 ratingTrash.setNumStars(5);
 
@@ -249,20 +290,26 @@ public class Trash extends Fragment {
         trashOne.save();
         trashList.get(position).count_parfum = colvo;
 
-        update(trashList,0);
+        update(trashList,nadbavkaZaDostavky);
 
     }
 
     private void update(List<by.lykashenko.demon.mirparfumanew.Table.Trash> trashList,Integer plus) {
 //        text_symma
-        Float symma = (float) 0;
-        for (by.lykashenko.demon.mirparfumanew.Table.Trash trash : trashList
-                ) {
-            Float cena = Float.parseFloat(trash.cena_parfum);
-            Integer colvo = trash.count_parfum;
-            symma = symma + cena * colvo + plus;
+        String cenaText ="";
+        try {
+            Float symma = (float) 0;
+            for (by.lykashenko.demon.mirparfumanew.Table.Trash trash : trashList
+                    ) {
+                Float cena = Float.parseFloat(trash.cena_parfum);
+                Integer colvo = trash.count_parfum;
+                symma = symma + cena * colvo;
+            }
+            symma=symma+plus;
+            cenaText = getResources().getString(R.string.vsego) + ": " + Float.toString(symma) + " " + getResources().getString(R.string.cena);
+        }catch(NumberFormatException error){
+            cenaText = getResources().getString(R.string.predzakaz_parfum);
         }
-        String cena = getResources().getString(R.string.vsego) + ": " + Float.toString(symma) + " " + getResources().getString(R.string.cena);
-        text_symma.setText(cena);
+        text_symma.setText(cenaText);
     }
 }
