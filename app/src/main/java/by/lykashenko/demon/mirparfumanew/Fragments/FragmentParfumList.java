@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,8 @@ import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetIdParfum;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetPodborParfumId;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetRattingPrfum;
+import by.lykashenko.demon.mirparfumanew.Table.BrenduAll;
+import by.lykashenko.demon.mirparfumanew.Table.BrenduCount;
 import by.lykashenko.demon.mirparfumanew.Table.Country;
 import by.lykashenko.demon.mirparfumanew.Table.ForTable;
 import by.lykashenko.demon.mirparfumanew.Table.Nota;
@@ -164,6 +167,7 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
 
             } else {
                 String id = getArguments().getString("id");
+                Integer sex = getArguments().getInt("sex");
                 Log.i(LOG_TAG, "id brend => " + id);
 
                 SQL_PARFUM_FROM_BREND = "SELECT val.contentid, val.value, val.tmplvarid, " +
@@ -188,9 +192,30 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
                 viewParfum.setLayoutManager(lv);
 
                 //запрос на id, название, лого и цена парфюма для выбранного бренда
-                GetIdParfum idParfum = new GetIdParfum();
-                idParfum.registerOnLoadIdParfum(this);
-                idParfum.load(SQL_PARFUM_FROM_BREND);
+                List<BrenduAll> idParfumList = new ArrayList<>();
+                ActiveAndroid.beginTransaction();
+                switch (sex) {
+                    case 0:
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).execute();
+                        break;
+                    case 1:
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'мужчин\'").execute();
+                        break;
+                    case 2:
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'женщин\'").execute();
+                        break;
+                    case 3:
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'унисекс\'").execute();
+                        break;
+
+                }
+                ActiveAndroid.setTransactionSuccessful();
+                ActiveAndroid.endTransaction();
+                Log.i(LOG_TAG, "count id parfum from bd ===>>" + idParfumList.size());
+                for (BrenduAll parfum : idParfumList) {
+                    Log.i(LOG_TAG, "parfum id ===>" + parfum.parfum_id);
+                }
+// СПИСОК ИД ПАРФЮМЕРИИ ИЗ БАЗЫ ПОЛУЧЕН. НЕОБХОИМО ЗАПРОСИТЬ С СЕРВЕРА ИНФУ ПО ПАРФЮМЕРИИ!!!!!!
             }
 
         }
@@ -244,7 +269,7 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
             Sql_Get_Name_And_Price_Parfum = "SELECT thread, avg(SUBSTRING(properties,16,1)) as rating FROM modx_tickets_comments where thread in(" + listIds + ") group by thread";
         }
     }
-
+//
     @Override
     public void onLoadIdParfum(ArrayList<IdParfum> idParfum) throws IOException {
 
@@ -298,7 +323,7 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
             //name
 
             String name = idNameParfum.get(i).getPagetitle();
-            Log.i(MainActivity.LOG_TAG, "name parfum => " + name);
+            Log.i(MainActivity.LOG_TAG, "id parfum => " + idNameParfum.get(i).getContentid());
             parfumCollection.setNameParfum(name);
 
 

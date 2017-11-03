@@ -52,16 +52,15 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brend);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarBrendActivity);
+        Toolbar toolbar = findViewById(R.id.toolbarBrendActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.arrow_left);
 
-        titleToolbar = (TextView) findViewById(R.id.textToolbarBrendActivity);
+        titleToolbar = findViewById(R.id.textToolbarBrendActivity);
         Intent intent = getIntent();
 
-//        Integer stateFragment = intent.getIntExtra("state", 0);
         Bundle bundle = intent.getBundleExtra("bundle");
         Integer stateFragment = bundle.getInt("state");
 
@@ -96,7 +95,7 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
 
             }
             fTrans.commit();
-        ImageView imageBack = (ImageView) findViewById(R.id.imageBack);
+        ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,10 +111,10 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
 
 
 //toolbar для быстрого перехода между экранами главной activity
-        LinearLayout home = (LinearLayout) findViewById(R.id.HomeParfum);
-        LinearLayout search = (LinearLayout) findViewById(R.id.SearchParfum);
-        LinearLayout favorites = (LinearLayout) findViewById(R.id.FavoritesParfum);
-        LinearLayout trash = (LinearLayout) findViewById(R.id.TrashParfum);
+        LinearLayout home = findViewById(R.id.HomeParfum);
+        LinearLayout search = findViewById(R.id.SearchParfum);
+        LinearLayout favorites = findViewById(R.id.FavoritesParfum);
+        LinearLayout trash = findViewById(R.id.TrashParfum);
 
         home.setOnClickListener(this);
         search.setOnClickListener(this);
