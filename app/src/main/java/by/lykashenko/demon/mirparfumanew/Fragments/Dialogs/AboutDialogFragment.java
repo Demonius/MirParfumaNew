@@ -41,7 +41,7 @@ public class AboutDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_about_shop, container, false);
-        Toolbar toolbarAbout = v.findViewById(R.id.toolbar_shop_about);
+        Toolbar toolbarAbout = (Toolbar) v.findViewById(R.id.toolbar_shop_about);
 //        toolbarAbout.inflateMenu(R.menu.main);
 //        toolbarAbout.setNavigationIcon(R.drawable.arrow_left);
         toolbarAbout.setNavigationOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class AboutDialogFragment extends DialogFragment {
 //            }
 //        });
 
-        TextView textAbout = v.findViewById(R.id.textAboutFor);
+        TextView textAbout = (TextView) v.findViewById(R.id.textAboutFor);
         String text_about = getResources().getString(R.string.about_shop_text);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             textAbout.setText(Html.fromHtml(text_about, Html.FROM_HTML_MODE_LEGACY));

@@ -13,27 +13,29 @@ import android.widget.ImageButton;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.IdParfum;
+import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.ParfumForBrend;
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Podbor;
 import by.lykashenko.demon.mirparfumanew.Adapters.AdapterParfumView;
 import by.lykashenko.demon.mirparfumanew.Adapters.ParfumCollection;
-import by.lykashenko.demon.mirparfumanew.Adapters.Ratting;
+import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Ratting;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.R;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetIdParfum;
+import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetParfumForBrend;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetPodborParfumId;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.GetRattingPrfum;
 import by.lykashenko.demon.mirparfumanew.Table.BrenduAll;
-import by.lykashenko.demon.mirparfumanew.Table.BrenduCount;
 import by.lykashenko.demon.mirparfumanew.Table.Country;
 import by.lykashenko.demon.mirparfumanew.Table.ForTable;
 import by.lykashenko.demon.mirparfumanew.Table.Nota;
@@ -48,7 +50,18 @@ import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
  * Created by Admin on 06.06.17.
  */
 
-public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadIdParfum, GetRattingPrfum.OnGetRattingParfum, AdapterParfumView.ClickParfum, GetPodborParfumId.LoadPadborParfumId {
+public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadIdParfum, GetRattingPrfum.OnGetRattingParfum, AdapterParfumView.ClickParfum, GetPodborParfumId.LoadPadborParfumId, GetParfumForBrend.OnLoadParfumList, AdapterParfumView.UpdateNewData {
+
+
+    @Override
+    public void onUpdateNewData(final Integer fromPosition, final Integer count) {
+        viewParfum.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyItemRangeInserted(fromPosition, count);
+            }
+        });
+    }
 
     public interface GetInfoOfParfum {
         void onGetInfoOfParfum(Bundle bundle);
@@ -63,10 +76,14 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
     private Bundle bundle = new Bundle();
     private String nameBrendList;
     private ArrayList<ParfumCollection> parfumCollections;
-    private RecyclerView viewParfum;
-    private Integer state = 1;
     private String SQL_PARFUM_FROM_BREND = "";
     private String Sql_Get_Name_And_Price_Parfum = "";
+
+    private AdapterParfumView adapter;
+    private List<BrenduAll> idParfumList = new ArrayList<>();
+    private RecyclerView viewParfum;
+    private Integer state = 1;
+    private String sexString = "";
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,17 +187,6 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
                 Integer sex = getArguments().getInt("sex");
                 Log.i(LOG_TAG, "id brend => " + id);
 
-                SQL_PARFUM_FROM_BREND = "SELECT val.contentid, val.value, val.tmplvarid, " +
-                        "ltrim(substring(con.pagetitle,(char_length(substring_index(con.pagetitle,' ',2))+1)))as pagetitle" +
-                        " FROM modx_site_content as con,modx_site_tmplvar_contentvalues as val," +
-                        "(SELECT val.contentid FROM modx_site_content as con, modx_site_tmplvar_contentvalues " +
-                        "as val where con.id=" + id + " and con.id<>val.contentid and val.value LIKE CONCAT('%',REPLACE(REPLACE(con.pagetitle,\" and \",\"%\"),\" \",\"%\"),'%') group BY val.contentid)as idp where " +
-                        "val.contentid=idp.contentid and con.id=idp.contentid and (val.tmplvarid = 76 " +
-                        "or val.tmplvarid = 1) order by val.contentid ASC";
-
-                Sql_Get_Name_And_Price_Parfum = "SELECT com.thread, avg(SUBSTRING(com.properties,16,1)) as rating FROM modx_tickets_comments as com,(SELECT val.contentid FROM modx_site_content as con, modx_site_tmplvar_contentvalues as val where con.id=" + id
-                        + " and con.pagetitle LIKE val.value) as idp WHERE com.thread =idp.contentid group by thread";
-
                 nameBrendList = getArguments().getString("name");
                 titleToolbar.setText(nameBrendList);
                 Log.i(LOG_TAG, "name brend => " + nameBrendList);
@@ -192,30 +198,37 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
                 viewParfum.setLayoutManager(lv);
 
                 //запрос на id, название, лого и цена парфюма для выбранного бренда
-                List<BrenduAll> idParfumList = new ArrayList<>();
+
                 ActiveAndroid.beginTransaction();
                 switch (sex) {
                     case 0:
-                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).execute();
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).orderBy("parfum_id ASC").execute();
+                        sexString = "";
                         break;
                     case 1:
-                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'мужчин\'").execute();
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'мужчин\'").orderBy("parfum_id ASC").execute();
+                        sexString = "\'мужчин\'";
                         break;
                     case 2:
-                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'женщин\'").execute();
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'женщин\'").orderBy("parfum_id ASC").execute();
+                        sexString = "\'женщин\'";
                         break;
                     case 3:
-                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'унисекс\'").execute();
+                        idParfumList = new Select().from(BrenduAll.class).where("brend_id = ?", id).where("sex like \'унисекс\'").orderBy("parfum_id ASC").execute();
+                        sexString = "\'унисекс\'";
                         break;
 
                 }
                 ActiveAndroid.setTransactionSuccessful();
                 ActiveAndroid.endTransaction();
                 Log.i(LOG_TAG, "count id parfum from bd ===>>" + idParfumList.size());
-                for (BrenduAll parfum : idParfumList) {
-                    Log.i(LOG_TAG, "parfum id ===>" + parfum.parfum_id);
-                }
+
 // СПИСОК ИД ПАРФЮМЕРИИ ИЗ БАЗЫ ПОЛУЧЕН. НЕОБХОИМО ЗАПРОСИТЬ С СЕРВЕРА ИНФУ ПО ПАРФЮМЕРИИ!!!!!!
+
+                adapter = new AdapterParfumView(idParfumList, getContext(), state, sexString);
+                adapter.registerClickParfum(this);
+                adapter.registerUpdateNewData(this);
+                viewParfum.setAdapter(adapter);
             }
 
         }
@@ -227,20 +240,25 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
                     state = 2;
                     GridLayoutManager lv = new GridLayoutManager(getContext(), 2);
                     viewParfum.setLayoutManager(lv);
-                    AdapterParfumView adapter = new AdapterParfumView(parfumCollections, getContext(), state);
+                    adapter.setState(state);
                     viewParfum.setAdapter(adapter);
 
                 } else {
                     state = 1;
                     LinearLayoutManager lv = new LinearLayoutManager(getContext());
                     viewParfum.setLayoutManager(lv);
-                    AdapterParfumView adapter = new AdapterParfumView(parfumCollections, getContext(), state);
+                    adapter.setState(state);
                     viewParfum.setAdapter(adapter);
 
                 }
             }
         });
         return v;
+    }
+
+    @Override
+    public void onLoadParfumList(ArrayList<ParfumForBrend> parfumForBrends, ArrayList<Brendu> brend) {
+
     }
 
     @Override
@@ -269,7 +287,8 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
             Sql_Get_Name_And_Price_Parfum = "SELECT thread, avg(SUBSTRING(properties,16,1)) as rating FROM modx_tickets_comments where thread in(" + listIds + ") group by thread";
         }
     }
-//
+
+    //
     @Override
     public void onLoadIdParfum(ArrayList<IdParfum> idParfum) throws IOException {
 
@@ -278,103 +297,103 @@ public class FragmentParfumList extends Fragment implements GetIdParfum.OnLoadId
 
         GetRattingPrfum getRattingParfum = new GetRattingPrfum();
         getRattingParfum.registerGetRattingParfum(this);
-        getRattingParfum.load(Sql_Get_Name_And_Price_Parfum, idParfum);
+        getRattingParfum.load(Sql_Get_Name_And_Price_Parfum);
 
 
     }
 
-    private void loadParfumData(ArrayList<ParfumCollection> parfumCollections) {
-
-
-        AdapterParfumView adapter = new AdapterParfumView(parfumCollections, getContext(), state);
-        adapter.registerClickParfum(this);
-        viewParfum.setAdapter(adapter);
-
-    }
+//    private void loadParfumData(ArrayList<ParfumCollection> parfumCollections) {
+//
+//
+//        AdapterParfumView adapter = new AdapterParfumView(parfumCollections, getContext(), state);
+//        adapter.registerClickParfum(this);
+//        viewParfum.setAdapter(adapter);
+//
+//    }
 
 
     @Override
-    public void onGetRattingParfum(ArrayList<IdParfum> idNameParfum, ArrayList<Ratting> ratingsParfum) {
+    public void onGetRattingParfum(HashMap<String, Integer> answer) {
 
-        parfumCollections = new ArrayList<>();
-        int i = 0;
-        while ((i < idNameParfum.size()) && (idNameParfum.size() - i > 1)) {
+//        parfumCollections = new ArrayList<>();
+//        int i = 0;
+//        while ((i < idNameParfum.size()) && (idNameParfum.size() - i > 1)) {
+//
+//            ParfumCollection parfumCollection = new ParfumCollection();
+////id
+//            parfumCollection.setIdParfum(idNameParfum.get(i).getContentid());
+//            //image
+//            String pathImage = MainActivity.URL + idNameParfum.get(i).getValue();
+//            parfumCollection.setImageParfum(pathImage);
+//            //rating
+//            Integer y = 0;
+//            for (Ratting ratting : ratingsParfum) {
+//
+//                if (ratting.getThread().equals(idNameParfum.get(i).getContentid())) {
+//                    parfumCollection.setReatingParfum(ratting.getRating());
+//                    y = 1;
+//                    break;
+//                }
+//            }
+//            if (y == 0) {
+//                parfumCollection.setReatingParfum(0);
+//            }
+//
+//            //name
+//
+//            String name = idNameParfum.get(i).getPagetitle();
+//            Log.i(MainActivity.LOG_TAG, "id parfum => " + idNameParfum.get(i).getContentid());
+//            parfumCollection.setNameParfum(name);
+//
+//
+//            //price
+//
+////			String priceOne ="От "+ namePriceOne.split("==")[1]+" руб.";
+//            try {
+////                Log.d(LOG_TAG, "i => " + i);
+//                String id = idNameParfum.get(i).getContentid();
+////                Log.d(LOG_TAG, "id this position => " + id);
+//                String id_next = idNameParfum.get(i + 1).getContentid();
+////                Log.d(LOG_TAG, "id next position => " + id_next);
+//
+//                if (!id.equals(id_next)) {
+//                    String priceFull = getResources().getString(R.string.no_parfum);
+//                    parfumCollection.setCenaParfum(priceFull);
+//                    i = i + 1;
+////                    Log.d(LOG_TAG, "------------------------");
+//                } else {
+//
+////                    Log.d(LOG_TAG, "true data");
+//                    String priceOne = idNameParfum.get(i + 1).getValue();
+////                    Log.d(LOG_TAG, "stroka s cenoi => " + priceOne);
+//                    JSONArray json = null;
+//                    try {
+//                        json = new JSONArray(priceOne);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        Integer price = json.getJSONObject(0).getInt("price");
+//                        String priceFor = json.getJSONObject(0).getString("title");
+////                        Log.i(MainActivity.LOG_TAG, "price parfum => " + price + "; ml parfum => " + priceFor);
+//                        String priceFull = "От " + Integer.toString(price) + " руб.";
+//                        String priceForFull = "Ваша цена за " + priceFor;
+//                        parfumCollection.setCenaParfum(priceFull);
+//                        parfumCollection.setCenaFor(priceForFull);
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    i = i + 2;
+//                }
+//                parfumCollections.add(parfumCollection);
+//            } catch (IndexOutOfBoundsException e) {
+//                String priceFull = "ОШИБКА ИНДЕКСА";
+//                parfumCollection.setCenaParfum(priceFull);
+//            }
 
-            ParfumCollection parfumCollection = new ParfumCollection();
-//id
-            parfumCollection.setIdParfum(idNameParfum.get(i).getContentid());
-            //image
-            String pathImage = MainActivity.URL + idNameParfum.get(i).getValue();
-            parfumCollection.setImageParfum(pathImage);
-            //rating
-            Integer y = 0;
-            for (Ratting ratting : ratingsParfum) {
 
-                if (ratting.getThread().equals(idNameParfum.get(i).getContentid())) {
-                    parfumCollection.setReatingParfum(ratting.getRating());
-                    y = 1;
-                    break;
-                }
-            }
-            if (y == 0) {
-                parfumCollection.setReatingParfum(0);
-            }
-
-            //name
-
-            String name = idNameParfum.get(i).getPagetitle();
-            Log.i(MainActivity.LOG_TAG, "id parfum => " + idNameParfum.get(i).getContentid());
-            parfumCollection.setNameParfum(name);
-
-
-            //price
-
-//			String priceOne ="От "+ namePriceOne.split("==")[1]+" руб.";
-            try {
-//                Log.d(LOG_TAG, "i => " + i);
-                String id = idNameParfum.get(i).getContentid();
-//                Log.d(LOG_TAG, "id this position => " + id);
-                String id_next = idNameParfum.get(i + 1).getContentid();
-//                Log.d(LOG_TAG, "id next position => " + id_next);
-
-                if (!id.equals(id_next)) {
-                    String priceFull = getResources().getString(R.string.no_parfum);
-                    parfumCollection.setCenaParfum(priceFull);
-                    i = i + 1;
-//                    Log.d(LOG_TAG, "------------------------");
-                } else {
-
-//                    Log.d(LOG_TAG, "true data");
-                    String priceOne = idNameParfum.get(i + 1).getValue();
-//                    Log.d(LOG_TAG, "stroka s cenoi => " + priceOne);
-                    JSONArray json = null;
-                    try {
-                        json = new JSONArray(priceOne);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        Integer price = json.getJSONObject(0).getInt("price");
-                        String priceFor = json.getJSONObject(0).getString("title");
-//                        Log.i(MainActivity.LOG_TAG, "price parfum => " + price + "; ml parfum => " + priceFor);
-                        String priceFull = "От " + Integer.toString(price) + " руб.";
-                        String priceForFull = "Ваша цена за " + priceFor;
-                        parfumCollection.setCenaParfum(priceFull);
-                        parfumCollection.setCenaFor(priceForFull);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    i = i + 2;
-                }
-                parfumCollections.add(parfumCollection);
-            } catch (IndexOutOfBoundsException e) {
-                String priceFull = "ОШИБКА ИНДЕКСА";
-                parfumCollection.setCenaParfum(priceFull);
-            }
-
-
-        }
-        loadParfumData(parfumCollections);
+//        }
+//        loadParfumData(parfumCollections);
     }
 }

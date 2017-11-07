@@ -2,7 +2,7 @@ package by.lykashenko.demon.mirparfumanew.InterfaceRetrofit;
 
 import java.util.ArrayList;
 
-import by.lykashenko.demon.mirparfumanew.Adapters.Ratting;
+import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Ratting;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

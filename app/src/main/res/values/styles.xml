@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorInactive</item>
         <!--<item name="android:actionButtonStyle">@style/myActionButtonStyle</item>-->
         <!--<item name="actionButtonStyle">@style/myActionButtonStyle</item>-->
     </style>
@@ -83,5 +84,5 @@
     </style>
 
     <dimen name="textSizePhoneNumber">24sp</dimen>
-    <dimen name="textSizeHomeLayout">17sp</dimen>
+    <dimen name="textSizeHomeLayout">14sp</dimen>
 </resources>

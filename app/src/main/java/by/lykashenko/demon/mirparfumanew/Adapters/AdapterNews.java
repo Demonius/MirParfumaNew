@@ -93,10 +93,10 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> im
         ViewHolder(View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.image_news);
-            title = itemView.findViewById(R.id.title_news);
-            text = itemView.findViewById(R.id.text_preview_news);
-            card_news = itemView.findViewById(R.id.card_news);
+            image = (ImageView) itemView.findViewById(R.id.image_news);
+            title = (TextView) itemView.findViewById(R.id.title_news);
+            text = (TextView) itemView.findViewById(R.id.text_preview_news);
+            card_news = (CardView) itemView.findViewById(R.id.card_news);
 
             DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 

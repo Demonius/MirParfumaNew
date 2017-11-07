@@ -3,6 +3,7 @@
     <color name="colorPrimary">#B82769</color>
     <color name="colorPrimaryDark">#aa2769</color>
     <color name="colorAccent">#EC1468</color>
+    <color name="colorInactive">#F7F1EC</color>
     <color name="colorNavigationView">#34323a</color>
     <color name="colorFonPrimary">#f8f1ed</color>
     <color name="colorFonSecond">#FFDCC6</color>

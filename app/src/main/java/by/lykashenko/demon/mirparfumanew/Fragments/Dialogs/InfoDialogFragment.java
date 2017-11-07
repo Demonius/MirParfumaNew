@@ -32,7 +32,7 @@ public class InfoDialogFragment extends DialogFragment {
 
         View v = inflater.inflate(R.layout.dialog_info, container, false);
 
-        Toolbar toolbarInfo = v.findViewById(R.id.toolbar_info);
+        Toolbar toolbarInfo = (Toolbar) v.findViewById(R.id.toolbar_info);
 
 
         toolbarInfo.setNavigationOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,7 @@ public class InfoDialogFragment extends DialogFragment {
             }
         });
 
-        RecyclerView viewNews = v.findViewById(R.id.recyclerViewInfo);
+        RecyclerView viewNews = (RecyclerView) v.findViewById(R.id.recyclerViewInfo);
         viewNews.setLayoutManager(new LinearLayoutManager(getContext()));
         AdapterNews adapter = new AdapterNews(getContext());
         viewNews.setAdapter(adapter);

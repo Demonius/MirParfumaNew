@@ -21,6 +21,7 @@ import com.activeandroid.query.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.lykashenko.demon.mirparfumanew.Adapters.AdapterParfumFavorite;
 import by.lykashenko.demon.mirparfumanew.Adapters.AdapterParfumView;
 import by.lykashenko.demon.mirparfumanew.Adapters.ParfumCollection;
 import by.lykashenko.demon.mirparfumanew.R;
@@ -33,7 +34,7 @@ import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
  * Created by demon on 08.02.2017.
  */
 
-public class Favorite extends Fragment implements AdapterParfumView.ClickParfum {
+public class Favorite extends Fragment implements AdapterParfumFavorite.ClickParfum {
 
     @Override
     public void onClickParfum(Bundle bundle) {
@@ -108,7 +109,7 @@ public class Favorite extends Fragment implements AdapterParfumView.ClickParfum 
             listFavorite.setHasFixedSize(true);
             LinearLayoutManager lv = new LinearLayoutManager(getContext());
             listFavorite.setLayoutManager(lv);
-            AdapterParfumView adapter = new AdapterParfumView(parfumList, getContext(), 1);
+            AdapterParfumFavorite adapter = new AdapterParfumFavorite(parfumList, getContext(), 1);
             adapter.registerClickParfum(this);
             listFavorite.setAdapter(adapter);
         }

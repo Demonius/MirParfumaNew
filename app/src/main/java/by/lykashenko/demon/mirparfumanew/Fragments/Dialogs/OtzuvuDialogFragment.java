@@ -30,7 +30,7 @@ public class OtzuvuDialogFragment extends DialogFragment {
 
 
         View v = inflater.inflate(R.layout.dialog_otzuvu, container, false);
-        Toolbar toolbar = v.findViewById(R.id.toolbar_otzuvu);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_otzuvu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +38,7 @@ public class OtzuvuDialogFragment extends DialogFragment {
             }
         });
 
-        RecyclerView listOtzuvu = v.findViewById(R.id.recyclerViewOtzuvu);
+        RecyclerView listOtzuvu = (RecyclerView) v.findViewById(R.id.recyclerViewOtzuvu);
         listOtzuvu.setLayoutManager(new LinearLayoutManager(getContext()));
         AdapterViewForOtzuvu adapter = new AdapterViewForOtzuvu(getContext());
         listOtzuvu.setAdapter(adapter);

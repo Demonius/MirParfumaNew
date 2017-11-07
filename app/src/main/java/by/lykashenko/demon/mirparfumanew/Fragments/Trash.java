@@ -70,8 +70,8 @@ public class Trash extends Fragment {
             //есть записи
             vFragment = inflater.inflate(R.layout.fragment_trash, null);
 
-            RecyclerView list_trash = vFragment.findViewById(R.id.rw_trash_list);
-            text_symma = vFragment.findViewById(R.id.symmaParfum);
+            RecyclerView list_trash = (RecyclerView) vFragment.findViewById(R.id.rw_trash_list);
+            text_symma = (TextView) vFragment.findViewById(R.id.symmaParfum);
 
             list_trash.setHasFixedSize(true);
             LinearLayoutManager lm = new LinearLayoutManager(getContext());
@@ -80,12 +80,12 @@ public class Trash extends Fragment {
             list_trash.setAdapter(adapter);
 
 
-            final RadioButton radioSam = vFragment.findViewById(R.id.samZabery);
-            final RadioButton radioCyrer = vFragment.findViewById(R.id.dostavkapoMinsk);
-            final RadioButton radioPost = vFragment.findViewById(R.id.dostavkaPost);
-            LinearLayout layoutDostavka = vFragment.findViewById(R.id.layoutDostavkaMinsk);
-            LinearLayout layoutDostavkaPost = vFragment.findViewById(R.id.layoutDostavkaPost);
-            LinearLayout layoutSam = vFragment.findViewById(R.id.layoutSam);
+            final RadioButton radioSam = (RadioButton) vFragment.findViewById(R.id.samZabery);
+            final RadioButton radioCyrer = (RadioButton) vFragment.findViewById(R.id.dostavkapoMinsk);
+            final RadioButton radioPost = (RadioButton) vFragment.findViewById(R.id.dostavkaPost);
+            LinearLayout layoutDostavka = (LinearLayout) vFragment.findViewById(R.id.layoutDostavkaMinsk);
+            LinearLayout layoutDostavkaPost = (LinearLayout) vFragment.findViewById(R.id.layoutDostavkaPost);
+            LinearLayout layoutSam = (LinearLayout) vFragment.findViewById(R.id.layoutSam);
 
             layoutDostavka.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,7 +156,7 @@ nadbavkaZaDostavky=5;
             });
 
 
-            Button addZakaz = vFragment.findViewById(R.id.pred_zakaz);
+            Button addZakaz = (Button) vFragment.findViewById(R.id.pred_zakaz);
             addZakaz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -168,16 +168,16 @@ nadbavkaZaDostavky=5;
 
             vFragment = inflater.inflate(R.layout.fragment_favorite_empty, null);
 
-            ImageView imageViewTrash = vFragment.findViewById(R.id.imageEmpty);
+            ImageView imageViewTrash = (ImageView) vFragment.findViewById(R.id.imageEmpty);
             imageViewTrash.setImageResource(R.drawable.empty_korzina);
 
-            TextView textViewTop = vFragment.findViewById(R.id.textViewTopEmpty);
+            TextView textViewTop = (TextView) vFragment.findViewById(R.id.textViewTopEmpty);
             textViewTop.setText(R.string.empty_trash);
 
-            TextView textViewBotom = vFragment.findViewById(R.id.textViewBotomEmpty);
+            TextView textViewBotom = (TextView) vFragment.findViewById(R.id.textViewBotomEmpty);
             textViewBotom.setText(R.string.text_empty_trash);
 
-            Button btnGo = vFragment.findViewById(R.id.btnEmpty);
+            Button btnGo = (Button) vFragment.findViewById(R.id.btnEmpty);
             btnGo.setText(R.string.button_favorite);
 
             btnGo.setOnClickListener(new View.OnClickListener() {
@@ -265,13 +265,13 @@ nadbavkaZaDostavky=5;
 
             public TrashViewHolder(View itemView) {
                 super(itemView);
-                imageTrash = itemView.findViewById(R.id.imageParfumTrash);
-                nameTrash = itemView.findViewById(R.id.nameParfumTrash);
-                ratingTrash = itemView.findViewById(R.id.ratingBarTrash);
-                cenaForTrash = itemView.findViewById(R.id.cenaForTrash);
-                cenaTrash = itemView.findViewById(R.id.priceParfumMinTrash);
-                colvoTrash = itemView.findViewById(R.id.spinner_count_parfum);
-                deleteItem = itemView.findViewById(R.id.deleteTrashItem);
+                imageTrash = (ImageView) itemView.findViewById(R.id.imageParfumTrash);
+                nameTrash = (TextView) itemView.findViewById(R.id.nameParfumTrash);
+                ratingTrash = (RatingBar) itemView.findViewById(R.id.ratingBarTrash);
+                cenaForTrash = (TextView) itemView.findViewById(R.id.cenaForTrash);
+                cenaTrash = (TextView) itemView.findViewById(R.id.priceParfumMinTrash);
+                colvoTrash = (Spinner) itemView.findViewById(R.id.spinner_count_parfum);
+                deleteItem = (ImageButton) itemView.findViewById(R.id.deleteTrashItem);
                 ratingTrash.setIsIndicator(false);
                 ratingTrash.setNumStars(5);
 

@@ -57,7 +57,6 @@ public class Search extends Fragment {
     private View vFragment;
     private AdapterSectionBrendu mAdapter;
     //    private List<BrenduAll> brenduAlls;
-    private List<BrenduCount> brenduAlls;
     private List<SectionHeader> listBrenduSection;
     private List<SectionHeader> list;
     private Integer state_brendu;

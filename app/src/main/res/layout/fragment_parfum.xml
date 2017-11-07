@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="12dp">
+    android:layout_margin="4dp">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +22,7 @@
             <com.synnapps.carouselview.CarouselView
                 android:id="@+id/carouselViewParfum"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="180dp"
                 app:autoPlay="false"
                 app:fillColor="@color/colorPrimary"
                 app:indicatorMarginVertical="2dp"
@@ -34,39 +35,41 @@
             <TextView
                 android:id="@+id/nameParfumCard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:paddingTop="10dp"
                 android:text="NameParfumCenter"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/cenaOtParfum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:paddingTop="10dp" />
+                android:hint="text"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/cenaParfum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textSize="25sp"
+                android:hint="text"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="50dp"
                 android:fillViewport="true"
                 android:scrollbarSize="2dp">
 
                 <RadioGroup
                     android:id="@+id/choise_ml"
                     android:layout_width="wrap_content"
-                    android:layout_height="70dp"
+                    android:layout_height="32dp"
                     android:orientation="horizontal" />
 
             </HorizontalScrollView>
@@ -76,58 +79,73 @@
                 android:layout_height="0.5dp"
                 android:background="@color/colorNavigationView" />
 
-            <ViewStub
-                android:id="@+id/view_stub_about"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inflatedId="@+id/inflate"
-                android:layout="@layout/view_stub_about_parfum" />
+                android:layout_marginLeft="12sp"
+                android:layout_marginTop="16dp"
+                android:text="@string/aboutParfum"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-            <ViewStub
-                android:id="@+id/character"
+            <TextView
+                android:id="@+id/text_about_parfum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inflatedId="@+id/inflate"
-                android:layout="@layout/viewstub_layout_character" />
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="100dp"
+                android:textSize="12sp" />
+
+
+            <LinearLayout
+                android:id="@+id/parfumCharacter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/character"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp">
+                android:layout_height="40dp">
 
-                <LinearLayout
+                <Button
                     android:id="@+id/layout_add_favorites"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/background_add_favorites"
-                    android:gravity="center">
+                    android:drawableLeft="@drawable/ic_favorite_blsck"
+                    android:gravity="center"
+                    android:text="@string/add_favorites"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_favorite" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="12dp"
-                        android:gravity="center"
-                        android:text="@string/add_favorites" />
-
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/button_share"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_home"
-                    android:gravity="left|center_vertical"
+                    android:drawableLeft="@drawable/ic_share_black"
+                    android:gravity="center"
                     android:text="Поделиться"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="12sp" />
 
 
             </LinearLayout>
@@ -136,18 +154,22 @@
                 android:id="@+id/otzuv_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:paddingBottom="12dp"
-                android:clickable="true"
                 android:paddingTop="12dp">
 
                 <TextView
                     android:id="@+id/otzuvu_parfum"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="3"
                     android:text="@string/otzuvu"
-                    android:textAppearance="@style/TextStyleLayoutHome" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
 
                 <RatingBar
                     android:id="@+id/ratting_parfum"
@@ -156,37 +178,39 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/colorNavigationView" />
 
-            <at.blogc.android.views.ExpandableTextView
-                android:id="@+id/zakaz_for"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="Условия предварительного заказа"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:animation_duration="1000">
+            <!--<at.blogc.android.views.ExpandableTextView-->
+            <!--android:id="@+id/zakaz_for"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ellipsize="end"-->
+            <!--android:maxLines="1"-->
+            <!--android:paddingBottom="12dp"-->
+            <!--android:paddingTop="12dp"-->
+            <!--android:text="Условия предварительного заказа"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="italic"-->
+            <!--app:animation_duration="1000">-->
 
-            </at.blogc.android.views.ExpandableTextView>
+            <!--</at.blogc.android.views.ExpandableTextView>-->
 
-            <Button
-                android:id="@+id/button_zakaz_for"
-                android:text="@string/zakaz_for"
-                android:textAllCaps="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <!--<Button-->
+            <!--android:id="@+id/button_zakaz_for"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/zakaz_for"-->
+            <!--android:textAllCaps="false" />-->
+
 
             <LinearLayout
                 android:id="@+id/layout_add_trash"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:animationCache="false"
@@ -195,22 +219,24 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_trash" />
 
                 <TextView
+                    android:id="@+id/text_trash"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:gravity="center"
                     android:text="@string/add_to_trash"
                     android:textColor="@color/colorFonPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

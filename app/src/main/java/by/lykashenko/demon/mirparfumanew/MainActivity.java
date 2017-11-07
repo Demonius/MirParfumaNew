@@ -264,7 +264,7 @@ if (viewPager.getCurrentItem()==2){
                 return false;
             }
         });
-        layoutToolbar = toolbar.findViewById(R.id.toolbar_layout);
+        layoutToolbar = (LinearLayout) toolbar.findViewById(R.id.toolbar_layout);
         view = LinearLayout.inflate(getBaseContext(), R.layout.viewstub_layout_image_toolbar, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(params);
@@ -309,7 +309,7 @@ if (viewPager.getCurrentItem()==2){
 
                 if (position==1&&classBrendu!=0){
                     view = LayoutInflater.from(getBaseContext()).inflate(R.layout.viewstub_layout_textview_toolbar, null);
-                    TextView text = view.findViewById(R.id.textToolbarCenter);
+                    TextView text = (TextView) view.findViewById(R.id.textToolbarCenter);
                     switch (classBrendu) {
                         case 1:
                             text.setText("Мужская парфюмерия");
@@ -372,9 +372,9 @@ if (viewPager.getCurrentItem()==2){
         toggle.syncState();
 
 
-        final NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        TextView linkParfumSite = navigationView.getHeaderView(0).findViewById(R.id.link_mir_parfuma);
+        TextView linkParfumSite = (TextView) navigationView.getHeaderView(0).findViewById(R.id.link_mir_parfuma);
 
         SpannableString text_spannable = new SpannableString(getResources().getString(R.string.link_mir_Parfuma));
         text_spannable.setSpan(new UnderlineSpan(), 0, text_spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -389,13 +389,13 @@ if (viewPager.getCurrentItem()==2){
             }
         });
 
-        final LinearLayout phoneLayout = navigationView.getHeaderView(0).findViewById(R.id.block_phone);
+        final LinearLayout phoneLayout = (LinearLayout) navigationView.getHeaderView(0).findViewById(R.id.block_phone);
 
         final View layout = LayoutInflater.from(getBaseContext()).inflate(R.layout.add_two_number, null);
 
-        final ImageView imageArrowUpDown = navigationView.getHeaderView(0).findViewById(R.id.image_arrow);
+        final ImageView imageArrowUpDown = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_arrow);
 
-        final TextView textNumberVelcom = navigationView.getHeaderView(0).findViewById(R.id.number_velcom);
+        final TextView textNumberVelcom = (TextView) navigationView.getHeaderView(0).findViewById(R.id.number_velcom);
 
         textNumberVelcom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,8 +441,8 @@ if (viewPager.getCurrentItem()==2){
                     animImageDown.setFillAfter(true);
                     imageArrowUpDown.startAnimation(animImageDown);
 
-                    TextView textNumberMTS = navigationView.getHeaderView(0).findViewById(R.id.number_mts);
-                    TextView textNumberLife = navigationView.getHeaderView(0).findViewById(R.id.number_life);
+                    TextView textNumberMTS = (TextView) navigationView.getHeaderView(0).findViewById(R.id.number_mts);
+                    TextView textNumberLife = (TextView) navigationView.getHeaderView(0).findViewById(R.id.number_life);
 
                     textNumberMTS.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -720,7 +720,7 @@ if (viewPager.getCurrentItem()==2){
         tabFour.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         tabFour.findViewById(R.id.image_tab).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_trash));
 
-        countTrash = tabFour.findViewById(R.id.widget_counter);
+        countTrash = (TextView) tabFour.findViewById(R.id.widget_counter);
         ActiveAndroid.beginTransaction();
         countTrash.setText(Integer.toString(new Select().from(by.lykashenko.demon.mirparfumanew.Table.Trash.class).execute().size()));
         ActiveAndroid.setTransactionSuccessful();
@@ -861,7 +861,7 @@ if (viewPager.getCurrentItem()==2){
                 layoutToolbar.addView(view);
             } else {
                 view = LayoutInflater.from(getBaseContext()).inflate(R.layout.viewstub_layout_textview_toolbar, null);
-                TextView text = view.findViewById(R.id.textToolbarCenter);
+                TextView text = (TextView) view.findViewById(R.id.textToolbarCenter);
                 switch (classBrendu) {
                     case 1:
                         text.setText("Мужская парфюмерия");

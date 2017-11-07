@@ -2,9 +2,10 @@ package by.lykashenko.demon.mirparfumanew.RetrofitClass;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.IdParfum;
-import by.lykashenko.demon.mirparfumanew.Adapters.Ratting;
+import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Ratting;
 import by.lykashenko.demon.mirparfumanew.InterfaceRetrofit.InterfeceGetRatingParfum;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import retrofit2.Call;
@@ -22,7 +23,7 @@ public class GetRattingPrfum {
 
 
 	public interface OnGetRattingParfum {
-		void onGetRattingParfum(ArrayList<IdParfum> idNameParfum, ArrayList<Ratting> ratingsParfum);
+		void onGetRattingParfum(HashMap<String, Integer> answer);
 	}
 
 	private OnGetRattingParfum getRattingParfum;
@@ -31,7 +32,7 @@ public class GetRattingPrfum {
 		this.getRattingParfum = getRattingParfum;
 	}
 
-	public void load(String sql_get_rating_parfum, final ArrayList<IdParfum> idParfum) throws IOException {
+	public void load(String sql_get_rating_parfum) {
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl(MainActivity.URL)
 				.addConverterFactory(GsonConverterFactory.create())
@@ -42,8 +43,12 @@ public class GetRattingPrfum {
 		call.enqueue(new Callback<ArrayList<Ratting>>() {
 			@Override
 			public void onResponse(Call<ArrayList<Ratting>> call, Response<ArrayList<Ratting>> response) {
-				if (response != null){
-					getRattingParfum.onGetRattingParfum(idParfum,response.body());
+				if (response.code() == 200){
+					HashMap<String,Integer> answer = new HashMap<>();
+					for (Ratting ratting:response.body()){
+						answer.put(ratting.getThread(),ratting.getRating());
+					}
+					getRattingParfum.onGetRattingParfum(answer);
 				}
 			}
 

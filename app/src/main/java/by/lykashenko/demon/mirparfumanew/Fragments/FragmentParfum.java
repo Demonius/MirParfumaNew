@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -61,8 +62,8 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
     private RadioGroup radioChoiseMl;
     private ExpandableTextView aboutParfum;
     private ArrayList<CenaParfum> cenaParfums = new ArrayList<>();
-    private TextView character_info, brend_character, brend_aromat, brend_type, brend_for, brend_year, brend_semeistvo, brend_first_note, brend_contry;
-    private String brend_text;
+    private TextView character_info;
+    private String brend_name;
     private TextView text_about, otzuvu_parfum;
     private Integer state_favorites = 0;
     private String[] imageList;
@@ -89,19 +90,12 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         id = getArguments().getString("id");
         Log.d(LOG_TAG, "id_Parfum => " + id);
         name = getArguments().getString("name");
-        String nameparfum = "";
-        String[] name_list = name.split(" ");
-        Pattern pattern = Pattern.compile("[а-яА-ЯёЁ]" + "*");
-        for (int i = 0; i < name_list.length; i++) {
-            if (!pattern.matcher(name_list[i]).matches()) {
-                if (!name_list[i].equals(" ")) {
-                    nameparfum = nameparfum + " " + name_list[i];
-                }
-            }
-        }
+        brend_name = getArguments().getString("brend");
+        rattingParfum = getArguments().getInt("ratting");
+        HashMap<String,String> info =(HashMap<String, String>) getArguments().getSerializable("info");
 
 
-        titleToolbar.setText(nameparfum);
+        titleToolbar.setText(name);
 
         imageParfum = (CarouselView) v.findViewById(R.id.carouselViewParfum);
 
@@ -113,55 +107,39 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             }
         });
-
+//name parfum
         nameParfum = (TextView) v.findViewById(R.id.nameParfumCard);
-        nameParfum.setText(nameparfum);
-
+        nameParfum.setText(name);
+//объём флакона
         cenaForMl = (TextView) v.findViewById(R.id.cenaOtParfum);
+        //цена за объём
         cenaParfum = (TextView) v.findViewById(R.id.cenaParfum);
-
+//группа переключателей для определения объёма
         radioChoiseMl = (RadioGroup) v.findViewById(R.id.choise_ml);
+        //описание парфюма
+        character_info = (TextView) v.findViewById(R.id.text_about_parfum);
 
-        ViewStub viewStubCharacter1 = (ViewStub) v.findViewById(R.id.character);
-        viewStubCharacter1.inflate();
-
-        ViewStub viewStubAboutParfum = (ViewStub) v.findViewById(R.id.view_stub_about);
-        viewStubAboutParfum.inflate();
-
-        character_info = (TextView) v.findViewById(R.id.character_info);
-        brend_character = (TextView) v.findViewById(R.id.brend_character);
-        brend_aromat = (TextView) v.findViewById(R.id.brend_aromat);
-        brend_type = (TextView) v.findViewById(R.id.brend_type);
-        brend_for = (TextView) v.findViewById(R.id.brend_for);
-        brend_year = (TextView) v.findViewById(R.id.brend_year);
-        brend_semeistvo = (TextView) v.findViewById(R.id.brend_semeistvo);
-        brend_first_note = (TextView) v.findViewById(R.id.brend_first_nota);
-        brend_contry = (TextView) v.findViewById(R.id.brend_contry);
-        text_about = (TextView) v.findViewById(R.id.about_parfum);
-
-        aboutParfum = (ExpandableTextView) v.findViewById(R.id.aboutParfum);
-
+//        brend_character = v.findViewById(R.id.brend_character);
+//        brend_aromat = v.findViewById(R.id.brend_aromat);
+//        brend_type = v.findViewById(R.id.brend_type);
+//        brend_for = v.findViewById(R.id.brend_for);
+//        brend_year = v.findViewById(R.id.brend_year);
+//        brend_semeistvo = v.findViewById(R.id.brend_semeistvo);
+//        brend_first_note = v.findViewById(R.id.brend_first_nota);
+//        brend_contry = v.findViewById(R.id.brend_contry);
+//        text_about = v.findViewById(R.id.about_parfum);
+        //установка характеристик парфюма
+        loadParfumCharacters(info);
+//отзывы
         otzuvu_parfum = (TextView) v.findViewById(R.id.otzuvu_parfum);
-        String sql = "SELECT count(1) FROM modx_tickets_comments where thread = " + id + " ORDER BY createdon DESC";
-        CountOtzuvuParfum countOtzuvuParfum = new CountOtzuvuParfum();
-        countOtzuvuParfum.registerCountLoad(this);
-        countOtzuvuParfum.load(sql);
-        LinearLayout otzuvu_click = (LinearLayout) v.findViewById(R.id.otzuv_layout);
-        otzuvu_click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadListOtzuvu.onLoadListOtzuvu(id, count_otzuvu);
-                Log.d(LOG_TAG, "id => " + id + "| count => " + count_otzuvu);
-            }
-        });
-
-        rattingParfum = getArguments().getInt("ratting");
+//рейтинг
         final RatingBar ratingParfum = (RatingBar) v.findViewById(R.id.ratting_parfum);
         ratingParfum.setNumStars(5);
         ratingParfum.isIndicator();
         ratingParfum.setRating((float) rattingParfum);
         //share
         Button buttonShare = (Button) v.findViewById(R.id.button_share);
+        buttonShare.setEnabled(false);
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,12 +151,11 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
         Boolean check = CheckParfumFavorites(id);
 
-        final LinearLayout add_favorites = (LinearLayout) v.findViewById(R.id.layout_add_favorites);
+        final Button add_favorites = (Button) v.findViewById(R.id.layout_add_favorites);
         if (!check) {
-            add_favorites.setBackgroundColor(getResources().getColor(R.color.background_add_favorites));
+            add_favorites.setBackgroundColor(getResources().getColor(R.color.colorInactive));
         } else {
             add_favorites.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
         }
         add_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,12 +211,15 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         });
 
         final LinearLayout layoutAddTrash = (LinearLayout) v.findViewById(R.id.layout_add_trash);
+
+        final TextView text_trash = (TextView) v.findViewById(R.id.text_trash);
         if (checkTrash(id)) {
             Log.d(LOG_TAG, "true");
-            layoutAddTrash.setBackgroundResource(R.color.colorFonPrimary);
+//            layoutAddTrash.setBackgroundResource(R.color.colorFonPrimary);
+            text_trash.setText(getResources().getString(R.string.added_to_trash));
         } else {
             Log.d(LOG_TAG, "false");
-            layoutAddTrash.setBackgroundResource(R.color.colorPrimary);
+            text_trash.setText(getResources().getString(R.string.add_to_trash));
         }
         layoutAddTrash.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +228,9 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
                 if (!checkTrash(id)) {
                     Log.d(LOG_TAG, "click false");
-                    layoutAddTrash.setBackgroundColor(getResources().getColor(R.color.colorFonPrimary));
+//                    layoutAddTrash.setBackgroundColor(getResources().getColor(R.color.colorFonPrimary));
+                    text_trash.setText(getResources().getString(R.string.add_to_trash));
+
                     CenaParfum addcena = null;
 
                     try {
@@ -265,7 +247,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                         cenaFor = "0";
                         cena_parfum = getResources().getString(R.string.no_parfum);
                     }
-
+ActiveAndroid.beginTransaction();
                     Trash trash = new Trash();
                     trash.id_parfum = id;
                     trash.name_parfum = name;
@@ -275,6 +257,8 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                     trash.cena_parfum = cena_parfum;
                     trash.count_parfum = 1;
                     trash.save();
+                    ActiveAndroid.setTransactionSuccessful();
+                    ActiveAndroid.endTransaction();
 
                     Intent serviceStartedIntent = new Intent(message_add_favorites);
                     serviceStartedIntent.putExtra("update", 3);
@@ -284,156 +268,153 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
             }
         });
 
-
-        Toast.makeText(getContext(), "id parfum => " + id, Toast.LENGTH_SHORT).show();
-
-        String sql_query_info_parfum = "SELECT tmplvarid,value FROM modx_site_tmplvar_contentvalues where contentid=" +
-                id + " and tmplvarid IN (1,11,65,66,67,68,69,70,73,74,76)";
-
-        GetFullInfoOfParfum getFullInfo = new GetFullInfoOfParfum(getContext());
+//        String sql_query_info_parfum = "SELECT tmplvarid,value FROM modx_site_tmplvar_contentvalues where contentid=" +
+//                id + " and tmplvarid IN (1,11,65,66,67,68,69,70,73,74,76)";
+//
+//        GetFullInfoOfParfum getFullInfo = new GetFullInfoOfParfum(getContext());
 
 
-        getFullInfo.regestrationLoadInfo(new GetFullInfoOfParfum.LoadInfo() {
-            @Override
-            public void onLoadInfo(ArrayList<Parfum> parfum) {
-                String text_about_parfum = "";
-                for (Parfum oneParfum : parfum) {
-
-                    switch (oneParfum.getTmplvarid()) {
-                        case "1":
-                            String image = MainActivity.URL + oneParfum.getValue();
-                            imageList = new String[]{image};
-                            imageParfum.setPageCount(imageList.length);
-                            break;
-                        case "11":
-                            String brend = oneParfum.getValue();
-                            brend_character.setText(getResources().getString(R.string.brend) + " " + brend);
-                            break;
-
-                        case "65":
-                            String aromat = getResources().getString(R.string.aromat) + " " + oneParfum.getValue();
-                            brend_aromat.setText(aromat);
-                            break;
-
-                        case "66":
-                            String type = getResources().getString(R.string.type) + " " + oneParfum.getValue();
-                            brend_type.setText(type);
-                            break;
-
-                        case "67":
-                            String for_ = getResources().getString(R.string.for_) + " " + oneParfum.getValue();
-                            brend_for.setText(for_);
-                            break;
-
-                        case "68":
-                            String year = getResources().getString(R.string.year) + " " + oneParfum.getValue();
-                            brend_year.setText(year);
-                            break;
-
-                        case "69":
-                            String input = oneParfum.getValue();
-//                            Log.d(LOG_TAG, "stroka semeistvo => "+input);
-                            String output = input.replace("||", ", ");
-                            String semeistvo = getResources().getString(R.string.semeistvo) + " " + output;
-                            brend_semeistvo.setText(semeistvo);
-                            break;
-
-                        case "70":
-                            String first = oneParfum.getValue();
-//                            Log.d(LOG_TAG, "stroka first => "+first);
-                            String output2 = first.replace("||", ", ");
-
-                            String first_note = getResources().getString(R.string.first_note) + " " + output2;
-                            brend_first_note.setText(first_note);
-                            break;
-                        case "73":
-                            String text = getResources().getString(R.string.country) + " " + oneParfum.getValue();
-                            brend_contry.setText(text);
-                            break;
-                        case "74":
-                            text_about_parfum = Html.fromHtml(oneParfum.getValue()).toString();
-                            break;
-                        case "76":
-//                            Log.d(LOG_TAG, "string => " + oneParfum.getValue());
-
-                            cenaParfums = getCenaParfum(oneParfum.getValue());
-                            for (CenaParfum cena : cenaParfums) {
-
-                                RadioButton button = new RadioButton(getContext());
-                                button.setText(cena.getTitle());
-                                button.setTextSize(12);
-                                button.setMinLines(2);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                    button.setBackground(getResources().getDrawable(R.drawable.mybuttonchoise));
-                                } else {
-                                    button.setBackgroundDrawable(getResources().getDrawable(R.drawable.mybuttonchoise));
-                                }
-                                button.setButtonDrawable(android.R.color.transparent);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                                    button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                }
-                                RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
-                                layoutParams.setMargins(10, 20, 10, 20);
-                                button.setLayoutParams(layoutParams);
-                                button.setId(cena.getmIGXId() - 1);
-
-                                radioChoiseMl.addView(button);
-
-                            }
-                            if (radioChoiseMl.getChildCount() > 0) {
-                                radioChoiseMl.check(radioChoiseMl.getChildAt(0).getId());
-                                String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(0).getTitle();
-                                cenaForMl.setText(str);
-                                str = cenaParfums.get(0).getPrice() + " " + getResources().getString(R.string.cena);
-                                cenaParfum.setText(str);
-
-
-                                radioChoiseMl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                                        Log.d(LOG_TAG, "checked id => " + checkedId);
-//                                        Log.d(LOG_TAG, "count group => " + group.getChildCount());
-//                                        Log.d(LOG_TAG, "count button => " + cenaParfums.size());
-
-                                        for (int i = 0; i < radioChoiseMl.getChildCount(); i++) {
-                                            if ((i) == checkedId) {
-                                                String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(i).getTitle();
-                                                cenaForMl.setText(str);
-                                                str = cenaParfums.get(i).getPrice() + " " + getResources().getString(R.string.cena);
-                                                cenaParfum.setText(str);
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                            break;
-
-                    }
-
-
-                }
-                if (cenaParfums.size() == 0) {
-                    String str = getResources().getString(R.string.no_parfum);
-                    cenaParfum.setText(str);
-                    Button button_this = new Button(getContext());
-                    button_this.setEnabled(false);
-                    button_this.setText(R.string.button_time);
-                    RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    button_this.setAllCaps(false);
-                    button_this.setLayoutParams(params);
-                    button_this.setId(0);
-                    radioChoiseMl.addView(button_this);
-                }
-                Log.d(LOG_TAG, "size text => " + text_about_parfum.length());
-                if (text_about_parfum.length() == 0) {
-                    text_about.setText(R.string.aboutParfum);
-                    aboutParfum.setText(R.string.no_about);
-                } else {
-                    text_about.setText(R.string.aboutParfum);
-                    aboutParfum.setText(text_about_parfum);
-                }
-            }
-        });
+//        getFullInfo.regestrationLoadInfo(new GetFullInfoOfParfum.LoadInfo() {
+//            @Override
+//            public void onLoadInfo(ArrayList<Parfum> parfum) {
+//                String text_about_parfum = "";
+//                for (Parfum oneParfum : parfum) {
+//
+//                    switch (oneParfum.getTmplvarid()) {
+//                        case "1":
+//                            String image = MainActivity.URL + oneParfum.getValue();
+//                            imageList = new String[]{image};
+//                            imageParfum.setPageCount(imageList.length);
+//                            break;
+//                        case "11":
+//                            String brend = oneParfum.getValue();
+//                            brend_character.setText(getResources().getString(R.string.brend) + " " + brend);
+//                            break;
+//
+//                        case "65":
+//                            String aromat = getResources().getString(R.string.aromat) + " " + oneParfum.getValue();
+//                            brend_aromat.setText(aromat);
+//                            break;
+//
+//                        case "66":
+//                            String type = getResources().getString(R.string.type) + " " + oneParfum.getValue();
+//                            brend_type.setText(type);
+//                            break;
+//
+//                        case "67":
+//                            String for_ = getResources().getString(R.string.for_) + " " + oneParfum.getValue();
+//                            brend_for.setText(for_);
+//                            break;
+//
+//                        case "68":
+//                            String year = getResources().getString(R.string.year) + " " + oneParfum.getValue();
+//                            brend_year.setText(year);
+//                            break;
+//
+//                        case "69":
+//                            String input = oneParfum.getValue();
+////                            Log.d(LOG_TAG, "stroka semeistvo => "+input);
+//                            String output = input.replace("||", ", ");
+//                            String semeistvo = getResources().getString(R.string.semeistvo) + " " + output;
+//                            brend_semeistvo.setText(semeistvo);
+//                            break;
+//
+//                        case "70":
+//                            String first = oneParfum.getValue();
+////                            Log.d(LOG_TAG, "stroka first => "+first);
+//                            String output2 = first.replace("||", ", ");
+//
+//                            String first_note = getResources().getString(R.string.first_note) + " " + output2;
+//                            brend_first_note.setText(first_note);
+//                            break;
+//                        case "73":
+//                            String text = getResources().getString(R.string.country) + " " + oneParfum.getValue();
+//                            brend_contry.setText(text);
+//                            break;
+//                        case "74":
+//                            text_about_parfum = Html.fromHtml(oneParfum.getValue()).toString();
+//                            break;
+//                        case "76":
+////                            Log.d(LOG_TAG, "string => " + oneParfum.getValue());
+//
+//                            cenaParfums = getCenaParfum(oneParfum.getValue());
+//                            for (CenaParfum cena : cenaParfums) {
+//
+//                                RadioButton button = new RadioButton(getContext());
+//                                button.setText(cena.getTitle());
+//                                button.setTextSize(12);
+//                                button.setMinLines(2);
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                                    button.setBackground(getResources().getDrawable(R.drawable.mybuttonchoise));
+//                                } else {
+//                                    button.setBackgroundDrawable(getResources().getDrawable(R.drawable.mybuttonchoise));
+//                                }
+//                                button.setButtonDrawable(android.R.color.transparent);
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                                    button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//                                }
+//                                RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
+//                                layoutParams.setMargins(10, 20, 10, 20);
+//                                button.setLayoutParams(layoutParams);
+//                                button.setId(cena.getmIGXId() - 1);
+//
+//                                radioChoiseMl.addView(button);
+//
+//                            }
+//                            if (radioChoiseMl.getChildCount() > 0) {
+//                                radioChoiseMl.check(radioChoiseMl.getChildAt(0).getId());
+//                                String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(0).getTitle();
+//                                cenaForMl.setText(str);
+//                                str = cenaParfums.get(0).getPrice() + " " + getResources().getString(R.string.cena);
+//                                cenaParfum.setText(str);
+//
+//
+//                                radioChoiseMl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                                    @Override
+//                                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+////                                        Log.d(LOG_TAG, "checked id => " + checkedId);
+////                                        Log.d(LOG_TAG, "count group => " + group.getChildCount());
+////                                        Log.d(LOG_TAG, "count button => " + cenaParfums.size());
+//
+//                                        for (int i = 0; i < radioChoiseMl.getChildCount(); i++) {
+//                                            if ((i) == checkedId) {
+//                                                String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(i).getTitle();
+//                                                cenaForMl.setText(str);
+//                                                str = cenaParfums.get(i).getPrice() + " " + getResources().getString(R.string.cena);
+//                                                cenaParfum.setText(str);
+//                                            }
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                            break;
+//
+//                    }
+//
+//
+//                }
+//                if (cenaParfums.size() == 0) {
+//                    String str = getResources().getString(R.string.no_parfum);
+//                    cenaParfum.setText(str);
+//                    Button button_this = new Button(getContext());
+//                    button_this.setEnabled(false);
+//                    button_this.setText(R.string.button_time);
+//                    RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                    button_this.setAllCaps(false);
+//                    button_this.setLayoutParams(params);
+//                    button_this.setId(0);
+//                    radioChoiseMl.addView(button_this);
+//                }
+//                Log.d(LOG_TAG, "size text => " + text_about_parfum.length());
+//                if (text_about_parfum.length() == 0) {
+//                    text_about.setText(R.string.aboutParfum);
+//                    aboutParfum.setText(R.string.no_about);
+//                } else {
+//                    text_about.setText(R.string.aboutParfum);
+//                    aboutParfum.setText(text_about_parfum);
+//                }
+//            }
+//        });
 
         aboutParfum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -449,8 +430,25 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         });
 
 
-        getFullInfo.load(sql_query_info_parfum);
+//        getFullInfo.load(sql_query_info_parfum);
         return v;
+    }
+
+    private void loadParfumCharacters(HashMap<String, String> info) {
+
+//        String sql = "SELECT count(1) FROM modx_tickets_comments where thread = " + id + " ORDER BY createdon DESC";
+//        CountOtzuvuParfum countOtzuvuParfum = new CountOtzuvuParfum();
+//        countOtzuvuParfum.registerCountLoad(this);
+//        countOtzuvuParfum.load(sql);
+//        LinearLayout otzuvu_click = v.findViewById(R.id.otzuv_layout);
+//        otzuvu_click.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadListOtzuvu.onLoadListOtzuvu(id,count_otzuvu);
+//                Log.d(LOG_TAG, "id parfum => " + id);
+//            }
+//        });
+
     }
 
     private boolean checkTrash(String id) {
@@ -459,11 +457,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
         Log.d(LOG_TAG, "есть в корзине " + trash.size());
-        if (trash.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return trash.size() > 0;
     }
 
     private Boolean CheckParfumFavorites(String id) {
@@ -472,9 +466,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         List<Model> items = new Select().from(Favorites.class).where("id_parfum = ?", id).execute();
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
-        if (items.size() > 0) {
-            return true;
-        } else return false;
+        return items.size() > 0;
 
     }
 

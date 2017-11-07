@@ -2,7 +2,6 @@ package by.lykashenko.demon.mirparfumanew;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Delete;
-
 import by.lykashenko.demon.mirparfumanew.Fragments.FragmentOtzuvu;
 import by.lykashenko.demon.mirparfumanew.Fragments.FragmentParfum;
 import by.lykashenko.demon.mirparfumanew.Fragments.FragmentParfumList;
-import by.lykashenko.demon.mirparfumanew.Table.ListParfum;
 
 import static by.lykashenko.demon.mirparfumanew.MainActivity.BREND_OK;
 import static by.lykashenko.demon.mirparfumanew.MainActivity.LOG_TAG;
@@ -39,11 +34,6 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
     protected  void onDestroy(){
         super.onDestroy();
 
-        ActiveAndroid.beginTransaction();
-        new Delete().from(ListParfum.class).execute();
-
-        ActiveAndroid.setTransactionSuccessful();
-        ActiveAndroid.endTransaction();
 
     }
 
@@ -52,13 +42,13 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brend);
 
-        Toolbar toolbar = findViewById(R.id.toolbarBrendActivity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarBrendActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.arrow_left);
 
-        titleToolbar = findViewById(R.id.textToolbarBrendActivity);
+        titleToolbar = (TextView) findViewById(R.id.textToolbarBrendActivity);
         Intent intent = getIntent();
 
         Bundle bundle = intent.getBundleExtra("bundle");
@@ -95,7 +85,7 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
 
             }
             fTrans.commit();
-        ImageView imageBack = findViewById(R.id.imageBack);
+        ImageView imageBack = (ImageView) findViewById(R.id.imageBack);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,15 +101,15 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
 
 
 //toolbar для быстрого перехода между экранами главной activity
-        LinearLayout home = findViewById(R.id.HomeParfum);
-        LinearLayout search = findViewById(R.id.SearchParfum);
-        LinearLayout favorites = findViewById(R.id.FavoritesParfum);
-        LinearLayout trash = findViewById(R.id.TrashParfum);
-
-        home.setOnClickListener(this);
-        search.setOnClickListener(this);
-        favorites.setOnClickListener(this);
-        trash.setOnClickListener(this);
+//        LinearLayout home = findViewById(R.id.HomeParfum);
+//        LinearLayout search = findViewById(R.id.SearchParfum);
+//        LinearLayout favorites = findViewById(R.id.FavoritesParfum);
+//        LinearLayout trash = findViewById(R.id.TrashParfum);
+//
+//        home.setOnClickListener(this);
+//        search.setOnClickListener(this);
+//        favorites.setOnClickListener(this);
+//        trash.setOnClickListener(this);
 
 //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setMessage(getResources().getString(R.string.loadMessage));
@@ -131,18 +121,18 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.HomeParfum:
-                ChangePage(0);
-                break;
-            case R.id.SearchParfum:
-                ChangePage(1);
-                break;
-            case R.id.FavoritesParfum:
-                ChangePage(2);
-                break;
-            case R.id.TrashParfum:
-                ChangePage(3);
-                break;
+//            case R.id.HomeParfum:
+//                ChangePage(0);
+//                break;
+//            case R.id.SearchParfum:
+//                ChangePage(1);
+//                break;
+//            case R.id.FavoritesParfum:
+//                ChangePage(2);
+//                break;
+//            case R.id.TrashParfum:
+//                ChangePage(3);
+//                break;
         }
     }
 
@@ -160,7 +150,7 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
         fragmentParfum.setArguments(bundle);
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frameBrendActivity, fragmentParfum);
-        fTrans.addToBackStack("parfum");
+        fTrans.addToBackStack("parfumInfo");
         fTrans.commit();
     }
     @Override

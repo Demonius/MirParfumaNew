@@ -120,11 +120,11 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
         vFragment = inflater.inflate(R.layout.fragment_home, null);
 
-        viewStubNisha = vFragment.findViewById(R.id.viewStubNisha);
-        viewStubProbniki = vFragment.findViewById(R.id.viewStubProbniki);
-        viewStubSales = vFragment.findViewById(R.id.viewStubSales);
+        viewStubNisha = (ViewStub) vFragment.findViewById(R.id.viewStubNisha);
+        viewStubProbniki = (ViewStub) vFragment.findViewById(R.id.viewStubProbniki);
+        viewStubSales = (ViewStub) vFragment.findViewById(R.id.viewStubSales);
 
-        TextView textBrenduAll = vFragment.findViewById(R.id.textViewAllBrendu);
+        TextView textBrenduAll = (TextView) vFragment.findViewById(R.id.textViewAllBrendu);
         textBrenduAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +132,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
             }
         });
 
-        CarouselView carouselView = vFragment.findViewById(R.id.carouselView);
+        CarouselView carouselView = (CarouselView) vFragment.findViewById(R.id.carouselView);
         carouselView.setPageCount(banner.length);
 
         carouselView.setImageListener(new ImageListener() {
@@ -154,20 +154,20 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         countArray.registerCallBackCount(this);
 
 //view в которые добавляем данные
-        textViewMen = vFragment.findViewById(R.id.textViewMen);//menLayout
-        LinearLayout menLayout = vFragment.findViewById(R.id.menLayout);
+        textViewMen = (TextView) vFragment.findViewById(R.id.textViewMen);//menLayout
+        LinearLayout menLayout = (LinearLayout) vFragment.findViewById(R.id.menLayout);
         menLayout.setOnClickListener(this);
-        textViewWomen = vFragment.findViewById(R.id.textViewWomen);//womenLayout
-        LinearLayout womenLayout = vFragment.findViewById(R.id.womenLayout);
+        textViewWomen = (TextView) vFragment.findViewById(R.id.textViewWomen);//womenLayout
+        LinearLayout womenLayout = (LinearLayout) vFragment.findViewById(R.id.womenLayout);
         womenLayout.setOnClickListener(this);
-        textViewUnisex = vFragment.findViewById(R.id.textViewUnisex);//unisexLayout
-        LinearLayout unisexLayout = vFragment.findViewById(R.id.unisexLayout);
+        textViewUnisex = (TextView) vFragment.findViewById(R.id.textViewUnisex);//unisexLayout
+        LinearLayout unisexLayout = (LinearLayout) vFragment.findViewById(R.id.unisexLayout);
         unisexLayout.setOnClickListener(this);
-        textViewOtzuvu = vFragment.findViewById(R.id.textViewOtzuvuHome);//otzuvuLayout
-        LinearLayout otzuvuLayout = vFragment.findViewById(R.id.otzuvuLayout);
+        textViewOtzuvu = (TextView) vFragment.findViewById(R.id.textViewOtzuvuHome);//otzuvuLayout
+        LinearLayout otzuvuLayout = (LinearLayout) vFragment.findViewById(R.id.otzuvuLayout);
         otzuvuLayout.setOnClickListener(this);
 
-        LinearLayout podbor = vFragment.findViewById(R.id.pickLayout);
+        LinearLayout podbor = (LinearLayout) vFragment.findViewById(R.id.pickLayout);
         podbor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +184,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         countArray.Count(sql_count_otzuvu, 4);
 
 // Доставка и оплата
-        LinearLayout casheLayout = vFragment.findViewById(R.id.casheLayout);
+        LinearLayout casheLayout = (LinearLayout) vFragment.findViewById(R.id.casheLayout);
         casheLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +192,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
             }
         });
 
-        ImageView imageDostavka = vFragment.findViewById(R.id.banner_dostavka);
+        ImageView imageDostavka = (ImageView) vFragment.findViewById(R.id.banner_dostavka);
         imageDostavka.setOnClickListener(this);
 
         //номера телефонов для связи
@@ -216,7 +216,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private void addRecyclerViewFavorites(View vFragment) {
         String sql_string_favorites = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46870%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_favorites, 3);
-        recyclerViewFavorites = vFragment.findViewById(R.id.spisokFavorites);
+        recyclerViewFavorites = (RecyclerView) vFragment.findViewById(R.id.spisokFavorites);
         LinearLayoutManager mLayoutManagerFavorites = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewFavorites.setLayoutManager(mLayoutManagerFavorites);
         recyclerViewFavorites.setItemAnimator(itemAnimator);
@@ -231,7 +231,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     private void addRecyclerViewNovinki(View vFragment) {
         String sql_string_new = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where cv.tmplvarid = 58 and cv.value like '%46869%' and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_new, 1);
-        recyclerViewNewParfum = vFragment.findViewById(R.id.spisokNovinki);
+        recyclerViewNewParfum = (RecyclerView) vFragment.findViewById(R.id.spisokNovinki);
         LinearLayoutManager mLayoutManagerNewParfum = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewNewParfum.setLayoutManager(mLayoutManagerNewParfum);
         recyclerViewNewParfum.setItemAnimator(itemAnimator);
@@ -242,19 +242,19 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
         BrendList brendList = new BrendList(getActivity());
         brendList.registerOnLoadBrendList(this);
         brendList.load(sql_string_limit,7);
-        recyclerViewBrendu = vFragment.findViewById(R.id.spisokBrend);
+        recyclerViewBrendu = (RecyclerView) vFragment.findViewById(R.id.spisokBrend);
         mLayoutManagerBrendu = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewBrendu.setLayoutManager(mLayoutManagerBrendu);
         recyclerViewBrendu.setItemAnimator(itemAnimator);
     }
 
     private void addContactPhoneNumber(final View vFragment) {
-        final LinearLayout block_number = vFragment.findViewById(R.id.block_phone_call);
+        final LinearLayout block_number = (LinearLayout) vFragment.findViewById(R.id.block_phone_call);
         final View layout = LayoutInflater.from(getContext()).inflate(R.layout.add_two_number, null);
 
-        final ImageView imageArrowUpDown = vFragment.findViewById(R.id.image_arrow);
+        final ImageView imageArrowUpDown = (ImageView) vFragment.findViewById(R.id.image_arrow);
 
-        final TextView textNumberVelcom = vFragment.findViewById(R.id.number_velcom);
+        final TextView textNumberVelcom = (TextView) vFragment.findViewById(R.id.number_velcom);
 
         textNumberVelcom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,8 +300,8 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                     animImageDown.setFillAfter(true);
                     imageArrowUpDown.startAnimation(animImageDown);
 
-                    TextView textNumberMTS = vFragment.findViewById(R.id.number_mts);
-                    TextView textNumberLife = vFragment.findViewById(R.id.number_life);
+                    TextView textNumberMTS = (TextView) vFragment.findViewById(R.id.number_mts);
+                    TextView textNumberLife = (TextView) vFragment.findViewById(R.id.number_life);
 
                     textNumberMTS.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -423,7 +423,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                 case 2:
                     if (newParfums.size() > 0) {
                         viewStubSales.inflate();
-                        recyclerViewSales = vFragment.findViewById(R.id.spisokSales);
+                        recyclerViewSales = (RecyclerView) vFragment.findViewById(R.id.spisokSales);
                         LinearLayoutManager mLayoutManagerSales = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         recyclerViewSales.setLayoutManager(mLayoutManagerSales);
                         recyclerViewSales.setItemAnimator(itemAnimator);
@@ -460,8 +460,8 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
             public BrenduViewHolder(View itemView) {
                 super(itemView);
 
-                cd = itemView.findViewById(R.id.card_brendu);
-                image = itemView.findViewById(R.id.imageViewBrendu);
+                cd = (CardView) itemView.findViewById(R.id.card_brendu);
+                image = (ImageView) itemView.findViewById(R.id.imageViewBrendu);
 
 
             }
@@ -557,9 +557,9 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
 
             public ParfumViewHolder(View itemView) {
                 super(itemView);
-                cd = itemView.findViewById(R.id.cardViewNewParfum);
-                imageParfum = itemView.findViewById(R.id.imageParfum);
-                nameParfum = itemView.findViewById(R.id.nameParfum);
+                cd = (CardView) itemView.findViewById(R.id.cardViewNewParfum);
+                imageParfum = (ImageView) itemView.findViewById(R.id.imageParfum);
+                nameParfum = (TextView) itemView.findViewById(R.id.nameParfum);
             }
         }
     }

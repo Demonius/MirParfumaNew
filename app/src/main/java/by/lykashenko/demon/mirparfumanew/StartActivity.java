@@ -10,23 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
-
 import java.util.ArrayList;
 
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.RetrofitClass.BrendList;
-import by.lykashenko.demon.mirparfumanew.Table.BrenduAll;
-import by.lykashenko.demon.mirparfumanew.Table.BrenduCount;
-import by.lykashenko.demon.mirparfumanew.Table.Country;
-import by.lykashenko.demon.mirparfumanew.Table.Favorites;
-import by.lykashenko.demon.mirparfumanew.Table.ForTable;
-import by.lykashenko.demon.mirparfumanew.Table.ListParfum;
-import by.lykashenko.demon.mirparfumanew.Table.Nota;
-import by.lykashenko.demon.mirparfumanew.Table.Semeistvo;
-import by.lykashenko.demon.mirparfumanew.Table.Type;
-import by.lykashenko.demon.mirparfumanew.Table.Year;
 
 
 public class StartActivity extends AppCompatActivity implements BrendList.OnLoadBrendList {
@@ -95,7 +82,7 @@ private TextView textLoad;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        textLoad = findViewById(R.id.textLoad);
+        textLoad = (TextView) findViewById(R.id.textLoad);
         SharedPreferences sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
         Integer load = sharedPreferences.getInt("state",0);
         if (load == 0){

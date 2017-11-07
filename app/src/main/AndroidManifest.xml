@@ -64,7 +64,8 @@
             by.lykashenko.demon.mirparfumanew.Table.BrenduAll,
             by.lykashenko.demon.mirparfumanew.Table.ForTable,
             by.lykashenko.demon.mirparfumanew.Table.Nota,
-            by.lykashenko.demon.mirparfumanew.Table.Semeistvo" />
+            by.lykashenko.demon.mirparfumanew.Table.Semeistvo,
+            by.lykashenko.demon.mirparfumanew.Table.Parfums" />
     </application>
 
 </manifest>

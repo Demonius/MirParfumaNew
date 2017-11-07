@@ -17,7 +17,6 @@ import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.Brendu;
 import by.lykashenko.demon.mirparfumanew.InterfaceRetrofit.InterfaceLoadBrendu;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
 import by.lykashenko.demon.mirparfumanew.Table.BrenduAll;
-import by.lykashenko.demon.mirparfumanew.Table.BrenduCount;
 import by.lykashenko.demon.mirparfumanew.Table.Country;
 import by.lykashenko.demon.mirparfumanew.Table.ForTable;
 import by.lykashenko.demon.mirparfumanew.Table.Nota;

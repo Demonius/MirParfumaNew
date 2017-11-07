@@ -1,4 +1,4 @@
-package by.lykashenko.demon.mirparfumanew.Adapters;
+package by.lykashenko.demon.mirparfumanew.AdapterRetrofit;
 
 import com.google.gson.annotations.SerializedName;
 

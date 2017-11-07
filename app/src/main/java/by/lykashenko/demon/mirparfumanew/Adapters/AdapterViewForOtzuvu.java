@@ -140,13 +140,13 @@ public class AdapterViewForOtzuvu extends RecyclerView.Adapter<AdapterViewForOtz
         ViewHolder(View itemView) {
             super(itemView);
 
-            layoutOtzuvu = itemView.findViewById(R.id.layout_otzuvu);
-            nameClient = itemView.findViewById(R.id.name_client);
-            createdDate = itemView.findViewById(R.id.date_otzuv);
-            textOtzuv = itemView.findViewById(R.id.text_otzuv);
-            textAdministration = itemView.findViewById(R.id.answer_text_otzuv);
-            layout = itemView.findViewById(R.id.otzuv_client_layput);
-            rating = itemView.findViewById(R.id.ratting_otzuv);
+            layoutOtzuvu = (LinearLayout) itemView.findViewById(R.id.layout_otzuvu);
+            nameClient = (TextView) itemView.findViewById(R.id.name_client);
+            createdDate = (TextView) itemView.findViewById(R.id.date_otzuv);
+            textOtzuv = (TextView) itemView.findViewById(R.id.text_otzuv);
+            textAdministration = (TextView) itemView.findViewById(R.id.answer_text_otzuv);
+            layout = (ConstraintLayout) itemView.findViewById(R.id.otzuv_client_layput);
+            rating = (RatingBar) itemView.findViewById(R.id.ratting_otzuv);
         }
     }
 }
