@@ -20,12 +20,12 @@
             android:paddingBottom="12dp">
 
             <com.synnapps.carouselview.CarouselView
-                android:id="@+id/carouselViewParfum"
+                android:id="@+id/carouselImageParfum"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 app:autoPlay="false"
                 app:fillColor="@color/colorPrimary"
-                app:indicatorMarginVertical="2dp"
+                app:indicatorMarginVertical="0dp"
                 app:pageColor="@color/colorDivider"
                 app:strokeColor="@color/colorDivider"
                 app:strokeWidth="1dp">
@@ -47,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:hint="text"
                 android:textSize="11sp" />
 
             <TextView
@@ -70,6 +69,8 @@
                     android:id="@+id/choise_ml"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="top"
                     android:orientation="horizontal" />
 
             </HorizontalScrollView>
@@ -94,10 +95,10 @@
                 android:id="@+id/text_about_parfum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="8dp"
-                android:minHeight="100dp"
                 android:textSize="12sp" />
 
 
@@ -109,29 +110,23 @@
                 android:layout_marginRight="12dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/character"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
 
-                <Button
+                <RadioButton
                     android:id="@+id/layout_add_favorites"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_check_favorites"
+                    android:checked="false"
                     android:drawableLeft="@drawable/ic_favorite_blsck"
+                    android:drawablePadding="-20dp"
                     android:gravity="center"
                     android:text="@string/add_favorites"
-                    android:textAllCaps="false"
                     android:textSize="12sp"
                     android:textStyle="normal" />
 
@@ -139,7 +134,7 @@
                 <Button
                     android:id="@+id/button_share"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_share_black"
                     android:gravity="center"

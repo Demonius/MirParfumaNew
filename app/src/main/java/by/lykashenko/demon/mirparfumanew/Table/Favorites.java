@@ -28,7 +28,7 @@ public class Favorites extends Model {
     public String image_parfum;
 
     @Column(name = "ratting_parfum")
-    public Integer ratting_parfum;
+    public Float ratting_parfum;
 
     @Column(name="cenaFor")
     public String cena_for;
@@ -40,7 +40,7 @@ public class Favorites extends Model {
         super();
     }
 
-    public Favorites(String id_parfum, String name_parfum, String image_parfum, Integer ratting_parfum, String cena_for, String cena_parfum) {
+    public Favorites(String id_parfum, String name_parfum, String image_parfum, Float ratting_parfum, String cena_for, String cena_parfum) {
         this.id_parfum = id_parfum;
         this.name_parfum = name_parfum;
         this.image_parfum = image_parfum;

@@ -117,6 +117,7 @@
     <string name="from">от</string>
     <string name="rubblei">р.</string>
     <string name="added_to_trash">Удалить из корзины</string>
+    <string name="no_info_about_parfum">Нет описания</string>
 
     <string-array name="count_parfum">
         <item>1</item>

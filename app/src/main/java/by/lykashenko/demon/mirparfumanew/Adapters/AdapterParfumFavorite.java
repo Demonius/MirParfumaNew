@@ -129,7 +129,7 @@ public class AdapterParfumFavorite extends RecyclerView.Adapter<AdapterParfumFav
                 Bundle bundle = new Bundle();
                 bundle.putString("id", parfumCollections.get(position).getIdParfum());
                 bundle.putString("name", parfumCollections.get(position).getNameParfum());
-                bundle.putInt("ratting", parfumCollections.get(position).getReatingParfum());
+                bundle.putFloat("ratting", parfumCollections.get(position).getReatingParfum());
 
                 clickParfum.onClickParfum(bundle);
 

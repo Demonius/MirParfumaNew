@@ -246,6 +246,7 @@ public class AdapterParfumView extends RecyclerView.Adapter<AdapterParfumView.Pa
                     Intent serviceStartedIntent = new Intent(message_add_favorites);
                     serviceStartedIntent.putExtra("update", 2);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(serviceStartedIntent);
+                    notifyItemChanged(position);
                 }
             });
         } else {

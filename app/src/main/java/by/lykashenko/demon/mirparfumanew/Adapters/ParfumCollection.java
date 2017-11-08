@@ -13,7 +13,7 @@ public class ParfumCollection implements Parcelable {
     String idParfum;
     String nameParfum;
     String imageParfum;
-    Integer reatingParfum;
+    Float reatingParfum;
     String cenaParfum;
     String cenaFor;
 
@@ -45,11 +45,11 @@ public class ParfumCollection implements Parcelable {
         this.imageParfum = imageParfum;
     }
 
-    public Integer getReatingParfum() {
+    public Float getReatingParfum() {
         return reatingParfum;
     }
 
-    public void setReatingParfum(Integer reatingParfum) {
+    public void setReatingParfum(Float reatingParfum) {
         this.reatingParfum = reatingParfum;
     }
 
@@ -78,7 +78,7 @@ public class ParfumCollection implements Parcelable {
         idParfum = in.readString();
         nameParfum = in.readString();
         imageParfum = in.readString();
-        reatingParfum = in.readByte() == 0x00 ? null : in.readInt();
+        reatingParfum = in.readByte() == 0x00 ? null : in.readFloat();
         cenaParfum = in.readString();
         cenaFor = in.readString();
     }
@@ -97,7 +97,7 @@ public class ParfumCollection implements Parcelable {
             dest.writeByte((byte) (0x00));
         } else {
             dest.writeByte((byte) (0x01));
-            dest.writeInt(reatingParfum);
+            dest.writeFloat(reatingParfum);
         }
         dest.writeString(cenaParfum);
         dest.writeString(cenaFor);

@@ -36,8 +36,8 @@ public class FragmentOtzuvu extends Fragment implements GetOtzuvuForParfum.GetOt
 
         View v = inflater.inflate(R.layout.fragment_otzuvu, container, false);
 
-        listOtzuvu = (RecyclerView) v.findViewById(R.id.listOtzuvu);
-        addOtzuv = (FloatingActionButton) v.findViewById(R.id.adOtzuvu);
+        listOtzuvu = v.findViewById(R.id.listOtzuvu);
+        addOtzuv = v.findViewById(R.id.adOtzuvu);
 
         addOtzuv.setOnClickListener(new View.OnClickListener() {
             @Override

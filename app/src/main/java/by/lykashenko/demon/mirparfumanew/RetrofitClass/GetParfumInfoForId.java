@@ -2,6 +2,8 @@ package by.lykashenko.demon.mirparfumanew.RetrofitClass;
 
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
+
 import java.util.ArrayList;
 
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.ParfumsInfo;
@@ -45,12 +47,19 @@ public class GetParfumInfoForId {
             public void onResponse(Call<ArrayList<ParfumsInfo>> call, Response<ArrayList<ParfumsInfo>> response) {
                 if (response.code()==200){
                     Log.d(LOG_TAG,"response count parfum info ->>> "+response.body().size());
-                    for (ParfumsInfo parfumInfo: response.body()) {
-                        Parfums parfum = new Parfums();
-                        parfum.tmplvarid = parfumInfo.getTmplvarid();
-                        parfum.contentid = parfumInfo.getContentid();
-                        parfum.infoparfum= parfumInfo.getValueInfo();
-                        parfum.save();
+                    ActiveAndroid.beginTransaction();
+                    try {
+                        for (ParfumsInfo parfumInfo : response.body()) {
+                            Parfums parfum = new Parfums();
+                            parfum.tmplvarid = parfumInfo.getTmplvarid();
+                            parfum.contentid = parfumInfo.getContentid();
+                            parfum.infoparfum = parfumInfo.getValueInfo();
+                            parfum.save();
+
+                        }
+                        ActiveAndroid.setTransactionSuccessful();
+                    }finally {
+                        ActiveAndroid.endTransaction();
                     }
                     loadData.loadData(true);
                 }else{

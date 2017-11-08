@@ -1,6 +1,7 @@
 package by.lykashenko.demon.mirparfumanew.Fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -27,6 +30,7 @@ import com.activeandroid.query.Select;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.synnapps.carouselview.ViewListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +64,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
     private TextView cenaForMl;
     private TextView cenaParfum;
     private RadioGroup radioChoiseMl;
-    private ExpandableTextView aboutParfum;
+    private LinearLayout aboutParfum;
     private ArrayList<CenaParfum> cenaParfums = new ArrayList<>();
     private TextView character_info;
     private String brend_name;
@@ -71,8 +75,10 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
     private String name;
     private String name_parfum;
     private TextView nameParfum;
-    private Integer rattingParfum;
+    private Float rattingParfum;
     private String id, count_otzuvu;
+
+    private Boolean stateExpand = false;
 
     public interface LoadListOtzuvu {
         void onLoadListOtzuvu(String id, String count);
@@ -91,22 +97,15 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         Log.d(LOG_TAG, "id_Parfum => " + id);
         name = getArguments().getString("name");
         brend_name = getArguments().getString("brend");
-        rattingParfum = getArguments().getInt("ratting");
-        HashMap<String,String> info =(HashMap<String, String>) getArguments().getSerializable("info");
+        rattingParfum = getArguments().getFloat("ratting");
+        HashMap<String, String> info = (HashMap<String, String>) getArguments().getSerializable("info");
 
 
         titleToolbar.setText(name);
 
-        imageParfum = (CarouselView) v.findViewById(R.id.carouselViewParfum);
+        imageParfum = (CarouselView) v.findViewById(R.id.carouselImageParfum);
 
-        imageParfum.setImageListener(new ImageListener() {
-            @Override
-            public void setImageForPosition(int i, ImageView imageView) {
-                imageView.setMaxHeight((int) round(imageParfum.getHeight() * 0.8));
-                Picasso.with(getContext()).load(imageList[i]).into(imageView);
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            }
-        });
+
 //name parfum
         nameParfum = (TextView) v.findViewById(R.id.nameParfumCard);
         nameParfum.setText(name);
@@ -118,6 +117,9 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
         radioChoiseMl = (RadioGroup) v.findViewById(R.id.choise_ml);
         //описание парфюма
         character_info = (TextView) v.findViewById(R.id.text_about_parfum);
+        //подробное описание
+        aboutParfum = (LinearLayout) v.findViewById(R.id.parfumCharacter);
+
 
 //        brend_character = v.findViewById(R.id.brend_character);
 //        brend_aromat = v.findViewById(R.id.brend_aromat);
@@ -149,21 +151,19 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
 
 //добавлено в избранные или нет
 
-        Boolean check = CheckParfumFavorites(id);
+        final Boolean check = CheckParfumFavorites(id);
 
-        final Button add_favorites = (Button) v.findViewById(R.id.layout_add_favorites);
-        if (!check) {
-            add_favorites.setBackgroundColor(getResources().getColor(R.color.colorInactive));
-        } else {
-            add_favorites.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-        add_favorites.setOnClickListener(new View.OnClickListener() {
+        final RadioButton add_favorites = (RadioButton) v.findViewById(R.id.layout_add_favorites);
+        add_favorites.setButtonDrawable(android.R.color.transparent);
+        add_favorites.setChecked(check);
+
+
+        add_favorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ActiveAndroid.beginTransaction();
 
-                if (!CheckParfumFavorites(id)) {
-
+                if (isChecked){
                     CenaParfum addcena = null;
 
                     try {
@@ -192,13 +192,8 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                     favorites.cena_for = cenaFor;
                     favorites.cena_parfum = cena_parfum;
                     favorites.save();
-
-
-                    add_favorites.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-
+                }else{
                     new Delete().from(Favorites.class).where("id_parfum = ?", id).execute();
-                    add_favorites.setBackgroundColor(getResources().getColor(R.color.background_add_favorites));
                 }
 
                 ActiveAndroid.setTransactionSuccessful();
@@ -247,12 +242,12 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
                         cenaFor = "0";
                         cena_parfum = getResources().getString(R.string.no_parfum);
                     }
-ActiveAndroid.beginTransaction();
+                    ActiveAndroid.beginTransaction();
                     Trash trash = new Trash();
                     trash.id_parfum = id;
                     trash.name_parfum = name;
                     trash.image_parfum = imageList[0];
-                    trash.ratting_parfum = Integer.toString(rattingParfum);
+                    trash.ratting_parfum = Float.toString(rattingParfum);
                     trash.cena_for = cenaFor;
                     trash.cena_parfum = cena_parfum;
                     trash.count_parfum = 1;
@@ -415,26 +410,211 @@ ActiveAndroid.beginTransaction();
 //                }
 //            }
 //        });
-
-        aboutParfum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (aboutParfum.isExpanded()) {
-                    aboutParfum.collapse();
-
-                } else {
-                    aboutParfum.expand();
-
-                }
-            }
-        });
+//
+//        aboutParfum.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (aboutParfum.isExpanded()) {
+//                    aboutParfum.collapse();
+//
+//                } else {
+//                    aboutParfum.expand();
+//
+//                }
+//            }
+//        });
 
 
 //        getFullInfo.load(sql_query_info_parfum);
         return v;
     }
 
-    private void loadParfumCharacters(HashMap<String, String> info) {
+    private void loadParfumCharacters(final HashMap<String, String> info) {
+
+        String imageUrl = MainActivity.URL + info.get("1");
+        Log.d(LOG_TAG, "url image ->>> " + imageUrl);
+        imageList = new String[]{imageUrl};
+        imageParfum.setPageCount(imageList.length);
+        imageParfum.setViewListener(new ViewListener() {
+            @Override
+            public View setViewForPosition(int position) {
+                View view = getLayoutInflater().inflate(R.layout.corusel_view, null);
+                ImageView imageView = (ImageView) view.findViewById(R.id.image_courusel);
+                Picasso.with(getContext()).load(imageList[position]).into(imageView);
+                return view;
+            }
+        });
+
+        cenaParfums = getCenaParfum(info.get("76"));
+
+        if (cenaParfums.size() > 0) {
+
+            for (CenaParfum cena : cenaParfums) {
+
+                RadioButton button = new RadioButton(getContext());
+                button.setText(cena.getTitle());
+                button.setTextSize(10);
+                button.setMinLines(2);
+                button.setMaxLines(2);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    button.setBackground(getResources().getDrawable(R.drawable.mybuttonchoise));
+                } else {
+                    button.setBackgroundDrawable(getResources().getDrawable(R.drawable.mybuttonchoise));
+                }
+                button.setButtonDrawable(android.R.color.transparent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                }
+                RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(getResources().getDimensionPixelSize(R.dimen.width_radiobutton), getResources().getDimensionPixelSize(R.dimen.height_radiobutton));
+                layoutParams.setMargins(0, 0, 8, 0);
+                button.setLayoutParams(layoutParams);
+                button.setId(cena.getmIGXId() - 1);
+
+                radioChoiseMl.addView(button);
+            }
+            radioChoiseMl.check(radioChoiseMl.getChildAt(0).getId());
+            String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(0).getTitle();
+            cenaForMl.setText(str);
+            str = cenaParfums.get(0).getPrice() + " " + getResources().getString(R.string.cena);
+            cenaParfum.setText(str);
+
+            radioChoiseMl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                                        Log.d(LOG_TAG, "checked id => " + checkedId);
+//                                        Log.d(LOG_TAG, "count group => " + group.getChildCount());
+//                                        Log.d(LOG_TAG, "count button => " + cenaParfums.size());
+
+                    for (int i = 0; i < radioChoiseMl.getChildCount(); i++) {
+                        if ((i) == checkedId) {
+                            String str = getResources().getString(R.string.cenaYou) + " " + cenaParfums.get(i).getTitle();
+                            cenaForMl.setText(str);
+                            str = cenaParfums.get(i).getPrice() + " " + getResources().getString(R.string.cena);
+                            cenaParfum.setText(str);
+                        }
+                    }
+                }
+            });
+
+        } else {
+            cenaForMl.setHeight(0);
+            cenaParfum.setText(R.string.no_parfum);
+        }
+
+        final String textFullAbout = info.get("74");
+        if (textFullAbout != null) {
+            final String textPreview = textFullAbout.substring(0, 70) + " ... </br> <font color=\"red\">ещё</font>";
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                character_info.setText(Html.fromHtml(textPreview, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                character_info.setText(Html.fromHtml(textPreview));
+            }
+
+            character_info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (stateExpand) {
+                        stateExpand = false;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            character_info.setText(Html.fromHtml(textPreview, Html.FROM_HTML_MODE_LEGACY));
+                        } else {
+                            character_info.setText(Html.fromHtml(textPreview));
+                        }
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+                        aboutParfum.setLayoutParams(params);
+                        aboutParfum.removeAllViews();
+                    } else {
+                        stateExpand = true;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            character_info.setText(Html.fromHtml(textFullAbout, Html.FROM_HTML_MODE_LEGACY));
+                        } else {
+                            character_info.setText(Html.fromHtml(textFullAbout));
+                        }
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        aboutParfum.setLayoutParams(params);
+                        aboutParfum.setPadding(12, 16, 12, 16);
+
+                        TextView characterText = new TextView(getContext());
+                        characterText.setText(R.string.character);
+                        characterText.setTextColor(getResources().getColor(android.R.color.black));
+                        characterText.setTextSize(14);
+                        characterText.setTypeface(null, Typeface.BOLD);
+                        aboutParfum.addView(characterText);
+
+                        if (brend_name != null) {
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textBrend = getResources().getString(R.string.brend) + " " + brend_name;
+                            text.setText(textBrend);
+                            aboutParfum.addView(character);
+                        }
+
+                        if (info.get("65") != null) {
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textAromat = getResources().getString(R.string.aromat) + " " + info.get("65");
+                            text.setText(textAromat);
+                            aboutParfum.addView(character);
+                        }
+
+                        if (info.get("66") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textType = getResources().getString(R.string.type) + " " + info.get("66");
+                            text.setText(textType);
+                            aboutParfum.addView(character);
+                        }
+
+
+                        if (info.get("67") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textFor = getResources().getString(R.string.for_) + " " + info.get("67");
+                            text.setText(textFor);
+                            aboutParfum.addView(character);
+                        }
+                        if (info.get("68") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textYear = getResources().getString(R.string.year) + " " + info.get("68");
+                            text.setText(textYear);
+                            aboutParfum.addView(character);
+                        }
+                        if (info.get("69") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textSemeistvo = getResources().getString(R.string.semeistvo) + " " + info.get("69").replace("||", ", ");
+                            text.setText(textSemeistvo);
+                            aboutParfum.addView(character);
+                        }
+                        if (info.get("70") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textNota = getResources().getString(R.string.first_note) + " " + info.get("70").replace("||", ", ");
+                            text.setText(textNota);
+                            aboutParfum.addView(character);
+                        }
+
+                        if (info.get("73") !=null){
+                            View character = LayoutInflater.from(getContext()).inflate(R.layout.viewstub_layout_character, null);
+                            TextView text = character.findViewById(R.id.text_info_parfum);
+                            String textCountry = getResources().getString(R.string.country) + " " + info.get("73");
+                            text.setText(textCountry);
+                            aboutParfum.addView(character);
+                        }
+
+                    }
+                }
+            });
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+            aboutParfum.setLayoutParams(params);
+        } else {
+            character_info.setText(R.string.no_info_about_parfum);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+            aboutParfum.setLayoutParams(params);
+        }
+
 
 //        String sql = "SELECT count(1) FROM modx_tickets_comments where thread = " + id + " ORDER BY createdon DESC";
 //        CountOtzuvuParfum countOtzuvuParfum = new CountOtzuvuParfum();
