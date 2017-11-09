@@ -399,14 +399,14 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
             setDescriptionParfum(textFullAbout, info);
 
         } else {
-            String sql = "SELECT id, content FROM `modx_site_content` where id = " + id;
+            String sql = "SELECT id, REPLACE(REPLACE(content,\"<p>\",\"\"),\"</p>\",\"\")as content FROM `modx_site_content` where id = " + id;
             Log.i(LOG_TAG, "sql request ===>" + sql);
 
             GetDescriptionParfum getDescriptionParfum = new GetDescriptionParfum();
             getDescriptionParfum.regestrationLoadedDescription(new GetDescriptionParfum.LoadedDescriptionParfum() {
                 @Override
-                public void onLoadedDescriptionParfum(DescriptionParfum description) {
-                    setDescriptionParfum(description.getDescription(), info);
+                public void onLoadedDescriptionParfum(ArrayList<DescriptionParfum> description) {
+                    setDescriptionParfum(description.get(0).getDescription(), info);
                 }
             });
             getDescriptionParfum.load(sql);
@@ -429,7 +429,7 @@ public class FragmentParfum extends Fragment implements CountOtzuvuParfum.CountL
     }
 
     private void setDescriptionParfum(final String textFullAbout, final HashMap<String, String> info) {
-        final String textPreview = textFullAbout.substring(0, 280) + " ... </br> <font color=\"red\">ещё</font>";
+        final String textPreview = textFullAbout.substring(0, 150) + " ... </br> <font color=\"red\">ещё</font>";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             character_info.setText(Html.fromHtml(textPreview, Html.FROM_HTML_MODE_LEGACY));

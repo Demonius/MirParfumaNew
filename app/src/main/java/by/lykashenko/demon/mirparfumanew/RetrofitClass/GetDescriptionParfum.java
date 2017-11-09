@@ -2,6 +2,8 @@ package by.lykashenko.demon.mirparfumanew.RetrofitClass;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.DescriptionParfum;
 import by.lykashenko.demon.mirparfumanew.InterfaceRetrofit.InterfaceGetParfumDescription;
 import by.lykashenko.demon.mirparfumanew.MainActivity;
@@ -22,7 +24,7 @@ public class GetDescriptionParfum {
 
 
     public interface LoadedDescriptionParfum{
-        void onLoadedDescriptionParfum(DescriptionParfum description);
+        void onLoadedDescriptionParfum(ArrayList<DescriptionParfum> description);
     }
 
     private LoadedDescriptionParfum loadedDescriptionParfum;
@@ -39,19 +41,32 @@ public class GetDescriptionParfum {
                 .build();
 
         InterfaceGetParfumDescription interfaceGetParfumDescription = retrofit.create(InterfaceGetParfumDescription.class);
-        Call<DescriptionParfum> call = interfaceGetParfumDescription.getDescripton(sql);
-        call.enqueue(new Callback<DescriptionParfum>() {
-            @Override
-            public void onResponse(Call<DescriptionParfum> call, Response<DescriptionParfum> response) {
-                if (response.code()==200) loadedDescriptionParfum.onLoadedDescriptionParfum(response.body());
+        Call<ArrayList<DescriptionParfum>> call = interfaceGetParfumDescription.getDescripton(sql);
+        call
+                .enqueue(new Callback<ArrayList<DescriptionParfum>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<DescriptionParfum>> call, Response<ArrayList<DescriptionParfum>> response) {
+                                        if (response.code()==200) loadedDescriptionParfum.onLoadedDescriptionParfum(response.body());
                 else Log.e(LOG_TAG,"error answer description parfum, code answer =>> "+response.code()+", message =>> "+response.message());
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<DescriptionParfum> call, Throwable t) {
-                Log.e(LOG_TAG,"error answer description parfum, message answer =>> "+t.getMessage());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ArrayList<DescriptionParfum>> call, Throwable t) {
+                        Log.e(LOG_TAG,"error answer description parfum, message answer =>> "+t.getMessage());
+                    }
+                });
+//        call.enqueue(new Callback<DescriptionParfum>() {
+//            @Override
+//            public void onResponse(Call<DescriptionParfum> call, Response<DescriptionParfum> response) {
+//                if (response.code()==200) loadedDescriptionParfum.onLoadedDescriptionParfum(response.body());
+//                else Log.e(LOG_TAG,"error answer description parfum, code answer =>> "+response.code()+", message =>> "+response.message());
+//            }/
+//
+//            @Override
+//            public void onFailure(Call<DescriptionParfum> call, Throwable t) {
+//                Log.e(LOG_TAG,"error answer description parfum, message answer =>> "+t.getMessage());
+//            }
+//        });
     }
 
 }

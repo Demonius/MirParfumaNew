@@ -1,5 +1,7 @@
 package by.lykashenko.demon.mirparfumanew.InterfaceRetrofit;
 
+import java.util.ArrayList;
+
 import by.lykashenko.demon.mirparfumanew.AdapterRetrofit.DescriptionParfum;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -13,5 +15,5 @@ import retrofit2.http.POST;
 public interface InterfaceGetParfumDescription {
     @FormUrlEncoded
     @POST("api.json")
-    Call<DescriptionParfum> getDescripton(@Field("SqlString") String name);
+    Call<ArrayList<DescriptionParfum>> getDescripton(@Field("SqlString") String name);
 }
