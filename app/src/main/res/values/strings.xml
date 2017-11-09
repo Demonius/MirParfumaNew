@@ -118,6 +118,7 @@
     <string name="rubblei">р.</string>
     <string name="added_to_trash">Удалить из корзины</string>
     <string name="no_info_about_parfum">Нет описания</string>
+    <string name="go_to_trash">Уже в корзине. \n Перейти к оформлению.</string>
 
     <string-array name="count_parfum">
         <item>1</item>

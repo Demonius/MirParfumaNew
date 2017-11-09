@@ -50,115 +50,118 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/panel">
 
     </FrameLayout>
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/panel"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/custom_tab_layout_height"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:orientation="horizontal">-->
+    <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/custom_tab_layout_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal">
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/HomeParfum"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+        <LinearLayout
+            android:id="@+id/HomeParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <!--<ImageView-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@drawable/ic_home" />-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_home" />
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:fontFamily="@string/font_fontFamily_medium"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:text="@string/home"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textColor="@color/colorFonPrimary"-->
-                <!--android:textSize="@dimen/tab_label" />-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/home"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
 
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/SearchParfum"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+        <LinearLayout
+            android:id="@+id/SearchParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <!--<ImageView-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@drawable/ic_search" />-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_search" />
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:fontFamily="@string/font_fontFamily_medium"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:text="@string/search"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textColor="@color/colorFonPrimary"-->
-                <!--android:textSize="@dimen/tab_label" />-->
-        <!--</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/search"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/FavoritesParfum"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+        <LinearLayout
+            android:id="@+id/FavoritesParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <!--<ImageView-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@drawable/ic_favorite" />-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_favorite" />
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:fontFamily="@string/font_fontFamily_medium"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:text="@string/favorites"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textColor="@color/colorFonPrimary"-->
-                <!--android:textSize="@dimen/tab_label" />-->
-        <!--</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/favorites"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/TrashParfum"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+        <LinearLayout
+            android:id="@+id/TrashParfum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <!--<ImageView-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@drawable/ic_trash" />-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_trash" />
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:fontFamily="@string/font_fontFamily_medium"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:text="@string/trash"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textColor="@color/colorFonPrimary"-->
-                <!--android:textSize="@dimen/tab_label" />-->
-        <!--</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:paddingTop="5dp"
+                android:text="@string/trash"
+                android:textAlignment="center"
+                android:textColor="@color/colorFonPrimary"
+                android:textSize="@dimen/tab_label" />
+        </LinearLayout>
 
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -63,14 +63,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:fillViewport="true"
+                android:layout_marginTop="8dp"
                 android:scrollbarSize="2dp">
 
                 <RadioGroup
                     android:id="@+id/choise_ml"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="16dp"
-                    android:gravity="top"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="top|center_vertical"
                     android:orientation="horizontal" />
 
             </HorizontalScrollView>
@@ -114,17 +116,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/layout_add_favorites"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="28dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_check_favorites"
+                    android:shadowRadius="2"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:translationZ="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="3dp"
                     android:checked="false"
                     android:drawableLeft="@drawable/ic_favorite_blsck"
-                    android:drawablePadding="-20dp"
                     android:gravity="center"
                     android:text="@string/add_favorites"
                     android:textSize="12sp"
@@ -138,6 +146,8 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_share_black"
                     android:gravity="center"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:text="Поделиться"
                     android:textAllCaps="false"
                     android:textSize="12sp" />
@@ -202,34 +212,22 @@
             <!--android:textAllCaps="false" />-->
 
 
-            <LinearLayout
-                android:id="@+id/layout_add_trash"
+
+            <Button
+                android:id="@+id/add_to_trash"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:text="@string/add_to_trash"
+                android:textColor="@color/colorFonPrimary"
+                android:paddingRight="50dp"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/ic_trash"
+                android:background="@color/colorPrimary"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:animationCache="false"
-                android:background="@color/colorPrimary"
-                android:clickable="true"
-                android:gravity="center">
+                android:paddingLeft="50dp" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_trash" />
-
-                <TextView
-                    android:id="@+id/text_trash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:gravity="center"
-                    android:text="@string/add_to_trash"
-                    android:textColor="@color/colorFonPrimary"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

@@ -10,7 +10,7 @@
     <dimen name="margibTextView">12dp</dimen>
     <dimen name="heigh_divider">1dp</dimen>
     <dimen name="button_height_navigator">40dp</dimen>
-    <dimen name="textSizeList">24sp</dimen>
+    <dimen name="textSizeList">17sp</dimen>
     <dimen name="marginExpandebleView">50dp</dimen>
     <dimen name="tab_label">10sp</dimen>
     <dimen name="custom_tab_layout_height">60dp</dimen>

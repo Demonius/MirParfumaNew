@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,15 +101,15 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
 
 
 //toolbar для быстрого перехода между экранами главной activity
-//        LinearLayout home = findViewById(R.id.HomeParfum);
-//        LinearLayout search = findViewById(R.id.SearchParfum);
-//        LinearLayout favorites = findViewById(R.id.FavoritesParfum);
-//        LinearLayout trash = findViewById(R.id.TrashParfum);
-//
-//        home.setOnClickListener(this);
-//        search.setOnClickListener(this);
-//        favorites.setOnClickListener(this);
-//        trash.setOnClickListener(this);
+        LinearLayout home = findViewById(R.id.HomeParfum);
+        LinearLayout search = findViewById(R.id.SearchParfum);
+        LinearLayout favorites = findViewById(R.id.FavoritesParfum);
+        LinearLayout trash = findViewById(R.id.TrashParfum);
+
+        home.setOnClickListener(this);
+        search.setOnClickListener(this);
+        favorites.setOnClickListener(this);
+        trash.setOnClickListener(this);
 
 //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setMessage(getResources().getString(R.string.loadMessage));
@@ -120,18 +121,18 @@ public class BrendActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.HomeParfum:
-//                ChangePage(0);
-//                break;
-//            case R.id.SearchParfum:
-//                ChangePage(1);
-//                break;
-//            case R.id.FavoritesParfum:
-//                ChangePage(2);
-//                break;
-//            case R.id.TrashParfum:
-//                ChangePage(3);
-//                break;
+            case R.id.HomeParfum:
+                ChangePage(0);
+                break;
+            case R.id.SearchParfum:
+                ChangePage(1);
+                break;
+            case R.id.FavoritesParfum:
+                ChangePage(2);
+                break;
+            case R.id.TrashParfum:
+                ChangePage(3);
+                break;
         }
     }
 

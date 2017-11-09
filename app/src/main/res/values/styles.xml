@@ -84,5 +84,5 @@
     </style>
 
     <dimen name="textSizePhoneNumber">24sp</dimen>
-    <dimen name="textSizeHomeLayout">14sp</dimen>
+    <dimen name="textSizeHomeLayout">17sp</dimen>
 </resources>

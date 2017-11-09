@@ -223,7 +223,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
     }
 
     private void addRecyclerViewSales(View vFragment) {
-        String sql_string_sales = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where (cv.tmplvarid = 58 and cv.value like '%46868%') and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
+        String sql_string_sales = "select cv.contentid,con.pagetitle,pr.image from modx_site_tmplvar_contentvalues as cv,modx_site_content as con, modx_ms2_products as pr  where (cv.tmplvarid = 58 and cv.value like '%47290%') and con.id=cv.contentid and pr.id=cv.contentid ORDER BY rand() Limit 10";
         newListData.load(sql_string_sales, 2);
 
     }
@@ -535,7 +535,7 @@ public class Home extends Fragment implements CountArray.OnCallBackCount, BrendL
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", newParfums.get(position).getContentid());
-                    bundle.putString("name", newParfums.get(position).getPagetitle());
+                    bundle.putString("name", newParfums.get(position).getPagetitle().substring(15).trim());
                     bundle.putInt("state", 2);
                     startBrenduHome.onStartBrenduHome(bundle);
 
